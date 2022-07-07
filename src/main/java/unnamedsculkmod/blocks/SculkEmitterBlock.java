@@ -20,7 +20,7 @@ public class SculkEmitterBlock extends SculkTransmitterBlock {
 	@Override //TODO Remove, only for initial testing -R
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (level.getBlockEntity(pos) instanceof SculkTransmitterBlockEntity be)
-			be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.DIAMOND, 5)));
+			be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.DIAMOND, 5)), 0);
 
 		return InteractionResult.SUCCESS;
 	}

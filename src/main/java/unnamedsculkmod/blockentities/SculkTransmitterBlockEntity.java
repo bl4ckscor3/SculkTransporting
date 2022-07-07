@@ -16,7 +16,6 @@ import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.gameevent.GameEventListener;
 import unnamedsculkmod.USBlockEntityTypes;
 import unnamedsculkmod.USBlocks;
-import unnamedsculkmod.blocks.SculkTransmitterBlock;
 import unnamedsculkmod.misc.USGameEvents;
 
 public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
@@ -57,12 +56,13 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 	public void onSignalSchedule() {
 		super.onSignalSchedule();
 
-		if (getListener().receivingEvent != null && getListener().receivingEvent.entity() instanceof ItemEntity) {
+		if (getListener().receivingEvent != null && getListener().receivingEvent.entity() instanceof ItemEntity item) {
 			BlockPos originPos = new BlockPos(getListener().receivingEvent.pos());
 
 			if (level.getBlockEntity(originPos) instanceof SculkTransmitterBlockEntity be && be.getStoredItemSignal() != null){
-				be.setItemSignal(null);
+				be.setItemSignal(null, 0);
 				level.scheduleTick(originPos, level.getBlockState(originPos).getBlock(), 0);
+				item.discard(); //marks this item signal as already scheduled for one receiver, so it doesn't get sent to another one
 			}
 		}
 	}
@@ -72,8 +72,7 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 		BlockState state = getBlockState();
 
 		if (event == USGameEvents.ITEM_TRANSMITTABLE.get() && entity instanceof ItemEntity item) {
-			storedItemSignal = item;
-			SculkTransmitterBlock.activate(item, level, worldPosition, state, getRedstoneStrengthForDistance(distance, listener.getListenerRadius()));
+			setItemSignal(item, listener.getListenerRadius());
 		}
 	}
 
@@ -84,17 +83,22 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 
 	@Override
 	public boolean isValidVibration(GameEvent gameEvent, Context ctx) {
-		return gameEvent == USGameEvents.ITEM_TRANSMITTABLE.get();
+		return gameEvent == USGameEvents.ITEM_TRANSMITTABLE.get() && ctx.sourceEntity() instanceof ItemEntity item && item.isAlive();
 	}
 
 	public ItemEntity getStoredItemSignal() {
 		return storedItemSignal;
 	}
 
-	public void setItemSignal(ItemEntity itemSignal) {
-		if (storedItemSignal == null && itemSignal != null)
-			SculkSensorBlock.activate(itemSignal, level, worldPosition, level.getBlockState(worldPosition), 0); //TODO: reevaluate that 0 please -R
+	public void setItemSignal(ItemEntity itemSignal, int listenerRadius) {
+		if (itemSignal == null)
+			storedItemSignal = null;
+		else {
+			if (storedItemSignal == null)
+				SculkSensorBlock.activate(itemSignal, level, worldPosition, level.getBlockState(worldPosition), listenerRadius);
 
-		storedItemSignal = itemSignal;
+			storedItemSignal = itemSignal.copy();
+			storedItemSignal.revive();
+		}
 	}
 }
