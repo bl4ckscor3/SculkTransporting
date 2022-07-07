@@ -1,7 +1,9 @@
 package unnamedsculkmod.blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -10,13 +12,21 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.SculkSensorPhase;
 import unnamedsculkmod.USBlockEntityTypes;
 import unnamedsculkmod.blockentities.SculkTransmitterBlockEntity;
-import unnamedsculkmod.misc.USGameEvents;
 
 public class SculkTransmitterBlock extends SculkSensorBlock {
 	public SculkTransmitterBlock(Properties properties) {
 		super(properties, 8); //maybe make range configurable? -R
+	}
+
+	@Override
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+		if (getPhase(state) == SculkSensorPhase.COOLDOWN)
+			level.setBlock(pos, state.setValue(PHASE, SculkSensorPhase.INACTIVE), 3);
+		else if (getPhase(state) == SculkSensorPhase.ACTIVE && level.getBlockEntity(pos) instanceof SculkTransmitterBlockEntity be && be.getStoredItemSignal() == null)
+			deactivate(level, pos, state);
 	}
 
 	@Override
@@ -30,12 +40,17 @@ public class SculkTransmitterBlock extends SculkSensorBlock {
 
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return !level.isClientSide ? createTickerHelper(type, USBlockEntityTypes.SCULK_TRANSMITTER_BLOCK_ENTITY.get(), (l, p, s, b) -> b.getListener().tick(l)) : null;
+		return !level.isClientSide ? createTickerHelper(type, USBlockEntityTypes.SCULK_TRANSMITTER_BLOCK_ENTITY.get(), SculkTransmitterBlockEntity::tick) : null;
 	}
 
-	public static void activate(Entity entity, Level level, BlockPos pos, BlockState state, int signal) {
-		SculkSensorBlock.activate(entity, level, pos, state, signal);
-		level.gameEvent(entity, USGameEvents.ITEM_TRANSMITTABLE.get(), pos);
+	@Override
+	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+		if (!state.is(newState.getBlock())) {
+			if (level.getBlockEntity(pos) instanceof SculkTransmitterBlockEntity be && be.getStoredItemSignal() != null)
+				Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), be.getStoredItemSignal().getItem());
+
+			super.onRemove(state, level, pos, newState, isMoving);
+		}
 	}
 
 	@Override
