@@ -26,7 +26,7 @@ public class SculkTransmitterBlock extends SculkSensorBlock {
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
 		if (getPhase(state) == SculkSensorPhase.COOLDOWN)
 			level.setBlock(pos, state.setValue(PHASE, SculkSensorPhase.INACTIVE), 3);
-		else if (getPhase(state) == SculkSensorPhase.ACTIVE && level.getBlockEntity(pos) instanceof SculkTransmitterBlockEntity be && be.getStoredItemSignal() == null)
+		else if (getPhase(state) == SculkSensorPhase.ACTIVE && level.getBlockEntity(pos) instanceof SculkTransmitterBlockEntity be && !be.hasStoredItemSignal())
 			deactivate(level, pos, state);
 	}
 
@@ -48,11 +48,11 @@ public class SculkTransmitterBlock extends SculkSensorBlock {
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (!state.is(newState.getBlock())) {
 			if (level.getBlockEntity(pos) instanceof SculkTransmitterBlockEntity be) {
-				if (be.getStoredItemSignal() != null)
-					Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), be.getStoredItemSignal().getItem());
+				if (be.hasStoredItemSignal())
+					Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), be.getStoredItemSignal());
 				else if (be.getListener().receivingEvent != null && be.getListener().receivingEvent.entity() instanceof ItemEntity item)
 					Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), item.getItem());
-			} 
+			}
 
 			super.onRemove(state, level, pos, newState, isMoving);
 		}

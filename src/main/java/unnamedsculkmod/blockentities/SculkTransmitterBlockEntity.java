@@ -2,6 +2,7 @@ package unnamedsculkmod.blockentities;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -13,21 +14,28 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.gameevent.GameEventListener;
+import net.minecraft.world.phys.Vec3;
 import unnamedsculkmod.USBlockEntityTypes;
 import unnamedsculkmod.USBlocks;
 import unnamedsculkmod.blocks.SculkTransmitterBlock;
 import unnamedsculkmod.misc.USGameEvents;
 
 public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
-	private ItemEntity storedItemSignal;
+	private ItemStack storedItemSignal = ItemStack.EMPTY;
+	private BlockPos signalOrigin;
+	private ItemEntity cachedItemEntity;
 
 	public SculkTransmitterBlockEntity(BlockPos pos, BlockState state) {
 		super(pos, state);
 	}
 
 	public static void tick(Level level, BlockPos pos, BlockState state, SculkTransmitterBlockEntity be) {
-		if (be.storedItemSignal != null)
-			level.gameEvent(be.storedItemSignal, USGameEvents.ITEM_TRANSMITTABLE.get(), pos); //TODO: how bad is that for performance? maybe delay? -R
+		if (!be.storedItemSignal.isEmpty()) {
+			if (be.cachedItemEntity == null)
+				be.cachedItemEntity = new ItemEntity(level, be.signalOrigin.getX(), be.signalOrigin.getY(), be.signalOrigin.getZ(), be.storedItemSignal);
+
+			level.gameEvent(be.cachedItemEntity, USGameEvents.ITEM_TRANSMITTABLE.get(), pos); //TODO: how bad is that for performance? maybe delay? -R
+		}
 
 		be.getListener().tick(level);
 	}
@@ -35,15 +43,22 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 	@Override
 	public void load(CompoundTag tag) {
 		super.load(tag);
-		storedItemSignal = new ItemEntity(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), ItemStack.of(tag.getCompound("StoredItemSignal")));
+		storedItemSignal = ItemStack.of(tag.getCompound("StoredItemSignal"));
+		signalOrigin = NbtUtils.readBlockPos(tag.getCompound("SignalOrigin"));
 	}
 
 	@Override
 	protected void saveAdditional(CompoundTag tag) {
 		super.saveAdditional(tag);
 
-		if (storedItemSignal != null)
-			tag.put("StoredItemSignal", storedItemSignal.getItem().save(new CompoundTag()));
+		if (!storedItemSignal.isEmpty()) {
+			tag.put("StoredItemSignal", storedItemSignal.save(new CompoundTag()));
+			tag.put("SignalOrigin", NbtUtils.writeBlockPos(signalOrigin));
+		}
+		else if (getListener().receivingEvent != null && getListener().receivingEvent.entity() instanceof ItemEntity item) {
+			tag.put("StoredItemSignal", item.getItem().save(new CompoundTag()));
+			tag.put("SignalOrigin", NbtUtils.writeBlockPos(item.blockPosition()));
+		}
 	}
 
 	@Override
@@ -53,7 +68,7 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 
 	@Override
 	public boolean shouldListen(ServerLevel level, GameEventListener listener, BlockPos pos, GameEvent event, GameEvent.Context ctx) {
-		return !getBlockState().is(USBlocks.SCULK_EMITTER.get()) && storedItemSignal == null && ctx.sourceEntity() instanceof ItemEntity item && !item.blockPosition().equals(worldPosition) && super.shouldListen(level, listener, pos, event, ctx);
+		return !getBlockState().is(USBlocks.SCULK_EMITTER.get()) && storedItemSignal.isEmpty() && ctx.sourceEntity() instanceof ItemEntity item && !item.blockPosition().equals(worldPosition) && super.shouldListen(level, listener, pos, event, ctx);
 	}
 
 	@Override
@@ -61,12 +76,13 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 		super.onSignalSchedule();
 
 		if (getListener().receivingEvent != null && getListener().receivingEvent.entity() instanceof ItemEntity item) {
-			BlockPos originPos = new BlockPos(getListener().receivingEvent.pos());
+			Vec3 originVec = getListener().receivingEvent.pos();
+			BlockPos originPos = new BlockPos(originVec);
 
-			if (level.getBlockEntity(originPos) instanceof SculkTransmitterBlockEntity be && be.getStoredItemSignal() != null) {
+			if (level.getBlockEntity(originPos) instanceof SculkTransmitterBlockEntity be && be.hasStoredItemSignal()) {
 				be.setItemSignal(null, 0);
 				level.scheduleTick(originPos, level.getBlockState(originPos).getBlock(), 0);
-				item.setPos(getListener().receivingEvent.pos()); //set the position of the item to the origin of the signal as a marker, so the transmitter doesn't send the item back where it came from
+				item.setPos(originVec); //set the position of the item entity to the origin of the signal as a marker, so the transmitter doesn't send the item back where it came from
 				item.discard(); //marks this item signal as already scheduled for one receiver, so it doesn't get sent to another one
 			}
 		}
@@ -83,19 +99,27 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 		return USBlockEntityTypes.SCULK_TRANSMITTER_BLOCK_ENTITY.get();
 	}
 
-	public ItemEntity getStoredItemSignal() {
+	public boolean hasStoredItemSignal() {
+		return !storedItemSignal.isEmpty();
+	}
+
+	public ItemStack getStoredItemSignal() {
 		return storedItemSignal;
 	}
 
 	public void setItemSignal(ItemEntity itemSignal, int power) {
-		if (itemSignal == null)
-			storedItemSignal = null;
+		if (itemSignal == null) {
+			storedItemSignal = ItemStack.EMPTY;
+			signalOrigin = null;
+		}
 		else {
-			if (storedItemSignal == null)
+			if (storedItemSignal.isEmpty())
 				SculkTransmitterBlock.activate(itemSignal, level, worldPosition, level.getBlockState(worldPosition), power);
 
-			storedItemSignal = itemSignal.copy();
-			storedItemSignal.revive();
+			storedItemSignal = itemSignal.getItem().copy();
+			signalOrigin = itemSignal.blockPosition();
 		}
+
+		cachedItemEntity = null;
 	}
 }
