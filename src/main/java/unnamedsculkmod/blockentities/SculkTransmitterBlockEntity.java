@@ -47,8 +47,13 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 	}
 
 	@Override
+	public boolean isValidVibration(GameEvent gameEvent, Context ctx) {
+		return gameEvent == USGameEvents.ITEM_TRANSMITTABLE.get() && ctx.sourceEntity() instanceof ItemEntity item && item.isAlive();
+	}
+
+	@Override
 	public boolean shouldListen(ServerLevel level, GameEventListener listener, BlockPos pos, GameEvent event, GameEvent.Context ctx) {
-		return !getBlockState().is(USBlocks.SCULK_EMITTER.get()) && storedItemSignal == null && super.shouldListen(level, listener, pos, event, ctx);
+		return !getBlockState().is(USBlocks.SCULK_EMITTER.get()) && storedItemSignal == null && ctx.sourceEntity() instanceof ItemEntity item && !item.blockPosition().equals(worldPosition) && super.shouldListen(level, listener, pos, event, ctx);
 	}
 
 	@Override
@@ -61,6 +66,7 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 			if (level.getBlockEntity(originPos) instanceof SculkTransmitterBlockEntity be && be.getStoredItemSignal() != null) {
 				be.setItemSignal(null, 0);
 				level.scheduleTick(originPos, level.getBlockState(originPos).getBlock(), 0);
+				item.setPos(getListener().receivingEvent.pos()); //set the position of the item to the origin of the signal as a marker, so the transmitter doesn't send the item back where it came from
 				item.discard(); //marks this item signal as already scheduled for one receiver, so it doesn't get sent to another one
 			}
 		}
@@ -68,8 +74,6 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 
 	@Override
 	public void onSignalReceive(ServerLevel level, GameEventListener listener, BlockPos pos, GameEvent event, Entity entity, Entity projectileOwner, float distance) {
-		BlockState state = getBlockState();
-
 		if (event == USGameEvents.ITEM_TRANSMITTABLE.get() && entity instanceof ItemEntity item)
 			setItemSignal(item, listener.getListenerRadius());
 	}
@@ -77,11 +81,6 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 	@Override
 	public BlockEntityType<?> getType() {
 		return USBlockEntityTypes.SCULK_TRANSMITTER_BLOCK_ENTITY.get();
-	}
-
-	@Override
-	public boolean isValidVibration(GameEvent gameEvent, Context ctx) {
-		return gameEvent == USGameEvents.ITEM_TRANSMITTABLE.get() && ctx.sourceEntity() instanceof ItemEntity item && item.isAlive();
 	}
 
 	public ItemEntity getStoredItemSignal() {
