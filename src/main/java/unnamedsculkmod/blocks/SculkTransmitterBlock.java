@@ -53,6 +53,11 @@ public class SculkTransmitterBlock extends SculkSensorBlock {
 		}
 	}
 
+	public static void activate(Entity entity, Level level, BlockPos pos, BlockState state, int distance) {
+		level.scheduleTick(pos, state.getBlock(), 20); //TODO: should we tweak the transmission cooldown (here would be the place to do that)? Vanilla has 40 as default value -R
+		SculkSensorBlock.activate(entity, level, pos, state, distance);
+	}
+
 	@Override
 	public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
 		return 0; //TODO: maybe comparator output signal should be how many items the block is currently holding? -R

@@ -7,7 +7,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.SculkSensorBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.SculkSensorBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -16,6 +15,7 @@ import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.gameevent.GameEventListener;
 import unnamedsculkmod.USBlockEntityTypes;
 import unnamedsculkmod.USBlocks;
+import unnamedsculkmod.blocks.SculkTransmitterBlock;
 import unnamedsculkmod.misc.USGameEvents;
 
 public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
@@ -92,7 +92,7 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 			storedItemSignal = null;
 		else {
 			if (storedItemSignal == null)
-				SculkSensorBlock.activate(itemSignal, level, worldPosition, level.getBlockState(worldPosition), listenerRadius);
+				SculkTransmitterBlock.activate(itemSignal, level, worldPosition, level.getBlockState(worldPosition), listenerRadius);
 
 			storedItemSignal = itemSignal.copy();
 			storedItemSignal.revive();
