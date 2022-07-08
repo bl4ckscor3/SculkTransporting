@@ -75,7 +75,7 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 	@Override
 	public void onSignalReceive(ServerLevel level, GameEventListener listener, BlockPos pos, GameEvent event, Entity entity, Entity projectileOwner, float distance) {
 		if (event == USGameEvents.ITEM_TRANSMITTABLE.get() && entity instanceof ItemEntity item)
-			setItemSignal(item, listener.getListenerRadius());
+			setItemSignal(item, getRedstoneStrengthForDistance(distance, listener.getListenerRadius()));
 	}
 
 	@Override
@@ -87,12 +87,12 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 		return storedItemSignal;
 	}
 
-	public void setItemSignal(ItemEntity itemSignal, int listenerRadius) {
+	public void setItemSignal(ItemEntity itemSignal, int power) {
 		if (itemSignal == null)
 			storedItemSignal = null;
 		else {
 			if (storedItemSignal == null)
-				SculkTransmitterBlock.activate(itemSignal, level, worldPosition, level.getBlockState(worldPosition), listenerRadius);
+				SculkTransmitterBlock.activate(itemSignal, level, worldPosition, level.getBlockState(worldPosition), power);
 
 			storedItemSignal = itemSignal.copy();
 			storedItemSignal.revive();
