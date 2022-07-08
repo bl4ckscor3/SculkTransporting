@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.SculkSensorBlock;
@@ -46,8 +47,12 @@ public class SculkTransmitterBlock extends SculkSensorBlock {
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (!state.is(newState.getBlock())) {
-			if (level.getBlockEntity(pos) instanceof SculkTransmitterBlockEntity be && be.getStoredItemSignal() != null)
-				Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), be.getStoredItemSignal().getItem());
+			if (level.getBlockEntity(pos) instanceof SculkTransmitterBlockEntity be) {
+				if (be.getStoredItemSignal() != null)
+					Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), be.getStoredItemSignal().getItem());
+				else if (be.getListener().receivingEvent != null && be.getListener().receivingEvent.entity() instanceof ItemEntity item)
+					Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), item.getItem());
+			} 
 
 			super.onRemove(state, level, pos, newState, isMoving);
 		}
