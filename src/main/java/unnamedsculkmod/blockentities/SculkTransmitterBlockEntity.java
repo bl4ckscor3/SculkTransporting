@@ -26,9 +26,8 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 	}
 
 	public static void tick(Level level, BlockPos pos, BlockState state, SculkTransmitterBlockEntity be) {
-		if (be.storedItemSignal != null) {
+		if (be.storedItemSignal != null)
 			level.gameEvent(be.storedItemSignal, USGameEvents.ITEM_TRANSMITTABLE.get(), pos); //TODO: how bad is that for performance? maybe delay? -R
-		}
 
 		be.getListener().tick(level);
 	}
@@ -36,7 +35,7 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 	@Override
 	public void load(CompoundTag tag) {
 		super.load(tag);
-		this.storedItemSignal = new ItemEntity(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), ItemStack.of(tag.getCompound("StoredItemSignal")));
+		storedItemSignal = new ItemEntity(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), ItemStack.of(tag.getCompound("StoredItemSignal")));
 	}
 
 	@Override
@@ -59,7 +58,7 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 		if (getListener().receivingEvent != null && getListener().receivingEvent.entity() instanceof ItemEntity item) {
 			BlockPos originPos = new BlockPos(getListener().receivingEvent.pos());
 
-			if (level.getBlockEntity(originPos) instanceof SculkTransmitterBlockEntity be && be.getStoredItemSignal() != null){
+			if (level.getBlockEntity(originPos) instanceof SculkTransmitterBlockEntity be && be.getStoredItemSignal() != null) {
 				be.setItemSignal(null, 0);
 				level.scheduleTick(originPos, level.getBlockState(originPos).getBlock(), 0);
 				item.discard(); //marks this item signal as already scheduled for one receiver, so it doesn't get sent to another one
@@ -71,9 +70,8 @@ public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 	public void onSignalReceive(ServerLevel level, GameEventListener listener, BlockPos pos, GameEvent event, Entity entity, Entity projectileOwner, float distance) {
 		BlockState state = getBlockState();
 
-		if (event == USGameEvents.ITEM_TRANSMITTABLE.get() && entity instanceof ItemEntity item) {
+		if (event == USGameEvents.ITEM_TRANSMITTABLE.get() && entity instanceof ItemEntity item)
 			setItemSignal(item, listener.getListenerRadius());
-		}
 	}
 
 	@Override
