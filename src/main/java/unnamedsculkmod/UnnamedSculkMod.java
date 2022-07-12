@@ -5,7 +5,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import unnamedsculkmod.misc.USGameEvents;
+import unnamedsculkmod.registration.USBlockEntityTypes;
+import unnamedsculkmod.registration.USBlocks;
+import unnamedsculkmod.registration.USGameEvents;
+import unnamedsculkmod.registration.USItems;
 
 @Mod(UnnamedSculkMod.MODID)
 public class UnnamedSculkMod {

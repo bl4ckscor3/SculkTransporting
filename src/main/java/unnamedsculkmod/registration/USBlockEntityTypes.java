@@ -1,9 +1,10 @@
-package unnamedsculkmod;
+package unnamedsculkmod.registration;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import unnamedsculkmod.UnnamedSculkMod;
 import unnamedsculkmod.blockentities.SculkTransmitterBlockEntity;
 
 public class USBlockEntityTypes {

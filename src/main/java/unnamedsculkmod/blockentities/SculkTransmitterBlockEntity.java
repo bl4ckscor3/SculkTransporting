@@ -15,10 +15,10 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.phys.Vec3;
-import unnamedsculkmod.USBlockEntityTypes;
-import unnamedsculkmod.USBlocks;
 import unnamedsculkmod.blocks.SculkTransmitterBlock;
-import unnamedsculkmod.misc.USGameEvents;
+import unnamedsculkmod.registration.USBlockEntityTypes;
+import unnamedsculkmod.registration.USBlocks;
+import unnamedsculkmod.registration.USGameEvents;
 
 public class SculkTransmitterBlockEntity extends SculkSensorBlockEntity {
 	private ItemStack storedItemSignal = ItemStack.EMPTY;

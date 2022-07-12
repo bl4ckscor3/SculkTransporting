@@ -1,4 +1,4 @@
-package unnamedsculkmod;
+package unnamedsculkmod.registration;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -8,6 +8,7 @@ import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import unnamedsculkmod.UnnamedSculkMod;
 import unnamedsculkmod.blocks.SculkEmitterBlock;
 import unnamedsculkmod.blocks.SculkTransmitterBlock;
 

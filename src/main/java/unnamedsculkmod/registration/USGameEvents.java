@@ -1,4 +1,4 @@
-package unnamedsculkmod.misc;
+package unnamedsculkmod.registration;
 
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.gameevent.GameEvent;

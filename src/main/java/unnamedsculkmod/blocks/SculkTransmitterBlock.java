@@ -14,8 +14,8 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SculkSensorPhase;
-import unnamedsculkmod.USBlockEntityTypes;
 import unnamedsculkmod.blockentities.SculkTransmitterBlockEntity;
+import unnamedsculkmod.registration.USBlockEntityTypes;
 
 public class SculkTransmitterBlock extends SculkSensorBlock {
 	public SculkTransmitterBlock(Properties properties) {
