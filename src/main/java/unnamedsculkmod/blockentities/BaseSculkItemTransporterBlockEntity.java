@@ -21,7 +21,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 		super(pos, state);
 	}
 
-	public static void tick(Level level, BlockPos pos, BlockState state, BaseSculkItemTransporterBlockEntity be) {
+	public static void serverTick(Level level, BlockPos pos, BlockState state, BaseSculkItemTransporterBlockEntity be) {
 		if (!be.storedItemSignal.isEmpty()) {
 			if (be.cachedItemEntity == null)
 				be.cachedItemEntity = new ItemEntity(level, be.signalOrigin.getX(), be.signalOrigin.getY(), be.signalOrigin.getZ(), be.storedItemSignal);
