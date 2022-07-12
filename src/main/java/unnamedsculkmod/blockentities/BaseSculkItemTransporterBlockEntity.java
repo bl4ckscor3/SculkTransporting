@@ -26,7 +26,8 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 			if (be.cachedItemEntity == null)
 				be.cachedItemEntity = new ItemEntity(level, be.signalOrigin.getX(), be.signalOrigin.getY(), be.signalOrigin.getZ(), be.storedItemSignal);
 
-			level.gameEvent(be.cachedItemEntity, USGameEvents.ITEM_TRANSMITTABLE.get(), pos); //TODO: how bad is that for performance? maybe delay? -R
+			if (level.getGameTime() % 5 == 0)
+				level.gameEvent(be.cachedItemEntity, USGameEvents.ITEM_TRANSMITTABLE.get(), pos);
 		}
 
 		be.getListener().tick(level);
