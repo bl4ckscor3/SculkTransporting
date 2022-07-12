@@ -19,7 +19,7 @@ import net.minecraftforge.items.IItemHandler;
 import unnamedsculkmod.registration.USBlockEntityTypes;
 
 public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity {
-	private LazyOptional<IItemHandler> inventoryBelow = LazyOptional.empty();
+	private LazyOptional<IItemHandler> inventoryBelow;
 
 	public SculkEmitterBlockEntity(BlockPos pos, BlockState state) {
 		super(pos, state);
@@ -28,7 +28,7 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SculkEmitterBlockEntity be) {
 		BaseSculkItemTransporterBlockEntity.serverTick(level, pos, state, be);
 
-		if (level.getGameTime() % 5 == 0 && !be.inventoryBelow.isPresent()) {
+		if (level.getGameTime() % 5 == 0 && be.inventoryBelow == null) {
 			BlockEntity beBelow = level.getBlockEntity(pos.below());
 
 			if (beBelow != null)
@@ -52,7 +52,7 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	}
 
 	public void forgetInventoryBelow() {
-		inventoryBelow = LazyOptional.empty();
+		inventoryBelow = null;
 	}
 
 	@Override
