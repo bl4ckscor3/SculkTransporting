@@ -4,10 +4,10 @@ import java.util.Collections;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import unnamedsculkmod.UnnamedSculkMod;
 
 @EventBusSubscriber(modid = UnnamedSculkMod.MODID, bus = Bus.MOD)

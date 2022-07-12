@@ -57,7 +57,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19-41.0.64'
+    minecraft 'net.minecraftforge:forge:1.19-41.0.94'
 }
 
 sourceSets.main.resources {

@@ -14,7 +14,7 @@ issueTrackerURL="https://github.com/bl4ckscor3/UnnamedSculkMod/issues"
 [[dependencies.unnamedsculkmod]]
     modId="forge"
     mandatory=true
-    versionRange="[41,)"
+    versionRange="[41.0.94,)"
     ordering="NONE"
     side="BOTH"
 
