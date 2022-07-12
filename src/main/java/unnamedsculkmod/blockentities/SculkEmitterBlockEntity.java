@@ -36,7 +36,7 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 		}
 
 		//TODO: Modify to allow for quicker item sending depending on installed upgrades -b
-		if (!be.hasStoredItemSignal()) {
+		if (!be.hasStoredItemSignal() && be.inventoryBelow != null) {
 			be.inventoryBelow.ifPresent(itemHandler -> {
 				for (int i = 0; i < itemHandler.getSlots(); i++) {
 					//TODO: Modify to extract different item amounts depending on installed upgrades -b
