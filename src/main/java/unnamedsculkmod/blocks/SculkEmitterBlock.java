@@ -65,8 +65,14 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 
 	@Override
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
-		if (level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be)
-			be.forgetInventoryBelow();
+		if (fromPos.getY() == pos.getY() - 1 && level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be) {
+			//SculkSensorBlock#updateNeighbours calls Level#updateNeighboursAt for the position below itself, calling this method again.
+			//thus there's a need to check if the block below has changed, before updating the item handler
+			BlockState stateBelow = level.getBlockState(fromPos);
+
+			if (be.getLastKnownStateBelow() != stateBelow)
+				be.forgetInventoryBelow(stateBelow);
+		}
 	}
 
 	@Override

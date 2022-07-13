@@ -15,6 +15,7 @@ import unnamedsculkmod.blocks.BaseSculkItemTransporterBlock;
 import unnamedsculkmod.registration.USBlockEntityTypes;
 
 public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
+	private BlockState lastKnownStateBelow;
 	private LazyOptional<IItemHandler> inventoryBelow;
 	private int speedModifier = 0;
 
@@ -30,6 +31,8 @@ public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
 
 			if (beBelow != null)
 				be.inventoryBelow = beBelow.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP);
+			else
+				be.inventoryBelow = LazyOptional.empty();
 		}
 
 		//every tick, or only every 5, 10, 15, 20 ticks depending on 4, 3, 2, 1, or no modifiers installed
@@ -91,8 +94,13 @@ public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
 		return speedModifier;
 	}
 
-	public void forgetInventoryBelow() {
+	public BlockState getLastKnownStateBelow() {
+		return lastKnownStateBelow;
+	}
+
+	public void forgetInventoryBelow(BlockState stateBelow) {
 		inventoryBelow = null;
+		lastKnownStateBelow = stateBelow;
 	}
 
 	@Override
