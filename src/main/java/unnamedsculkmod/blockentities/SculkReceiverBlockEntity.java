@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import unnamedsculkmod.blocks.BaseSculkItemTransporterBlock;
 import unnamedsculkmod.registration.USBlockEntityTypes;
 
 public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
@@ -22,6 +23,8 @@ public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SculkReceiverBlockEntity be) {
+		be.getListener().tick(level);
+
 		if (level.getGameTime() % 5 == 0 && be.inventoryBelow == null) {
 			BlockEntity beBelow = level.getBlockEntity(pos.below());
 
@@ -39,7 +42,7 @@ public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
 						inserted = itemHandler.insertItem(i, inserted, false);
 
 						if (inserted.isEmpty()) {
-							level.scheduleTick(be.worldPosition, be.getBlockState().getBlock(), 0);
+							BaseSculkItemTransporterBlock.deactivate(level, be.worldPosition, be.getBlockState());
 							break;
 						}
 					}
@@ -48,8 +51,6 @@ public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
 				});
 			}
 		}
-
-		be.getListener().tick(level);
 	}
 
 	@Override

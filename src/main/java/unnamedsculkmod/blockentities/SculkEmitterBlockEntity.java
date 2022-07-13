@@ -29,8 +29,6 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SculkEmitterBlockEntity be) {
-		BaseSculkItemTransporterBlockEntity.serverTick(level, pos, state, be);
-
 		if (level.getGameTime() % 5 == 0 && be.inventoryBelow == null) {
 			BlockEntity beBelow = level.getBlockEntity(pos.below());
 
@@ -54,6 +52,8 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 					}
 				});
 			}
+
+			BaseSculkItemTransporterBlockEntity.serverTick(level, pos, state, be);
 		}
 	}
 

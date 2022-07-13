@@ -54,6 +54,11 @@ public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 		}
 	}
 
+	public static void deactivate(Level level, BlockPos pos, BlockState state) {
+		SculkSensorBlock.deactivate(level, pos, state);
+		level.setBlockAndUpdate(pos, state.setValue(PHASE, SculkSensorPhase.INACTIVE)); //skip SculkSensorPhase.COOLDOWN to reduce delay
+	}
+
 	public static void activate(Entity entity, Level level, BlockPos pos, BlockState state, int distance) {
 		level.scheduleTick(pos, state.getBlock(), 0);
 		SculkSensorBlock.activate(entity, level, pos, state, distance);
