@@ -26,8 +26,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 			if (be.cachedItemEntity == null)
 				be.cachedItemEntity = new ItemEntity(level, be.signalOrigin.getX(), be.signalOrigin.getY(), be.signalOrigin.getZ(), be.storedItemSignal);
 
-			//TODO: Modify to allow for quicker item sending depending on installed upgrades -b
-			if (level.getGameTime() % 5 == 0)
+			if (be.shouldPerformAction(level))
 				level.gameEvent(be.cachedItemEntity, USGameEvents.ITEM_TRANSMITTABLE.get(), pos);
 		}
 
@@ -55,8 +54,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 		}
 	}
 
-	@Override
-	public abstract BlockEntityType<?> getType();
+	public abstract boolean shouldPerformAction(Level level);
 
 	public boolean hasStoredItemSignal() {
 		return !storedItemSignal.isEmpty();
@@ -81,4 +79,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 
 		cachedItemEntity = null;
 	}
+
+	@Override
+	public abstract BlockEntityType<?> getType();
 }

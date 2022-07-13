@@ -55,7 +55,7 @@ public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 	}
 
 	public static void activate(Entity entity, Level level, BlockPos pos, BlockState state, int distance) {
-		level.scheduleTick(pos, state.getBlock(), 20); //TODO: should we tweak the transmission cooldown (here would be the place to do that)? Vanilla has 40 as default value -R
+		level.scheduleTick(pos, state.getBlock(), 0);
 		SculkSensorBlock.activate(entity, level, pos, state, distance);
 	}
 

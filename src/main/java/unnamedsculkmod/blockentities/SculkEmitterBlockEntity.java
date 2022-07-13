@@ -2,6 +2,7 @@ package unnamedsculkmod.blockentities;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -20,6 +21,8 @@ import unnamedsculkmod.registration.USBlockEntityTypes;
 
 public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity {
 	private LazyOptional<IItemHandler> inventoryBelow;
+	private int quantityModifier = 0;
+	private int speedModifier = 0;
 
 	public SculkEmitterBlockEntity(BlockPos pos, BlockState state) {
 		super(pos, state);
@@ -35,20 +38,83 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 				be.inventoryBelow = beBelow.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP);
 		}
 
-		//TODO: Modify to allow for quicker item sending depending on installed upgrades -b
-		if (!be.hasStoredItemSignal() && be.inventoryBelow != null) {
-			be.inventoryBelow.ifPresent(itemHandler -> {
-				for (int i = 0; i < itemHandler.getSlots(); i++) {
-					//TODO: Modify to extract different item amounts depending on installed upgrades -b
-					ItemStack extracted = itemHandler.extractItem(i, 1, false);
+		if (be.shouldPerformAction(level)) {
+			if (!be.hasStoredItemSignal() && be.inventoryBelow != null) {
+				//from 0 to 3 installed modifiers: 1, 4, 16, 64
+				final int amountToExtract = (int) Math.pow(4, be.quantityModifier);
 
-					if (!extracted.isEmpty()) {
-						be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted), 0);
-						break;
+				be.inventoryBelow.ifPresent(itemHandler -> {
+					for (int i = 0; i < itemHandler.getSlots(); i++) {
+						ItemStack extracted = itemHandler.extractItem(i, amountToExtract, false);
+
+						if (!extracted.isEmpty()) {
+							be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted), 0);
+							break;
+						}
 					}
-				}
-			});
+				});
+			}
 		}
+	}
+
+	@Override
+	public boolean shouldPerformAction(Level level) {
+		//every tick, or only every 5, 10, 15, 20 ticks
+		return speedModifier == 4 || level.getGameTime() % (20 - (speedModifier * 5)) == 0;
+	}
+
+	@Override
+	public void load(CompoundTag tag) {
+		super.load(tag);
+		quantityModifier = tag.getInt("QuantityModifier");
+		speedModifier = tag.getInt("SpeedModifier");
+	}
+
+	@Override
+	protected void saveAdditional(CompoundTag tag) {
+		super.saveAdditional(tag);
+		tag.putInt("QuantityModifier", quantityModifier);
+		tag.putInt("SpeedModifier", speedModifier);
+	}
+
+	public boolean addQuantityModifier() {
+		if (quantityModifier == 3)
+			return false;
+
+		quantityModifier++;
+		return true;
+	}
+
+	public boolean removeQuantityModifier() {
+		if (quantityModifier == 0)
+			return false;
+
+		quantityModifier--;
+		return true;
+	}
+
+	public int getQuantityModifier() {
+		return quantityModifier;
+	}
+
+	public boolean addSpeedModifier() {
+		if (speedModifier == 4)
+			return false;
+
+		speedModifier++;
+		return true;
+	}
+
+	public boolean removeSpeedModifier() {
+		if (speedModifier == 0)
+			return false;
+
+		speedModifier--;
+		return true;
+	}
+
+	public int getSpeedModifier() {
+		return speedModifier;
 	}
 
 	public void forgetInventoryBelow() {

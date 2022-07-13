@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -16,6 +17,11 @@ import unnamedsculkmod.registration.USGameEvents;
 public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEntity {
 	public SculkTransmitterBlockEntity(BlockPos pos, BlockState state) {
 		super(pos, state);
+	}
+
+	@Override
+	public boolean shouldPerformAction(Level level) {
+		return true;
 	}
 
 	@Override
