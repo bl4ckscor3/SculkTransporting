@@ -5,7 +5,11 @@ import java.util.function.Consumer;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.Tags;
 import unnamedsculkmod.UnnamedSculkMod;
+import unnamedsculkmod.registration.USBlocks;
 
 public class RecipeGenerator extends RecipeProvider {
 	public RecipeGenerator(DataGenerator generator) {
@@ -13,7 +17,35 @@ public class RecipeGenerator extends RecipeProvider {
 	}
 
 	@Override
-	protected final void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {}
+	protected final void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
+		ShapedRecipeBuilder.shaped(USBlocks.SCULK_EMITTER.get())
+				.pattern("DSD")
+				.pattern("BGB")
+				.define('D', Blocks.DEEPSLATE_BRICKS)
+				.define('S', Blocks.SCULK_SENSOR)
+				.define('B', Blocks.SCULK)
+				.define('G', Tags.Items.INGOTS_GOLD)
+				.unlockedBy("has_sculk_sensor", has(Blocks.SCULK_SENSOR))
+				.save(consumer);
+		ShapedRecipeBuilder.shaped(USBlocks.SCULK_TRANSMITTER.get())
+				.pattern("DBD")
+				.pattern("IRI")
+				.define('D', Blocks.DEEPSLATE_BRICKS)
+				.define('B', Blocks.SCULK)
+				.define('I', Tags.Items.INGOTS_IRON)
+				.define('R', Tags.Items.DUSTS_REDSTONE)
+				.unlockedBy("has_sculk", has(Blocks.SCULK))
+				.save(consumer);
+		ShapedRecipeBuilder.shaped(USBlocks.SCULK_RECEIVER.get())
+				.pattern("DSD")
+				.pattern("BHB")
+				.define('D', Blocks.DEEPSLATE_BRICKS)
+				.define('S', Blocks.SCULK_SENSOR)
+				.define('B', Blocks.SCULK)
+				.define('H', Blocks.HOPPER)
+				.unlockedBy("has_sculk_sensor", has(Blocks.SCULK_SENSOR))
+				.save(consumer);
+	}
 
 	@Override
 	public String getName() {
