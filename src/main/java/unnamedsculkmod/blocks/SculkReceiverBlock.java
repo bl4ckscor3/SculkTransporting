@@ -12,9 +12,10 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import unnamedsculkmod.USTags;
 import unnamedsculkmod.blockentities.SculkReceiverBlockEntity;
+import unnamedsculkmod.items.SpeedModifierItem;
 import unnamedsculkmod.registration.USBlockEntityTypes;
-import unnamedsculkmod.registration.USItems;
 
 public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 	public SculkReceiverBlock(Properties properties) {
@@ -24,24 +25,21 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (level.getBlockEntity(pos) instanceof SculkReceiverBlockEntity be) {
-			ItemStack heldItem = player.getItemInHand(hand);
+			ItemStack heldStack = player.getItemInHand(hand);
 
-			if (heldItem.is(USItems.SPEED_MODIFIER.get())) {
-				if (!level.isClientSide && be.addSpeedModifier()) {
+			if (heldStack.is(USTags.Items.SPEED_MODIFIERS)) {
+				if (!level.isClientSide && be.setSpeedModifier(((SpeedModifierItem) heldStack.getItem()).tier)) {
 					if (!player.isCreative())
-						heldItem.shrink(1);
+						heldStack.shrink(1);
 				}
 
 				return InteractionResult.sidedSuccess(level.isClientSide);
 			}
 
-			//TODO: properly handle removal -b
 			System.out.println("speed: " + be.getSpeedModifier());
 
-			if (!level.isClientSide && player.isShiftKeyDown()) {
-				if (be.removeSpeedModifier())
-					Block.popResource(level, pos, new ItemStack(USItems.SPEED_MODIFIER.get()));
-			}
+			if (!level.isClientSide && player.isShiftKeyDown())
+				be.removeSpeedModifier();
 
 			return InteractionResult.sidedSuccess(level.isClientSide);
 		}
@@ -52,7 +50,7 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 	@Override
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
 		if (fromPos.getY() == pos.getY() - 1 && level.getBlockEntity(pos) instanceof SculkReceiverBlockEntity be) {
-			//SculkSensorBlock#updateNeighbours calls Level#updateNeighboursAt for the position below itself, calling this method again.
+			//SculkSensorBlock#updateNeighbours calls Level#updateNeighborsAt for the position below itself, calling this method again.
 			//thus there's a need to check if the block below has changed, before updating the item handler
 			BlockState stateBelow = level.getBlockState(fromPos);
 

@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -12,12 +13,13 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import unnamedsculkmod.blocks.BaseSculkItemTransporterBlock;
+import unnamedsculkmod.items.SpeedModifierItem.SpeedTier;
 import unnamedsculkmod.registration.USBlockEntityTypes;
 
 public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
 	private BlockState lastKnownStateBelow;
 	private LazyOptional<IItemHandler> inventoryBelow;
-	private int speedModifier = 0;
+	private SpeedTier speedModifier = SpeedTier.ZERO;
 
 	public SculkReceiverBlockEntity(BlockPos pos, BlockState state) {
 		super(pos, state);
@@ -59,38 +61,38 @@ public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
 	@Override
 	public boolean shouldPerformAction(Level level) {
 		//every tick, or only every 5, 10, 15, 20 ticks
-		return speedModifier == 4 || level.getGameTime() % (20 - (speedModifier * 5)) == 0;
+		return speedModifier == SpeedTier.FOUR || level.getGameTime() % (20 - (speedModifier.getValue() * 5)) == 0;
 	}
 
 	@Override
 	public void load(CompoundTag tag) {
 		super.load(tag);
-		speedModifier = tag.getInt("SpeedModifier");
+		speedModifier = SpeedTier.values()[tag.getInt("SpeedModifier")];
 	}
 
 	@Override
 	protected void saveAdditional(CompoundTag tag) {
 		super.saveAdditional(tag);
-		tag.putInt("SpeedModifier", speedModifier);
+		tag.putInt("SpeedModifier", speedModifier.ordinal());
 	}
 
-	public boolean addSpeedModifier() {
-		if (speedModifier == 4)
+	public boolean setSpeedModifier(SpeedTier speedModifier) {
+		if (this.speedModifier != SpeedTier.ZERO)
 			return false;
 
-		speedModifier++;
+		this.speedModifier = speedModifier;
 		return true;
 	}
 
-	public boolean removeSpeedModifier() {
-		if (speedModifier == 0)
-			return false;
+	public void removeSpeedModifier() {
+		if (speedModifier == SpeedTier.ZERO)
+			return;
 
-		speedModifier--;
-		return true;
+		Block.popResource(level, worldPosition, new ItemStack(speedModifier.getItem()));
+		speedModifier = SpeedTier.ZERO;
 	}
 
-	public int getSpeedModifier() {
+	public SpeedTier getSpeedModifier() {
 		return speedModifier;
 	}
 
