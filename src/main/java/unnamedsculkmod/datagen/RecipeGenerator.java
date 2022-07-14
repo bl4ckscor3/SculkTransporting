@@ -18,6 +18,7 @@ public class RecipeGenerator extends RecipeProvider {
 
 	@Override
 	protected final void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
+		//@formatter:off
 		ShapedRecipeBuilder.shaped(USBlocks.SCULK_EMITTER.get())
 				.pattern("DSD")
 				.pattern("BGB")
@@ -45,6 +46,7 @@ public class RecipeGenerator extends RecipeProvider {
 				.define('H', Blocks.HOPPER)
 				.unlockedBy("has_sculk_sensor", has(Blocks.SCULK_SENSOR))
 				.save(consumer);
+		//@formatter:on
 	}
 
 	@Override
