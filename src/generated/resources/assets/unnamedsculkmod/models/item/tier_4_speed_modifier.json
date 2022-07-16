@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "unnamedsculkmod:item/tier_4_speed_modifier"
+  }
+}

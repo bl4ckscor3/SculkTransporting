@@ -9,7 +9,10 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import unnamedsculkmod.UnnamedSculkMod;
+import unnamedsculkmod.registration.USBlocks;
+import unnamedsculkmod.registration.USItems;
 
 public class ItemModelGenerator extends ItemModelProvider {
 	public ItemModelGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -17,7 +20,15 @@ public class ItemModelGenerator extends ItemModelProvider {
 	}
 
 	@Override
-	protected void registerModels() {}
+	protected void registerModels() {
+		for (RegistryObject<Block> block : USBlocks.BLOCKS.getEntries()) {
+			simpleParent(block.get());
+		}
+
+		for (RegistryObject<Item> item : USItems.ITEMS.getEntries()) {
+			simpleItem(item.get(), "item/generated");
+		}
+	}
 
 	public ItemModelBuilder simpleItem(Item item, String parent) {
 		String path = name(item);
