@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "minecraft:sculk"
+    },
+    "D": {
+      "item": "minecraft:deepslate_bricks"
+    },
+    "G": {
+      "tag": "forge:ingots/gold"
+    },
+    "S": {
+      "item": "minecraft:sculk_sensor"
+    }
+  },
+  "pattern": [
+    "DSD",
+    "BGB"
+  ],
+  "result": {
+    "item": "sculktransporting:sculk_emitter"
+  }
+}

@@ -1,24 +1,24 @@
 modLoader="javafml"
 loaderVersion="[41,)"
 license="MIT"
-issueTrackerURL="https://github.com/bl4ckscor3/UnnamedSculkMod/issues"
+issueTrackerURL="https://github.com/bl4ckscor3/SculkTransporting/issues"
 
 [[mods]]
-	modId="unnamedsculkmod"
+	modId="sculktransporting"
 	version="${file.jarVersion}"
-	displayName="UnnamedSculkMod"
+	displayName="Sculk Transporting"
 	displayURL="https://insert.curseforge.link.here"
 	authors="bl4ckscor3, Redstone_Dubstep"
-	description='''An as yet unnamed mod involving sculk.'''
+	description='''A mod adding an item transport solution involving sculk.'''
 
-[[dependencies.unnamedsculkmod]]
+[[dependencies.sculktransporting]]
     modId="forge"
     mandatory=true
     versionRange="[41.0.94,)"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.unnamedsculkmod]]
+[[dependencies.sculktransporting]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.19,1.20)"

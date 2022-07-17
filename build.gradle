@@ -6,8 +6,8 @@ plugins {
 }
 
 version = '1.0'
-group = 'unnamedsculkmod'
-archivesBaseName = 'unnamedsculkmod-1.19'
+group = 'sculktransporting'
+archivesBaseName = 'sculktransporting-1.19'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -23,7 +23,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                unnamedsculkmod {
+                sculktransporting {
                     source sourceSets.main
                 }
             }
@@ -35,7 +35,7 @@ minecraft {
 			args '-nogui'
 
             mods {
-                unnamedsculkmod {
+                sculktransporting {
                     source sourceSets.main
                 }
             }
@@ -45,10 +45,10 @@ minecraft {
             workingDirectory project.file('run/data')
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', 'unnamedsculkmod', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'sculktransporting', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                unnamedsculkmod {
+                sculktransporting {
                     source sourceSets.main
                 }
             }

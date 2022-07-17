@@ -1,7 +1,7 @@
 {
   "values": [
-    "unnamedsculkmod:sculk_emitter",
-    "unnamedsculkmod:sculk_transmitter",
-    "unnamedsculkmod:sculk_receiver"
+    "sculktransporting:sculk_emitter",
+    "sculktransporting:sculk_transmitter",
+    "sculktransporting:sculk_receiver"
   ]
 }

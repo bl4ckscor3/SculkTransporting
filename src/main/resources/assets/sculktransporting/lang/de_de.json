@@ -1,0 +1,12 @@
+{
+	"block.sculktransporting.sculk_emitter": "Sculk-Sender",
+	"block.sculktransporting.sculk_transmitter": "Sculk-Übermittler",
+	"block.sculktransporting.sculk_receiver": "Sculk-Empfänger",
+	"item.sculktransporting.quantity_modifier_tier_1": "Mengenmodifikator (Stufe 1)",
+	"item.sculktransporting.quantity_modifier_tier_2": "Mengenmodifikator (Stufe 2)",
+	"item.sculktransporting.quantity_modifier_tier_3": "Mengenmodifikator (Stufe 3)",
+	"item.sculktransporting.speed_modifier_tier_1": "Geschwindigkeitsmodifikator (Stufe 1)",
+	"item.sculktransporting.speed_modifier_tier_2": "Geschwindigkeitsmodifikator (Stufe 2)",
+	"item.sculktransporting.speed_modifier_tier_3": "Geschwindigkeitsmodifikator (Stufe 3)",
+	"item.sculktransporting.speed_modifier_tier_4": "Geschwindigkeitsmodifikator (Stufe 4)"
+}

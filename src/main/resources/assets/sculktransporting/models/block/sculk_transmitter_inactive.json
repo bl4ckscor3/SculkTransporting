@@ -1,0 +1,9 @@
+{
+	"parent": "sculktransporting:block/template_sculk_transmitter",
+	"textures": {
+		"side": "sculktransporting:block/sculk_transmitter_side_inactive",
+		"top": "minecraft:block/sculk_sensor_bottom",
+		"bottom": "sculktransporting:block/sculk_transmitter_bottom_inactive",
+		"particle": "sculktransporting:block/sculk_transmitter_side_inactive"
+	}
+}
