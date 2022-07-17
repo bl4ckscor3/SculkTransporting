@@ -21,21 +21,23 @@ minecraft {
         client {
             workingDirectory project.file('run/client')
             property 'forge.logging.console.level', 'debug'
+            //without these lines, patchouli won't load
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             mods {
                 sculktransporting {
                     source sourceSets.main
                 }
             }
-
-            //without these lines, patchouli won't load
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
         }
 
         server {
             workingDirectory project.file('run/server')
             property 'forge.logging.console.level', 'debug'
+            //without these lines, patchouli won't load
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 			args '-nogui'
 
             mods {
@@ -48,6 +50,9 @@ minecraft {
         data {
             workingDirectory project.file('run/data')
             property 'forge.logging.console.level', 'debug'
+            //without these lines, patchouli won't load
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             args '--mod', 'sculktransporting', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
