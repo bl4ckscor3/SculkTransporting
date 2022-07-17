@@ -21,9 +21,9 @@ public class ItemModelGenerator extends ItemModelProvider {
 
 	@Override
 	protected void registerModels() {
-		for (RegistryObject<Block> block : USBlocks.BLOCKS.getEntries()) {
-			simpleParent(block.get());
-		}
+		simpleParent(USBlocks.SCULK_EMITTER.get());
+		simpleParent(USBlocks.SCULK_TRANSMITTER.get(), "sculk_transmitter_active");
+		simpleParent(USBlocks.SCULK_RECEIVER.get());
 
 		for (RegistryObject<Item> item : USItems.ITEMS.getEntries()) {
 			simpleItem(item.get(), "item/generated");
