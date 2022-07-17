@@ -15,7 +15,7 @@ import unnamedsculkmod.blocks.SculkTransmitterBlock;
 
 public class USBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, UnnamedSculkMod.MODID);
-	public static final RegistryObject<Block> SCULK_EMITTER = BLOCKS.register("sculk_emitter", () -> new SculkEmitterBlock(Properties.of(Material.SCULK, MaterialColor.COLOR_CYAN).strength(1.5F).sound(SoundType.SCULK_SENSOR)));
+	public static final RegistryObject<Block> SCULK_EMITTER = BLOCKS.register("sculk_emitter", () -> new SculkEmitterBlock(Properties.of(Material.SCULK, MaterialColor.COLOR_CYAN).strength(1.5F).sound(SoundType.SCULK_SENSOR).lightLevel(state -> 1)));
 	public static final RegistryObject<Block> SCULK_RECEIVER = BLOCKS.register("sculk_receiver", () -> new SculkReceiverBlock(Properties.of(Material.SCULK, MaterialColor.COLOR_CYAN).strength(1.5F).sound(SoundType.SCULK_SENSOR)));
 	public static final RegistryObject<Block> SCULK_TRANSMITTER = BLOCKS.register("sculk_transmitter", () -> new SculkTransmitterBlock(Properties.of(Material.SCULK, MaterialColor.COLOR_CYAN).strength(1.5F).sound(SoundType.SCULK_SENSOR)));
 }
