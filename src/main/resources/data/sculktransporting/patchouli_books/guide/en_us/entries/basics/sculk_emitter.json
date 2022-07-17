@@ -1,0 +1,11 @@
+{
+	"name": "Sculk Emitter",
+	"icon": "sculktransporting:sculk_emitter",
+	"category": "sculktransporting:basics",
+	"pages": [
+		{
+			"type": "patchouli:text",
+			"text": "The Sculk Emitter block is a big big block if you eat too much you'll get very brock"
+		}
+	]
+}
