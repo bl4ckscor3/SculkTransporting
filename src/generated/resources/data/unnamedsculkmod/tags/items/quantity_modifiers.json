@@ -1,7 +1,7 @@
 {
   "values": [
-    "unnamedsculkmod:tier_1_quantity_modifier",
-    "unnamedsculkmod:tier_2_quantity_modifier",
-    "unnamedsculkmod:tier_3_quantity_modifier"
+    "unnamedsculkmod:quantity_modifier_tier_1",
+    "unnamedsculkmod:quantity_modifier_tier_2",
+    "unnamedsculkmod:quantity_modifier_tier_3"
   ]
 }

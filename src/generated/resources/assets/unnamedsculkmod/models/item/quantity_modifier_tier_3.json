@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "unnamedsculkmod:item/tier_3_quantity_modifier"
+    "layer0": "unnamedsculkmod:item/quantity_modifier_tier_3"
   }
 }

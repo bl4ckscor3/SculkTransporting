@@ -1,8 +1,8 @@
 {
   "values": [
-    "unnamedsculkmod:tier_1_speed_modifier",
-    "unnamedsculkmod:tier_2_speed_modifier",
-    "unnamedsculkmod:tier_3_speed_modifier",
-    "unnamedsculkmod:tier_4_speed_modifier"
+    "unnamedsculkmod:speed_modifier_tier_1",
+    "unnamedsculkmod:speed_modifier_tier_2",
+    "unnamedsculkmod:speed_modifier_tier_3",
+    "unnamedsculkmod:speed_modifier_tier_4"
   ]
 }

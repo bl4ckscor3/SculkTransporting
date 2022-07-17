@@ -15,8 +15,8 @@ public class ItemTagGenerator extends ItemTagsProvider {
 
 	@Override
 	protected void addTags() {
-		tag(USTags.Items.QUANTITY_MODIFIERS).add(USItems.TIER_1_QUANTITY_MODIFIER.get(), USItems.TIER_2_QUANTITY_MODIFIER.get(), USItems.TIER_3_QUANTITY_MODIFIER.get());
-		tag(USTags.Items.SPEED_MODIFIERS).add(USItems.TIER_1_SPEED_MODIFIER.get(), USItems.TIER_2_SPEED_MODIFIER.get(), USItems.TIER_3_SPEED_MODIFIER.get(), USItems.TIER_4_SPEED_MODIFIER.get());
+		tag(USTags.Items.QUANTITY_MODIFIERS).add(USItems.QUANTITY_MODIFIER_TIER_1.get(), USItems.QUANTITY_MODIFIER_TIER_2.get(), USItems.QUANTITY_MODIFIER_TIER_3.get());
+		tag(USTags.Items.SPEED_MODIFIERS).add(USItems.SPEED_MODIFIER_TIER_1.get(), USItems.SPEED_MODIFIER_TIER_2.get(), USItems.SPEED_MODIFIER_TIER_3.get(), USItems.SPEED_MODIFIER_TIER_4.get());
 	}
 
 	@Override

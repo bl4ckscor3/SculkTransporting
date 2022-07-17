@@ -20,13 +20,13 @@ import unnamedsculkmod.items.SpeedModifierItem.SpeedTier;
 @EventBusSubscriber(modid = UnnamedSculkMod.MODID, bus = Bus.MOD)
 public class USItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, UnnamedSculkMod.MODID);
-	public static final RegistryObject<QuantityModifierItem> TIER_1_QUANTITY_MODIFIER = ITEMS.register("tier_1_quantity_modifier", () -> new QuantityModifierItem(QuantityTier.ONE, new Item.Properties().tab(UnnamedSculkMod.TAB)));
-	public static final RegistryObject<QuantityModifierItem> TIER_2_QUANTITY_MODIFIER = ITEMS.register("tier_2_quantity_modifier", () -> new QuantityModifierItem(QuantityTier.TWO, new Item.Properties().tab(UnnamedSculkMod.TAB)));
-	public static final RegistryObject<QuantityModifierItem> TIER_3_QUANTITY_MODIFIER = ITEMS.register("tier_3_quantity_modifier", () -> new QuantityModifierItem(QuantityTier.THREE, new Item.Properties().tab(UnnamedSculkMod.TAB)));
-	public static final RegistryObject<SpeedModifierItem> TIER_1_SPEED_MODIFIER = ITEMS.register("tier_1_speed_modifier", () -> new SpeedModifierItem(SpeedTier.ONE, new Item.Properties().tab(UnnamedSculkMod.TAB)));
-	public static final RegistryObject<SpeedModifierItem> TIER_2_SPEED_MODIFIER = ITEMS.register("tier_2_speed_modifier", () -> new SpeedModifierItem(SpeedTier.TWO, new Item.Properties().tab(UnnamedSculkMod.TAB)));
-	public static final RegistryObject<SpeedModifierItem> TIER_3_SPEED_MODIFIER = ITEMS.register("tier_3_speed_modifier", () -> new SpeedModifierItem(SpeedTier.THREE, new Item.Properties().tab(UnnamedSculkMod.TAB)));
-	public static final RegistryObject<SpeedModifierItem> TIER_4_SPEED_MODIFIER = ITEMS.register("tier_4_speed_modifier", () -> new SpeedModifierItem(SpeedTier.FOUR, new Item.Properties().tab(UnnamedSculkMod.TAB)));
+	public static final RegistryObject<QuantityModifierItem> QUANTITY_MODIFIER_TIER_1 = ITEMS.register("quantity_modifier_tier_1", () -> new QuantityModifierItem(QuantityTier.ONE, new Item.Properties().tab(UnnamedSculkMod.TAB)));
+	public static final RegistryObject<QuantityModifierItem> QUANTITY_MODIFIER_TIER_2 = ITEMS.register("quantity_modifier_tier_2", () -> new QuantityModifierItem(QuantityTier.TWO, new Item.Properties().tab(UnnamedSculkMod.TAB)));
+	public static final RegistryObject<QuantityModifierItem> QUANTITY_MODIFIER_TIER_3 = ITEMS.register("quantity_modifier_tier_3", () -> new QuantityModifierItem(QuantityTier.THREE, new Item.Properties().tab(UnnamedSculkMod.TAB)));
+	public static final RegistryObject<SpeedModifierItem> SPEED_MODIFIER_TIER_1 = ITEMS.register("speed_modifier_tier_1", () -> new SpeedModifierItem(SpeedTier.ONE, new Item.Properties().tab(UnnamedSculkMod.TAB)));
+	public static final RegistryObject<SpeedModifierItem> SPEED_MODIFIER_TIER_2 = ITEMS.register("speed_modifier_tier_2", () -> new SpeedModifierItem(SpeedTier.TWO, new Item.Properties().tab(UnnamedSculkMod.TAB)));
+	public static final RegistryObject<SpeedModifierItem> SPEED_MODIFIER_TIER_3 = ITEMS.register("speed_modifier_tier_3", () -> new SpeedModifierItem(SpeedTier.THREE, new Item.Properties().tab(UnnamedSculkMod.TAB)));
+	public static final RegistryObject<SpeedModifierItem> SPEED_MODIFIER_TIER_4 = ITEMS.register("speed_modifier_tier_4", () -> new SpeedModifierItem(SpeedTier.FOUR, new Item.Properties().tab(UnnamedSculkMod.TAB)));
 
 	@SubscribeEvent
 	public static void automaticallyRegisterBlockItems(RegisterEvent event) {
