@@ -1,0 +1,13 @@
+{
+	"block.unnamedsculkmod.sculk_emitter": "Sculk Emitter",
+	"block.unnamedsculkmod.sculk_transmitter": "Sculk Transmitter",
+	"block.unnamedsculkmod.sculk_receiver": "Sculk Receiver",
+	"item.unnamedsculkmod.quantity_modifier_tier_1": "Quantity Modifier (Tier 1)",
+	"item.unnamedsculkmod.quantity_modifier_tier_2": "Quantity Modifier (Tier 2)",
+	"item.unnamedsculkmod.quantity_modifier_tier_3": "Quantity Modifier (Tier 3)",
+	"item.unnamedsculkmod.speed_modifier_tier_1": "Speed Modifier (Tier 1)",
+	"item.unnamedsculkmod.speed_modifier_tier_2": "Speed Modifier (Tier 2)",
+	"item.unnamedsculkmod.speed_modifier_tier_3": "Speed Modifier (Tier 3)",
+	"item.unnamedsculkmod.speed_modifier_tier_4": "Speed Modifier (Tier 4)",
+	"itemGroup.unnamedsculkmod": "Unnamed Sculk Mod"
+}
