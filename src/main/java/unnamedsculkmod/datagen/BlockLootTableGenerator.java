@@ -19,6 +19,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import unnamedsculkmod.UnnamedSculkMod;
+import unnamedsculkmod.registration.USBlocks;
 
 public class BlockLootTableGenerator implements DataProvider {
 	protected final Map<Supplier<Block>, LootTable.Builder> lootTables = new HashMap<>();
@@ -28,7 +29,11 @@ public class BlockLootTableGenerator implements DataProvider {
 		this.generator = generator;
 	}
 
-	private void addTables() {}
+	private void addTables() {
+		putStandardBlockLootTable(USBlocks.SCULK_EMITTER);
+		putStandardBlockLootTable(USBlocks.SCULK_TRANSMITTER);
+		putStandardBlockLootTable(USBlocks.SCULK_RECEIVER);
+	}
 
 	protected final void putStandardBlockLootTable(Supplier<Block> block) {
 		putStandardBlockLootTable(block, block.get());
