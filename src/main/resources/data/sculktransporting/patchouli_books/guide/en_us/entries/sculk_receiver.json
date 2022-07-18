@@ -13,7 +13,7 @@
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:sculk_receiver",
 			"title": "Crafting:",
-			"text": "The $(item)Sculk Receiver$() can be modified with a $(item)Speed Modifier$(). By default, it is able to deposit all stored items every $(thing)$(t:20 ticks)1 second$()."
+			"text": "The $(item)Sculk Receiver$() can be modified with a $(l:sculktransporting:speed_modifier)$(item)Speed Modifier$(). By default, it is able to deposit all stored items every $(thing)$(t:20 ticks)1 second$()."
 		}
 	]
 }

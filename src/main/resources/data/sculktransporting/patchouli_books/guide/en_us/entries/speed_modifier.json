@@ -1,0 +1,29 @@
+{
+	"name": "Speed Modifier",
+	"icon": "sculktransporting:speed_modifier_tier_1",
+	"category": "sculktransporting:default",
+	"sortnum": 5,
+	"pages": [
+		"The $(item)Speed Modifier$() can be inserted into $(l:sculktransporting:sculk_emitter)$(item)Sculk Emitters$() and $(l:sculktransporting:sculk_receiver)$(item)Receivers$(), and is able to decrease the delay between their respective actions. With this modifier, a $(l:sculktransporting:sculk_emitter)$(item)Sculk Emitter$() will pick up items faster, and a $(l:sculktransporting:sculk_receiver)$(item)Sculk Receiver$() is able to deposit their stored item more quickly.$(p)This item has $(thing)4 different tiers$() with an increasing level of speed boost.",
+		{
+			"type": "patchouli:crafting",
+			"recipe": "sculktransporting:speed_modifier_tier_1",
+			"text": "The $(item)Speed Modifier (Tier 1)$() is the most basic speed modifier, and is able to increase the block's speed to $(thing)$(t:15 ticks)3/4 seconds$() per action."
+		},
+		{
+			"type": "patchouli:crafting",
+			"recipe": "sculktransporting:speed_modifier_tier_2",
+			"text": "The $(item)Speed Modifier (Tier 2)$() is able to increase the block's speed to $(thing)$(t:10 ticks)1/2 seconds$() per action."
+		},
+		{
+			"type": "patchouli:crafting",
+			"recipe": "sculktransporting:speed_modifier_tier_3",
+			"text": "The $(item)Speed Modifier (Tier 3)$() is capable of increasing the block's speed to $(thing)$(t:5 ticks)1/4 seconds$() per action."
+		},
+		{
+			"type": "patchouli:crafting",
+			"recipe": "sculktransporting:speed_modifier_tier_4",
+			"text": "The $(item)Speed Modifier (Tier 4)$() is the most advanced speed modifier, allowing the block to remove their delay entirely, making the block's action effectively $(thing)$(t:0 ticks)instant$()."
+		}
+	]
+}
