@@ -7,13 +7,13 @@
 		{
 			"type": "spotlight",
 			"item": "sculktransporting:sculk_receiver",
-			"text": "The $(item)Sculk Receiver$() is another block required for item transportation. It can take signals from $(item)Sculk Emitters$() or $(item)Transmitters$() and attempts to put them in a container beneath. If that fails, the block will store the item until a suitable container is found."
+			"text": "The $(item)Sculk Receiver$() is another block required for item transportation. It can take signals from $(l:sculktransporting:sculk_emitter)$(item)Sculk Emitters$() or $(l:sculktransporting:sculk_transmitter)$(item)Transmitters$() and attempts to put them in a container beneath. If that fails, the block will store the item until a suitable container is found."
 		},
 		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:sculk_receiver",
 			"title": "Crafting:",
-			"text": "The $(item)Sculk Receiver$() can be modified with a $(item)Speed Modifier$()."
+			"text": "The $(item)Sculk Receiver$() can be modified with a $(item)Speed Modifier$(). By default, it is able to deposit all stored items every $(thing)$(t:20 ticks)1 second$()."
 		}
 	]
 }

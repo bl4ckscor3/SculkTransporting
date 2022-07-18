@@ -7,7 +7,7 @@
 		{
 			"type": "spotlight",
 			"item": "sculktransporting:sculk_transmitter",
-			"text": "The $(item)Sculk Transmitter$() is a mandatory block for item transportation over longer distances. Similar to a $(thing)Repeater$(), it is able to receive signals from $(item)Sculk Emitters$() or other $(item)Transmitters$() and tries to re-broadcast them to other $(item)Sculk Transmitters$() or $(item)Receivers$()."
+			"text": "The $(item)Sculk Transmitter$() is a mandatory block for item transportation over longer distances. Similar to a $(thing)Repeater$(), it is able to receive signals from $(l:sculktransporting:sculk_emitter)$(item)Sculk Emitters$() or other $(item)Transmitters$() and tries to re-broadcast them to other $(item)Sculk Transmitters$() or $(l:sculktransporting:sculk_receiver)$(item)Receivers$()."
 		},
 		{
 			"type": "patchouli:crafting",
