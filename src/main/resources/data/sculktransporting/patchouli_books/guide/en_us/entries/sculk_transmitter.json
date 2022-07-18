@@ -1,0 +1,19 @@
+{
+	"name": "Sculk Transmitter",
+	"icon": "sculktransporting:sculk_transmitter",
+	"category": "sculktransporting:default",
+	"sortnum": 3,
+	"pages": [
+		{
+			"type": "spotlight",
+			"item": "sculktransporting:sculk_transmitter",
+			"text": "The $(item)Sculk Transmitter$() is a mandatory block for item transportation over longer distances. Similar to a $(thing)Repeater$(), it is able to receive signals from $(item)Sculk Emitters$() or other $(item)Transmitters$() and tries to re-broadcast them to other $(item)Sculk Transmitters$() or $(item)Receivers$()."
+		},
+		{
+			"type": "patchouli:crafting",
+			"recipe": "sculktransporting:sculk_transmitter",
+			"title": "Crafting:",
+			"text": "$(item)Sculk Transmitters$() cannot be modified, as they already work with maximum efficiency. Their vibrations can travel up to $(thing)8 blocks$(), with a speed of $(thing)20 blocks per second$(), and can be occluded with $(thing)Wool$() and similar blocks."
+		}
+	]
+}

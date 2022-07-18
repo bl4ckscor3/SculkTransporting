@@ -1,6 +1,13 @@
 {
-	"name": "Guide to Sculk Transporting",
-	"subtitle": "by bl4ckscor3 and Redstone_Dubstep",
-	"landing_text": "In this guide you will learn all you need to know about transporting items using mysterious the power of sculk.",
-	"show_progress": false
+	"name": "Sculk Transporting Guide",
+	"subtitle": "by Redstone_Dubstep",
+	"landing_text": "In this guide you will learn all you need to know about transporting items using the mysterious power of sculk.",
+	"book_texture": "patchouli:textures/gui/book_cyan.png",
+	"model": "patchouli:book_cyan",
+	"open_sound": "minecraft:block.sculk_sensor.place",
+	"flip_sound": "minecraft:block.sculk.spread",
+	"pamphlet": true,
+	"show_progress": false,
+	"creative_tab": "sculktransporting",
+	"i18n": true
 }

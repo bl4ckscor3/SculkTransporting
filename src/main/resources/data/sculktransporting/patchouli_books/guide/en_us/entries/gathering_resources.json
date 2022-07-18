@@ -1,0 +1,24 @@
+{
+	"name": "Gathering Resources",
+	"icon": "minecraft:deepslate_bricks",
+	"category": "sculktransporting:default",
+	"sortnum": 0,
+	"pages": [
+		"Setting up a basic sculk transporting system is relatively cheap and requires only few materials such as $(item)iron$(), $(item)gold$() or $(item)redstone$(). However, it also requires some materials that can only be found in the $(thing)Deep Dark$() underground biome, which can be found uncommonly near the bottom of the world.",
+		{
+			"type": "patchouli:spotlight",
+			"item": "minecraft:deepslate_bricks",
+			"text": "$(item)Deepslate$() can be found anywhere in the world below height 0. It can be obtained with any pickaxe and can be crafted into $(item)Deepslate Bricks$() through a $(thing)Crafting Table$() or a $(thing)Stonecutter$()."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "minecraft:sculk",
+			"text": "The $(item)Sculk$() block is required for most recipes, and is commonly found throughout the Deep Dark biome. It is mined fastest with a $(thing)Hoe$(), but can only be obtained using a tool enchanted with $(thing)Silk Touch$()."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "minecraft:sculk_sensor",
+			"text": "The $(item)Sculk Sensor$(), another crafting ingredient required for transporting items, can be found uncommonly inside Sculk patches. Be careful around these sensors to not attract any Wardens!"
+		}
+	]
+}

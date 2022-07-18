@@ -1,0 +1,19 @@
+{
+	"name": "Sculk Emitter",
+	"icon": "sculktransporting:sculk_emitter",
+	"category": "sculktransporting:default",
+	"sortnum": 1,
+	"pages": [
+		{
+			"type": "spotlight",
+			"item": "sculktransporting:sculk_emitter",
+			"text": "The $(item)Sculk Emitter$() is one of the key parts required for a sculk transporting system. It automatically takes items from the container beneath, converts them into a sculk signal and sends them to any nearby $(item)Sculk Transmitters$() or $(item)Receivers$()."
+		},
+		{
+			"type": "patchouli:crafting",
+			"recipe": "sculktransporting:sculk_emitter",
+			"title": "Crafting:",
+			"text": "The $(item)Sculk Emitter$() can be modified with a $(item)Quantity Modifier$() or a $(item)Speed Modifier$()."
+		}
+	]
+}
