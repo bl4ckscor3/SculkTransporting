@@ -11,8 +11,8 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sculktransporting.SculkTransporting;
-import sculktransporting.registration.USBlocks;
-import sculktransporting.registration.USItems;
+import sculktransporting.registration.STBlocks;
+import sculktransporting.registration.STItems;
 
 public class ItemModelGenerator extends ItemModelProvider {
 	public ItemModelGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -21,11 +21,11 @@ public class ItemModelGenerator extends ItemModelProvider {
 
 	@Override
 	protected void registerModels() {
-		simpleParent(USBlocks.SCULK_EMITTER.get());
-		simpleParent(USBlocks.SCULK_TRANSMITTER.get(), "sculk_transmitter_active");
-		simpleParent(USBlocks.SCULK_RECEIVER.get());
+		simpleParent(STBlocks.SCULK_EMITTER.get());
+		simpleParent(STBlocks.SCULK_TRANSMITTER.get(), "sculk_transmitter_active");
+		simpleParent(STBlocks.SCULK_RECEIVER.get());
 
-		for (RegistryObject<Item> item : USItems.ITEMS.getEntries()) {
+		for (RegistryObject<Item> item : STItems.ITEMS.getEntries()) {
 			simpleItem(item.get(), "item/generated");
 		}
 	}

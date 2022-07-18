@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import sculktransporting.blockentities.BaseSculkItemTransporterBlockEntity;
 import sculktransporting.blockentities.SculkTransmitterBlockEntity;
-import sculktransporting.registration.USBlockEntityTypes;
+import sculktransporting.registration.STBlockEntityTypes;
 
 public class SculkTransmitterBlock extends BaseSculkItemTransporterBlock {
 	public SculkTransmitterBlock(Properties properties) {
@@ -22,6 +22,6 @@ public class SculkTransmitterBlock extends BaseSculkItemTransporterBlock {
 
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return !level.isClientSide ? createTickerHelper(type, USBlockEntityTypes.SCULK_TRANSMITTER_BLOCK_ENTITY.get(), BaseSculkItemTransporterBlockEntity::serverTick) : null;
+		return !level.isClientSide ? createTickerHelper(type, STBlockEntityTypes.SCULK_TRANSMITTER_BLOCK_ENTITY.get(), BaseSculkItemTransporterBlockEntity::serverTick) : null;
 	}
 }

@@ -9,7 +9,7 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import sculktransporting.SculkTransporting;
-import sculktransporting.registration.USBlocks;
+import sculktransporting.registration.STBlocks;
 
 public class RecipeGenerator extends RecipeProvider {
 	public RecipeGenerator(DataGenerator generator) {
@@ -19,7 +19,7 @@ public class RecipeGenerator extends RecipeProvider {
 	@Override
 	protected final void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
 		//@formatter:off
-		ShapedRecipeBuilder.shaped(USBlocks.SCULK_EMITTER.get())
+		ShapedRecipeBuilder.shaped(STBlocks.SCULK_EMITTER.get())
 				.pattern("DSD")
 				.pattern("BGB")
 				.define('D', Blocks.DEEPSLATE_BRICKS)
@@ -28,7 +28,7 @@ public class RecipeGenerator extends RecipeProvider {
 				.define('G', Tags.Items.INGOTS_GOLD)
 				.unlockedBy("has_sculk_sensor", has(Blocks.SCULK_SENSOR))
 				.save(consumer);
-		ShapedRecipeBuilder.shaped(USBlocks.SCULK_TRANSMITTER.get())
+		ShapedRecipeBuilder.shaped(STBlocks.SCULK_TRANSMITTER.get())
 				.pattern("DBD")
 				.pattern("IRI")
 				.define('D', Blocks.DEEPSLATE_BRICKS)
@@ -37,7 +37,7 @@ public class RecipeGenerator extends RecipeProvider {
 				.define('R', Tags.Items.DUSTS_REDSTONE)
 				.unlockedBy("has_sculk", has(Blocks.SCULK))
 				.save(consumer);
-		ShapedRecipeBuilder.shaped(USBlocks.SCULK_RECEIVER.get())
+		ShapedRecipeBuilder.shaped(STBlocks.SCULK_RECEIVER.get())
 				.pattern("DSD")
 				.pattern("BHB")
 				.define('D', Blocks.DEEPSLATE_BRICKS)

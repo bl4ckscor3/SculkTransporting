@@ -12,10 +12,10 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import sculktransporting.USTags;
+import sculktransporting.STTags;
 import sculktransporting.blockentities.SculkReceiverBlockEntity;
 import sculktransporting.items.SpeedModifierItem;
-import sculktransporting.registration.USBlockEntityTypes;
+import sculktransporting.registration.STBlockEntityTypes;
 
 public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 	public SculkReceiverBlock(Properties properties) {
@@ -27,7 +27,7 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 		if (level.getBlockEntity(pos) instanceof SculkReceiverBlockEntity be) {
 			ItemStack heldStack = player.getItemInHand(hand);
 
-			if (heldStack.is(USTags.Items.SPEED_MODIFIERS)) {
+			if (heldStack.is(STTags.Items.SPEED_MODIFIERS)) {
 				if (!level.isClientSide && be.setSpeedModifier(((SpeedModifierItem) heldStack.getItem()).tier)) {
 					if (!player.isCreative())
 						heldStack.shrink(1);
@@ -66,6 +66,6 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return !level.isClientSide ? createTickerHelper(type, USBlockEntityTypes.SCULK_RECEIVER_BLOCK_ENTITY.get(), SculkReceiverBlockEntity::serverTick) : null;
+		return !level.isClientSide ? createTickerHelper(type, STBlockEntityTypes.SCULK_RECEIVER_BLOCK_ENTITY.get(), SculkReceiverBlockEntity::serverTick) : null;
 	}
 }

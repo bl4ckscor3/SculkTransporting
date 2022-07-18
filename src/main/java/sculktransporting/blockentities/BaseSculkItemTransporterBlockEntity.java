@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.SculkSensorBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
-import sculktransporting.registration.USGameEvents;
+import sculktransporting.registration.STGameEvents;
 
 public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlockEntity {
 	protected ItemStack storedItemSignal = ItemStack.EMPTY;
@@ -29,7 +29,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 				be.cachedItemEntity = new ItemEntity(level, be.signalOrigin.getX(), be.signalOrigin.getY(), be.signalOrigin.getZ(), be.storedItemSignal);
 
 			if (be.shouldPerformAction(level))
-				level.gameEvent(be.cachedItemEntity, USGameEvents.ITEM_TRANSMITTABLE.get(), pos);
+				level.gameEvent(be.cachedItemEntity, STGameEvents.ITEM_TRANSMITTABLE.get(), pos);
 		}
 	}
 

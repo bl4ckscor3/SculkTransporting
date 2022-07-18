@@ -20,7 +20,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import sculktransporting.items.QuantityModifierItem.QuantityTier;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
-import sculktransporting.registration.USBlockEntityTypes;
+import sculktransporting.registration.STBlockEntityTypes;
 
 public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity {
 	private BlockState lastKnownStateBelow;
@@ -152,6 +152,6 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 
 	@Override
 	public BlockEntityType<?> getType() {
-		return USBlockEntityTypes.SCULK_EMITTER_BLOCK_ENTITY.get();
+		return STBlockEntityTypes.SCULK_EMITTER_BLOCK_ENTITY.get();
 	}
 }

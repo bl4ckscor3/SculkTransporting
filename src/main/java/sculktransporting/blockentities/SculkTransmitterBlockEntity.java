@@ -11,8 +11,8 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.phys.Vec3;
-import sculktransporting.registration.USBlockEntityTypes;
-import sculktransporting.registration.USGameEvents;
+import sculktransporting.registration.STBlockEntityTypes;
+import sculktransporting.registration.STGameEvents;
 
 public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEntity {
 	public SculkTransmitterBlockEntity(BlockPos pos, BlockState state) {
@@ -26,7 +26,7 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 
 	@Override
 	public boolean isValidVibration(GameEvent gameEvent, Context ctx) {
-		return gameEvent == USGameEvents.ITEM_TRANSMITTABLE.get() && ctx.sourceEntity() instanceof ItemEntity item && item.isAlive();
+		return gameEvent == STGameEvents.ITEM_TRANSMITTABLE.get() && ctx.sourceEntity() instanceof ItemEntity item && item.isAlive();
 	}
 
 	@Override
@@ -53,12 +53,12 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 
 	@Override
 	public void onSignalReceive(ServerLevel level, GameEventListener listener, BlockPos pos, GameEvent event, Entity entity, Entity projectileOwner, float distance) {
-		if (event == USGameEvents.ITEM_TRANSMITTABLE.get() && entity instanceof ItemEntity item)
+		if (event == STGameEvents.ITEM_TRANSMITTABLE.get() && entity instanceof ItemEntity item)
 			setItemSignal(item, getRedstoneStrengthForDistance(distance, listener.getListenerRadius()));
 	}
 
 	@Override
 	public BlockEntityType<?> getType() {
-		return USBlockEntityTypes.SCULK_TRANSMITTER_BLOCK_ENTITY.get();
+		return STBlockEntityTypes.SCULK_TRANSMITTER_BLOCK_ENTITY.get();
 	}
 }

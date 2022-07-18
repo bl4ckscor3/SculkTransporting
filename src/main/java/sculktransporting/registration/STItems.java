@@ -18,7 +18,7 @@ import sculktransporting.items.SpeedModifierItem;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
 
 @EventBusSubscriber(modid = SculkTransporting.MODID, bus = Bus.MOD)
-public class USItems {
+public class STItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SculkTransporting.MODID);
 	public static final RegistryObject<QuantityModifierItem> QUANTITY_MODIFIER_TIER_1 = ITEMS.register("quantity_modifier_tier_1", () -> new QuantityModifierItem(QuantityTier.ONE, new Item.Properties().tab(SculkTransporting.TAB)));
 	public static final RegistryObject<QuantityModifierItem> QUANTITY_MODIFIER_TIER_2 = ITEMS.register("quantity_modifier_tier_2", () -> new QuantityModifierItem(QuantityTier.TWO, new Item.Properties().tab(SculkTransporting.TAB)));
@@ -32,7 +32,7 @@ public class USItems {
 	public static void automaticallyRegisterBlockItems(RegisterEvent event) {
 		event.register(Keys.ITEMS, helper -> {
 			//register block items from blocks
-			for (RegistryObject<Block> ro : USBlocks.BLOCKS.getEntries()) {
+			for (RegistryObject<Block> ro : STBlocks.BLOCKS.getEntries()) {
 				Block block = ro.get();
 
 				helper.register(ForgeRegistries.BLOCKS.getKey(block), new BlockItem(block, new Item.Properties().tab(SculkTransporting.TAB)));

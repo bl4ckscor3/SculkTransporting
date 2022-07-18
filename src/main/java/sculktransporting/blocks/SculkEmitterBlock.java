@@ -12,11 +12,11 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import sculktransporting.USTags;
+import sculktransporting.STTags;
 import sculktransporting.blockentities.SculkEmitterBlockEntity;
 import sculktransporting.items.QuantityModifierItem;
 import sculktransporting.items.SpeedModifierItem;
-import sculktransporting.registration.USBlockEntityTypes;
+import sculktransporting.registration.STBlockEntityTypes;
 
 public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 	public SculkEmitterBlock(Properties properties) {
@@ -27,9 +27,9 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be) {
 			ItemStack heldStack = player.getItemInHand(hand);
-			boolean isQuantityModifier = heldStack.is(USTags.Items.QUANTITY_MODIFIERS);
+			boolean isQuantityModifier = heldStack.is(STTags.Items.QUANTITY_MODIFIERS);
 
-			if ((isQuantityModifier || heldStack.is(USTags.Items.SPEED_MODIFIERS))) {
+			if ((isQuantityModifier || heldStack.is(STTags.Items.SPEED_MODIFIERS))) {
 				if (!level.isClientSide) {
 					boolean modifierAdded = false;
 
@@ -81,6 +81,6 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return !level.isClientSide ? createTickerHelper(type, USBlockEntityTypes.SCULK_EMITTER_BLOCK_ENTITY.get(), SculkEmitterBlockEntity::serverTick) : null;
+		return !level.isClientSide ? createTickerHelper(type, STBlockEntityTypes.SCULK_EMITTER_BLOCK_ENTITY.get(), SculkEmitterBlockEntity::serverTick) : null;
 	}
 }

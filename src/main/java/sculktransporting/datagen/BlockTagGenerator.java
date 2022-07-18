@@ -5,7 +5,7 @@ import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import sculktransporting.SculkTransporting;
-import sculktransporting.registration.USBlocks;
+import sculktransporting.registration.STBlocks;
 
 public class BlockTagGenerator extends BlockTagsProvider {
 	protected BlockTagGenerator(DataGenerator dataGenerator, ExistingFileHelper existingFileHelper) {
@@ -14,7 +14,7 @@ public class BlockTagGenerator extends BlockTagsProvider {
 
 	@Override
 	protected void addTags() {
-		tag(BlockTags.MINEABLE_WITH_HOE).add(USBlocks.SCULK_EMITTER.get(), USBlocks.SCULK_TRANSMITTER.get(), USBlocks.SCULK_RECEIVER.get());
+		tag(BlockTags.MINEABLE_WITH_HOE).add(STBlocks.SCULK_EMITTER.get(), STBlocks.SCULK_TRANSMITTER.get(), STBlocks.SCULK_RECEIVER.get());
 	}
 
 	@Override
