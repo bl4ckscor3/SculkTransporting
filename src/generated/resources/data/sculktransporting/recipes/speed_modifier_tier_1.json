@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "M": {
+      "item": "minecraft:sculk"
+    },
+    "P": {
+      "item": "minecraft:item_frame"
+    },
+    "T": {
+      "item": "minecraft:tuff"
+    }
+  },
+  "pattern": [
+    "TMT",
+    "MPM",
+    "TMT"
+  ],
+  "result": {
+    "item": "sculktransporting:speed_modifier_tier_1"
+  }
+}

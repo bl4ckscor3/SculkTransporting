@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "D": {
+      "item": "minecraft:deepslate_bricks"
+    },
+    "M": {
+      "item": "minecraft:sculk"
+    },
+    "P": {
+      "item": "minecraft:item_frame"
+    }
+  },
+  "pattern": [
+    "DMD",
+    "MPM",
+    "DMD"
+  ],
+  "result": {
+    "item": "sculktransporting:quantity_modifier_tier_1"
+  }
+}
