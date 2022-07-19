@@ -84,9 +84,6 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	}
 
 	public boolean setQuantityModifier(QuantityTier quantityModifier) {
-		if (this.quantityModifier != QuantityTier.ZERO)
-			return false;
-
 		this.quantityModifier = quantityModifier;
 		return true;
 	}
@@ -105,9 +102,6 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	}
 
 	public boolean setSpeedModifier(SpeedTier speedModifier) {
-		if (this.speedModifier != SpeedTier.ZERO)
-			return false;
-
 		this.speedModifier = speedModifier;
 		return true;
 	}

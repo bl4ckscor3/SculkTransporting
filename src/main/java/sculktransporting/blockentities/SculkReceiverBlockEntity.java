@@ -77,9 +77,6 @@ public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
 	}
 
 	public boolean setSpeedModifier(SpeedTier speedModifier) {
-		if (this.speedModifier != SpeedTier.ZERO)
-			return false;
-
 		this.speedModifier = speedModifier;
 		return true;
 	}
