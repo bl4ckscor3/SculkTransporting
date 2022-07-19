@@ -13,7 +13,7 @@
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:sculk_emitter",
 			"title": "Crafting:",
-			"text": "The $(item)Sculk Emitter$() can be modified with a $(l:sculktransporting:quantity_modifier)$(item)Quantity Modifier$() or a $(l:sculktransporting:speed_modifier)$(item)Speed Modifier$(). By default, it is able to pick up and store $(thing)1 item$() every $(thing)$(t:20 ticks)1 second$()."
+			"text": "The $(item)Sculk Emitter$() can be modified with $(l:sculktransporting:quantity_modifiers)$(item)Quantity Modifiers$() or $(l:sculktransporting:speed_modifiers)$(item)Speed Modifiers$(). By default, it is able to pick up and store $(thing)1 item$() every $(thing)$(t:20 ticks)1 second$()."
 		}
 	]
 }

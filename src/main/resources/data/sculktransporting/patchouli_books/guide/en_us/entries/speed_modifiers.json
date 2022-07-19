@@ -1,10 +1,10 @@
 {
-	"name": "Speed Modifier",
+	"name": "Speed Modifiers",
 	"icon": "sculktransporting:speed_modifier_tier_1",
 	"category": "sculktransporting:default",
 	"sortnum": 5,
 	"pages": [
-		"The $(item)Speed Modifier$() can be inserted into $(l:sculktransporting:sculk_emitter)$(item)Sculk Emitters$() and $(l:sculktransporting:sculk_receiver)$(item)Receivers$(), and is able to decrease the delay between their respective actions. With this modifier, a $(l:sculktransporting:sculk_emitter)$(item)Sculk Emitter$() will pick up items faster, and a $(l:sculktransporting:sculk_receiver)$(item)Sculk Receiver$() is able to deposit their stored item more quickly.$(p)This item has $(thing)4 different tiers$() with an increasing level of speed boost.",
+		"$(item)Speed Modifiers$() can be inserted into $(l:sculktransporting:sculk_emitter)$(item)Sculk Emitters$() and $(l:sculktransporting:sculk_receiver)$(item)Receivers$(), and they are able to decrease the delay between their respective actions. With one of these modifiers, a $(l:sculktransporting:sculk_emitter)$(item)Sculk Emitter$() will pick up items faster, and a $(l:sculktransporting:sculk_receiver)$(item)Sculk Receiver$() is able to deposit their item faster.$(p)There are $(thing)4 different Speed Modifiers$() with an increasing level of speed boost.",
 		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:speed_modifier_tier_1",
