@@ -1,0 +1,12 @@
+{
+	"parent": "sculktransporting:block/template_sculk_receiver",
+	"textures": {
+		"hopper": "minecraft:block/hopper_outside",
+		"bottom": "sculktransporting:block/sculk_receiver_bottom",
+		"top": "sculktransporting:block/sculk_receiver_top_active",
+		"fins": "sculktransporting:block/sculk_receiver_fins",
+		"feet": "sculktransporting:block/sculk_receiver_feet",
+		"side": "sculktransporting:block/sculk_receiver_side_0",
+		"particle": "sculktransporting:block/sculk_receiver_side_0"
+	}
+}

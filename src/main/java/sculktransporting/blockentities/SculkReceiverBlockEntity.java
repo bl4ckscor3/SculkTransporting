@@ -1,25 +1,32 @@
 package sculktransporting.blockentities;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
+import sculktransporting.client.ClientHandler;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
 import sculktransporting.registration.STBlockEntityTypes;
 
 public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
 	private BlockState lastKnownStateBelow;
 	private LazyOptional<IItemHandler> inventoryBelow;
-	private SpeedTier speedModifier = SpeedTier.ZERO;
+	private SpeedTier speedTier = SpeedTier.ZERO;
 
 	public SculkReceiverBlockEntity(BlockPos pos, BlockState state) {
 		super(pos, state);
@@ -61,39 +68,41 @@ public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
 	@Override
 	public boolean shouldPerformAction(Level level) {
 		//every tick, or only every 5, 10, 15, 20 ticks
-		return speedModifier == SpeedTier.FOUR || level.getGameTime() % (20 - (speedModifier.getValue() * 5)) == 0;
+		return speedTier == SpeedTier.FOUR || level.getGameTime() % (20 - (speedTier.getValue() * 5)) == 0;
 	}
 
 	@Override
 	public void load(CompoundTag tag) {
 		super.load(tag);
-		speedModifier = SpeedTier.values()[tag.getInt("SpeedModifier")];
+		speedTier = SpeedTier.values()[tag.getInt("SpeedTier")];
 	}
 
 	@Override
 	protected void saveAdditional(CompoundTag tag) {
 		super.saveAdditional(tag);
-		tag.putInt("SpeedModifier", speedModifier.ordinal());
+		tag.putInt("SpeedTier", speedTier.ordinal());
 	}
 
-	public boolean setSpeedModifier(SpeedTier speedModifier) {
-		if (this.speedModifier == speedModifier)
+	public boolean setSpeedTier(SpeedTier speedTier) {
+		if (this.speedTier == speedTier)
 			return false;
 
-		this.speedModifier = speedModifier;
+		this.speedTier = speedTier;
+		setChanged();
+		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
 		return true;
 	}
 
 	public void removeSpeedModifier() {
-		if (speedModifier == SpeedTier.ZERO)
+		if (speedTier == SpeedTier.ZERO)
 			return;
 
-		Block.popResource(level, worldPosition, new ItemStack(speedModifier.getItem()));
-		speedModifier = SpeedTier.ZERO;
+		Block.popResource(level, worldPosition, new ItemStack(speedTier.getItem()));
+		setSpeedTier(SpeedTier.ZERO);
 	}
 
-	public SpeedTier getSpeedModifier() {
-		return speedModifier;
+	public SpeedTier getSpeedTier() {
+		return speedTier;
 	}
 
 	public BlockState getLastKnownStateBelow() {
@@ -108,5 +117,35 @@ public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
 	@Override
 	public BlockEntityType<?> getType() {
 		return STBlockEntityTypes.SCULK_RECEIVER_BLOCK_ENTITY.get();
+	}
+
+	@Override
+	public ModelData getModelData() {
+		return ModelData.builder().with(ClientHandler.SPEED_TIER, speedTier).build();
+	}
+
+	@Override
+	public Packet<ClientGamePacketListener> getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
+	}
+
+	@Override
+	public CompoundTag getUpdateTag() {
+		CompoundTag tag = new CompoundTag();
+
+		saveAdditional(tag);
+		return tag;
+	}
+
+	@Override
+	public void handleUpdateTag(CompoundTag tag) {
+		super.handleUpdateTag(tag);
+	}
+
+	@Override
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+		super.onDataPacket(net, pkt);
+		requestModelDataUpdate();
+		Minecraft.getInstance().levelRenderer.setBlocksDirty(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
 	}
 }
