@@ -16,7 +16,7 @@
   },
   "pattern": [
     "DSD",
-    "BGB"
+    "GBG"
   ],
   "result": {
     "item": "sculktransporting:sculk_emitter"

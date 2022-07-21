@@ -5,10 +5,10 @@
       "item": "minecraft:smooth_basalt"
     },
     "M": {
-      "item": "minecraft:sculk"
+      "item": "minecraft:sculk_catalyst"
     },
     "P": {
-      "item": "minecraft:item_frame"
+      "item": "sculktransporting:quantity_modifier_tier_1"
     }
   },
   "pattern": [
@@ -17,6 +17,6 @@
     "BMB"
   ],
   "result": {
-    "item": "sculktransporting:quantity_modifier_tier_1"
+    "item": "sculktransporting:quantity_modifier_tier_2"
   }
 }

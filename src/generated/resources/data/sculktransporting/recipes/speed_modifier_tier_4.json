@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "M": {
+      "item": "minecraft:echo_shard"
+    },
+    "P": {
+      "item": "sculktransporting:speed_modifier_tier_3"
+    },
+    "T": {
+      "item": "minecraft:tuff"
+    }
+  },
+  "pattern": [
+    "TMT",
+    "MPM",
+    "TMT"
+  ],
+  "result": {
+    "item": "sculktransporting:speed_modifier_tier_4"
+  }
+}

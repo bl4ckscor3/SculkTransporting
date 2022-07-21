@@ -24,7 +24,7 @@ public class RecipeGenerator extends RecipeProvider {
 		//@formatter:off
 		ShapedRecipeBuilder.shaped(STBlocks.SCULK_EMITTER.get())
 				.pattern("DSD")
-				.pattern("BGB")
+				.pattern("GBG")
 				.define('D', Blocks.DEEPSLATE_BRICKS)
 				.define('S', Blocks.SCULK_SENSOR)
 				.define('B', Blocks.SCULK)
@@ -51,17 +51,22 @@ public class RecipeGenerator extends RecipeProvider {
 				.save(consumer);
 
 		addQuantityModifierRecipe(consumer, Items.ITEM_FRAME, Blocks.SCULK, STItems.QUANTITY_MODIFIER_TIER_1.get());
+		addQuantityModifierRecipe(consumer, STItems.QUANTITY_MODIFIER_TIER_1.get(), Blocks.SCULK_CATALYST, STItems.QUANTITY_MODIFIER_TIER_2.get());
+		addQuantityModifierRecipe(consumer, STItems.QUANTITY_MODIFIER_TIER_2.get(), Items.ECHO_SHARD, STItems.QUANTITY_MODIFIER_TIER_3.get());
 		addSpeedModifierRecipe(consumer, Items.ITEM_FRAME, Blocks.SCULK, STItems.SPEED_MODIFIER_TIER_1.get());
+		addSpeedModifierRecipe(consumer, STItems.SPEED_MODIFIER_TIER_1.get(), Blocks.RAW_IRON_BLOCK, STItems.SPEED_MODIFIER_TIER_2.get());
+		addSpeedModifierRecipe(consumer, STItems.SPEED_MODIFIER_TIER_2.get(), Blocks.SCULK_CATALYST, STItems.SPEED_MODIFIER_TIER_3.get());
+		addSpeedModifierRecipe(consumer, STItems.SPEED_MODIFIER_TIER_3.get(), Items.ECHO_SHARD, STItems.SPEED_MODIFIER_TIER_4.get());
 		//@formatter:on
 	}
 
 	protected final void addQuantityModifierRecipe(Consumer<FinishedRecipe> consumer, ItemLike previous, ItemLike material, ItemLike result) {
 		//@formatter:off
 		ShapedRecipeBuilder.shaped(result)
-				.pattern("DMD")
+				.pattern("BMB")
 				.pattern("MPM")
-				.pattern("DMD")
-				.define('D', Blocks.DEEPSLATE_BRICKS)
+				.pattern("BMB")
+				.define('B', Blocks.SMOOTH_BASALT)
 				.define('M', material)
 				.define('P', previous)
 				.unlockedBy("has_previous", has(previous))
