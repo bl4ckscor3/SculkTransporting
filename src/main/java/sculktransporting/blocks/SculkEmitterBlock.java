@@ -15,7 +15,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import sculktransporting.STTags;
 import sculktransporting.blockentities.SculkEmitterBlockEntity;
 import sculktransporting.items.QuantityModifierItem;
+import sculktransporting.items.QuantityModifierItem.QuantityTier;
 import sculktransporting.items.SpeedModifierItem;
+import sculktransporting.items.SpeedModifierItem.SpeedTier;
 import sculktransporting.registration.STBlockEntityTypes;
 
 public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
@@ -33,9 +35,9 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 				if (!level.isClientSide) {
 					boolean modifierAdded = false;
 
-					if (isQuantityModifier)
+					if (isQuantityModifier && be.getQuantityTier() == QuantityTier.ZERO)
 						modifierAdded = be.setQuantityTier(((QuantityModifierItem) heldStack.getItem()).tier);
-					else
+					if (!isQuantityModifier && be.getSpeedTier() == SpeedTier.ZERO)
 						modifierAdded = be.setSpeedTier(((SpeedModifierItem) heldStack.getItem()).tier);
 
 					if (modifierAdded) {

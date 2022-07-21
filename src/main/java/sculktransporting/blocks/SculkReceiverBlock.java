@@ -22,6 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import sculktransporting.STTags;
 import sculktransporting.blockentities.SculkReceiverBlockEntity;
 import sculktransporting.items.SpeedModifierItem;
+import sculktransporting.items.SpeedModifierItem.SpeedTier;
 import sculktransporting.registration.STBlockEntityTypes;
 
 public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
@@ -42,7 +43,7 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 			ItemStack heldStack = player.getItemInHand(hand);
 
 			if (heldStack.is(STTags.Items.SPEED_MODIFIERS)) {
-				if (!level.isClientSide && be.setSpeedTier(((SpeedModifierItem) heldStack.getItem()).tier)) {
+				if (!level.isClientSide && be.getSpeedTier() == SpeedTier.ZERO && be.setSpeedTier(((SpeedModifierItem) heldStack.getItem()).tier)) {
 					if (!player.isCreative())
 						heldStack.shrink(1);
 				}
