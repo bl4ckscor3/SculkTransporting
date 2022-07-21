@@ -42,7 +42,7 @@ public class SculkReceiverModel implements IDynamicBakedModel {
 			for (int i = 0; i < quads.size(); i++) {
 				BakedQuad quad = quads.get(i);
 
-				if (quad.getSprite().getName().getPath().contains("sculk_receiver_side")) {
+				if (quad.getTintIndex() == 0) {
 					if (quad.getDirection() == Direction.NORTH)
 						quads.set(i, bakeQuad(new Vector3f(0.0F, 3.0F, 0.0F), new Vector3f(16.0F, 8.0F, 0.0F), speedTier, quad));
 					else if (quad.getDirection() == Direction.EAST)
@@ -61,7 +61,7 @@ public class SculkReceiverModel implements IDynamicBakedModel {
 	private BakedQuad bakeQuad(Vector3f from, Vector3f to, SpeedTier speedTier, BakedQuad originalQuad) {
 		TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(new ResourceLocation(SculkTransporting.MODID, "block/sculk_receiver_side_" + speedTier.getValue()));
 
-		return FACE_BAKERY.bakeQuad(from, to, new BlockElementFace(null, 0, sprite.getName().toString(), new BlockFaceUV(new float[] {
+		return FACE_BAKERY.bakeQuad(from, to, new BlockElementFace(null, originalQuad.getTintIndex(), sprite.getName().toString(), new BlockFaceUV(new float[] {
 				0.0F, 8.0F, 16.0F, 13.0F
 		}, 0)), sprite, originalQuad.getDirection(), BlockModelRotation.X0_Y0, null, originalQuad.isShade(), new ResourceLocation(SculkTransporting.MODID, "sculk_receiver"));
 	}

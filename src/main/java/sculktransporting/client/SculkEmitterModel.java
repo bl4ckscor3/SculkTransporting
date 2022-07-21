@@ -49,27 +49,27 @@ public class SculkEmitterModel implements IDynamicBakedModel {
 					int tintIndex = quad.getTintIndex();
 
 					if (quad.getDirection() == Direction.NORTH) {
-						if (tintIndex == 1)
+						if (tintIndex == 0)
 							quads.set(i, bakeLeftQuad(new Vector3f(8.0F, 0.0F, 0.0F), new Vector3f(16.0F, 8.0F, 0.0F), speedTier, quad));
-						else if (tintIndex == 2)
+						else if (tintIndex == 1)
 							quads.set(i, bakeRightQuad(new Vector3f(0.0F, 0.0F, 0.0F), new Vector3f(8.0F, 8.0F, 0.0F), quantityTier, quad));
 					}
 					else if (quad.getDirection() == Direction.EAST) {
-						if (tintIndex == 1)
+						if (tintIndex == 0)
 							quads.set(i, bakeLeftQuad(new Vector3f(16.0F, 0.0F, 8.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
-						else if (tintIndex == 2)
+						else if (tintIndex == 1)
 							quads.set(i, bakeRightQuad(new Vector3f(16.0F, 0.0F, 0.0F), new Vector3f(16.0F, 8.0F, 8.0F), quantityTier, quad));
 					}
 					else if (quad.getDirection() == Direction.SOUTH) {
-						if (tintIndex == 1)
+						if (tintIndex == 0)
 							quads.set(i, bakeLeftQuad(new Vector3f(0.0F, 0.0F, 16.0F), new Vector3f(8.0F, 8.0F, 16.0F), speedTier, quad));
-						else if (tintIndex == 2)
+						else if (tintIndex == 1)
 							quads.set(i, bakeRightQuad(new Vector3f(8.0F, 0.0F, 16.0F), new Vector3f(16.0F, 8.0F, 16.0F), quantityTier, quad));
 					}
 					else if (quad.getDirection() == Direction.WEST) {
-						if (tintIndex == 1)
+						if (tintIndex == 0)
 							quads.set(i, bakeLeftQuad(new Vector3f(0.0F, 0.0F, 0.0F), new Vector3f(0.0F, 8.0F, 8.0F), speedTier, quad));
-						else if (tintIndex == 2)
+						else if (tintIndex == 1)
 							quads.set(i, bakeRightQuad(new Vector3f(0.0F, 0.0F, 8.0F), new Vector3f(0.0F, 8.0F, 16.0F), quantityTier, quad));
 					}
 				}
