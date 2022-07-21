@@ -13,12 +13,42 @@
 		{
 			"type": "patchouli:spotlight",
 			"item": "minecraft:sculk",
-			"text": "The $(item)Sculk$() block is required for most recipes, and is commonly found throughout the Deep Dark biome. It is mined fastest with a $(thing)Hoe$(), but can only be obtained using a tool enchanted with $(thing)Silk Touch$()."
+			"text": "The $(item)Sculk$() block is required for most recipes, and is commonly found throughout the Deep Dark biome. Like most other blocks in the Sculk family, it is mined fastest with a $(thing)Hoe$(), but can only be obtained using a tool enchanted with $(thing)Silk Touch$()."
 		},
 		{
 			"type": "patchouli:spotlight",
 			"item": "minecraft:sculk_sensor",
-			"text": "The $(item)Sculk Sensor$(), another crafting ingredient required for transporting items, can be found uncommonly inside Sculk patches. Be careful around these sensors to not attract any Wardens!"
+			"text": "The $(item)Sculk Sensor$(), another crafting ingredient required for transporting items, can be found uncommonly inside Sculk patches, and requires $(thing)Silk Touch$() to be obtained. Be careful around these sensors to not attract any $(thing)Wardens$()!"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Advanced resources",
+			"text": "If you want to enhance your sculk transporting system by using different modifiers, like $(l:sculktransporting:quantity_modifiers)$(item)Quantity Modifiers$() or $(l:sculktransporting:speed_modifiers)$(item)Speed Modifiers$(), you need to acquire more $(thing)advanced materials$() in order to craft those."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "minecraft:tuff",
+			"text": "$(item)Tuff$() is a required ingredient for $(l:sculktransporting:speed_modifiers)$(item)Speed Modifiers$(), and can be found in blobs anywhere in the world below height 16, or near $(thing)Iron Ore Veins$(), which generate rarely below height 0. It can be obtained with any pickaxe."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "minecraft:smooth_basalt",
+			"text": "$(item)Smooth Basalt$() is a required ingredient for $(l:sculktransporting:quantity_modifiers)$(item)Quantity Modifiers$(). It is located in the shell of $(thing)Amethyst Geodes$(), which can be found uncommonly in the ground, as well as some buildings of $(thing)Ancient Cities$(). It can be obtained with any pickaxe."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "minecraft:raw_iron_block",
+			"text": "$(item)Blocks of Raw Iron$() are used to craft modifiers of a higher tier, and can either be crafted using 9 $(item)Raw Iron$(), or found in $(thing)Iron Ore Veins$(), which generate rarely below height 0. The $(item)Block of Raw Iron$(), as well as $(item)Iron Ore$(), can only be obtained with a stone pickaxe or better."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "minecraft:sculk_catalyst",
+			"text": "$(item)Sculk Catalysts$() are ingredients of higher tier modifiers, and can be found rarely inside Sculk patches in the $(thing)Deep Dark$() biome, where it can only be obtained using a tool enchanted with $(thing)Silk Touch$(). It is also dropped by $(thing)Wardens$(), in the rare occasions of them dying."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "minecraft:echo_shard",
+			"text": "$(item)Echo Shards$() are used to craft modifiers of the highest tier, and can only be found in chests within $(thing)Ancient Cities$(). These structures generate at the bottom of the world inside the $(thing)Deep Dark$() biome, and feature many dangers such as $(thing)Wardens$(), so extra caution is necessary when looting these structures."
 		}
 	]
 }
