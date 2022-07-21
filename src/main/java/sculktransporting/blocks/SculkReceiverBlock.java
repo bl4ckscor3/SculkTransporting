@@ -73,6 +73,16 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 	}
 
 	@Override
+	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+		if (!state.is(newState.getBlock())) {
+			if (level.getBlockEntity(pos) instanceof SculkReceiverBlockEntity be)
+				Block.popResource(level, pos, new ItemStack(be.getSpeedTier().getItem()));
+		}
+
+		super.onRemove(state, level, pos, newState, isMoving);
+	}
+
+	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new SculkReceiverBlockEntity(pos, state);
 	}
