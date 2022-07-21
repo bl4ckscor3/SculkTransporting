@@ -1,29 +1,29 @@
 {
-	"name": "Speed Modifiers",
+	"name": "book.sculktransporting.speed_modifiers.name",
 	"icon": "sculktransporting:speed_modifier_tier_1",
 	"category": "sculktransporting:default",
 	"sortnum": 5,
 	"pages": [
-		"$(item)Speed Modifiers$() can be inserted into $(l:sculktransporting:sculk_emitter)$(item)Sculk Emitters$() and $(l:sculktransporting:sculk_receiver)$(item)Receivers$(), and they are able to decrease the delay between their respective actions. With one of these modifiers, a $(l:sculktransporting:sculk_emitter)$(item)Sculk Emitter$() will pick up items faster, and a $(l:sculktransporting:sculk_receiver)$(item)Sculk Receiver$() is able to deposit their item faster.$(p)There are $(thing)4 different Speed Modifiers$() with an increasing level of speed boost.",
+		"book.sculktransporting.speed_modifiers.page1",
 		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:speed_modifier_tier_1",
-			"text": "The $(item)Speed Modifier (Tier 1)$() is the most basic speed modifier, and is able to increase the block's speed to $(thing)$(t:15 ticks)3/4 seconds$() per action."
+			"text": "book.sculktransporting.speed_modifiers.page2"
 		},
 		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:speed_modifier_tier_2",
-			"text": "The $(item)Speed Modifier (Tier 2)$() is able to increase the block's speed to $(thing)$(t:10 ticks)1/2 seconds$() per action."
+			"text": "book.sculktransporting.speed_modifiers.page3"
 		},
 		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:speed_modifier_tier_3",
-			"text": "The $(item)Speed Modifier (Tier 3)$() is capable of increasing the block's speed to $(thing)$(t:5 ticks)1/4 seconds$() per action."
+			"text": "book.sculktransporting.speed_modifiers.page4"
 		},
 		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:speed_modifier_tier_4",
-			"text": "The $(item)Speed Modifier (Tier 4)$() is the most advanced speed modifier, allowing the block to remove their delay entirely, making the block's action effectively $(thing)$(t:0 ticks)instant$()."
+			"text": "book.sculktransporting.speed_modifiers.page5"
 		}
 	]
 }

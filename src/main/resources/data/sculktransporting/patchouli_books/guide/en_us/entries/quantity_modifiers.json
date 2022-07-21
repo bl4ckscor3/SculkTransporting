@@ -1,24 +1,24 @@
 {
-	"name": "Quantity Modifiers",
+	"name": "book.sculktransporting.quantity_modifiers.name",
 	"icon": "sculktransporting:quantity_modifier_tier_1",
 	"category": "sculktransporting:default",
 	"sortnum": 4,
 	"pages": [
-		"$(item)Quantity Modifiers$() can be inserted into $(l:sculktransporting:sculk_emitter)$(item)Sculk Emitters$(). They allows their block to pick up and store a greater quantity of items. With one of these modifiers, a $(l:sculktransporting:sculk_emitter)$(item)Sculk Emitter$() is able to pick up more items at once from the container below. $(p)There are $(thing)3 different Quantity Modifiers$() with an increasing level of item capacity bonus.",
+		"book.sculktransporting.quantity_modifiers.page1",
 		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:quantity_modifier_tier_1",
-			"text": "The $(item)Quantity Modifier (Tier 1)$() is the most basic quantity modifier, and is able to increase the block's item capacity to $(thing)4 items$()."
+			"text": "book.sculktransporting.quantity_modifiers.page2"
 		},
 		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:quantity_modifier_tier_2",
-			"text": "The $(item)Quantity Modifier (Tier 2)$() is able to increase the block's item capacity to $(thing)16 items$()."
+			"text": "book.sculktransporting.quantity_modifiers.page3"
 		},
 		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:quantity_modifier_tier_3",
-			"text": "The $(item)Quantity Modifier (Tier 3)$(), being the most advanced quantity modifier, is capable of increasing the block's item capacity to $(thing)64 items$()."
+			"text": "book.sculktransporting.quantity_modifiers.page4"
 		}
 	]
 }
