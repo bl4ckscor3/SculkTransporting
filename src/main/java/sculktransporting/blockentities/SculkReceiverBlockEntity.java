@@ -138,11 +138,6 @@ public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
 	}
 
 	@Override
-	public void handleUpdateTag(CompoundTag tag) {
-		super.handleUpdateTag(tag);
-	}
-
-	@Override
 	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
 		super.onDataPacket(net, pkt);
 		requestModelDataUpdate();

@@ -1,0 +1,10 @@
+{
+	"parent": "sculktransporting:block/template_sculk_emitter",
+	"textures": {
+		"bottom": "sculktransporting:block/sculk_emitter_bottom",
+		"side": "sculktransporting:block/sculk_emitter_side_0",
+		"fins": "sculktransporting:block/sculk_receiver_fins",
+		"top": "minecraft:block/sculk_sensor_bottom",
+		"particle": "sculktransporting:block/sculk_emitter_side_0"
+	}
+}

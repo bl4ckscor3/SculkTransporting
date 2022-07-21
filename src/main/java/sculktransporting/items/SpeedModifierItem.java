@@ -12,7 +12,7 @@ public class SpeedModifierItem extends Item {
 		tier.item = this;
 	}
 
-	public static enum SpeedTier {
+	public static enum SpeedTier implements ModifierTier {
 		ZERO(0),
 		ONE(1),
 		TWO(2),
@@ -26,6 +26,7 @@ public class SpeedModifierItem extends Item {
 			this.value = value;
 		}
 
+		@Override
 		public int getValue() {
 			return value;
 		}

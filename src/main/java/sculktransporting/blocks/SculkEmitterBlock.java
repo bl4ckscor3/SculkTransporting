@@ -34,9 +34,9 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 					boolean modifierAdded = false;
 
 					if (isQuantityModifier)
-						modifierAdded = be.setQuantityModifier(((QuantityModifierItem) heldStack.getItem()).tier);
+						modifierAdded = be.setQuantityTier(((QuantityModifierItem) heldStack.getItem()).tier);
 					else
-						modifierAdded = be.setSpeedModifier(((SpeedModifierItem) heldStack.getItem()).tier);
+						modifierAdded = be.setSpeedTier(((SpeedModifierItem) heldStack.getItem()).tier);
 
 					if (modifierAdded) {
 						if (!player.isCreative())
@@ -46,9 +46,6 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 
 				return InteractionResult.sidedSuccess(level.isClientSide);
 			}
-
-			System.out.println("quantity: " + be.getQuantityModifier());
-			System.out.println("speed: " + be.getSpeedModifier());
 
 			if (player.isShiftKeyDown()) {
 				//TODO: properly handle removal -b

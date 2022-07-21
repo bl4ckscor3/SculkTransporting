@@ -40,7 +40,6 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (level.getBlockEntity(pos) instanceof SculkReceiverBlockEntity be) {
 			ItemStack heldStack = player.getItemInHand(hand);
-			System.out.println(level.isClientSide + "-" + be.getSpeedTier());
 
 			if (heldStack.is(STTags.Items.SPEED_MODIFIERS)) {
 				if (!level.isClientSide && be.setSpeedTier(((SpeedModifierItem) heldStack.getItem()).tier)) {

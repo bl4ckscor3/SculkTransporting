@@ -17,22 +17,32 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.registries.ForgeRegistries;
 import sculktransporting.SculkTransporting;
+import sculktransporting.items.QuantityModifierItem.QuantityTier;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
 import sculktransporting.registration.STBlocks;
 
 @EventBusSubscriber(modid = SculkTransporting.MODID, value = Dist.CLIENT, bus = Bus.MOD)
 public class ClientHandler {
 	public static final ModelProperty<SpeedTier> SPEED_TIER = new ModelProperty<>();
+	public static final ModelProperty<QuantityTier> QUANTITY_TIER = new ModelProperty<>();
 
 	@SubscribeEvent
 	public static void onModelBakingCompleted(ModelEvent.BakingCompleted event) {
 		Block sculkReceiver = STBlocks.SCULK_RECEIVER.get();
+		Block sculkEmitter = STBlocks.SCULK_EMITTER.get();
 
 		for (BlockState state : sculkReceiver.getStateDefinition().getPossibleStates()) {
 			String stateString = state.getValues().entrySet().stream().map(StateHolder.PROPERTY_ENTRY_TO_STRING_FUNCTION).collect(Collectors.joining(","));
 			ModelResourceLocation mrl = new ModelResourceLocation(ForgeRegistries.BLOCKS.getKey(sculkReceiver), stateString);
 
 			event.getModels().put(mrl, new SculkReceiverModel(event.getModels().get(mrl)));
+		}
+
+		for (BlockState state : sculkEmitter.getStateDefinition().getPossibleStates()) {
+			String stateString = state.getValues().entrySet().stream().map(StateHolder.PROPERTY_ENTRY_TO_STRING_FUNCTION).collect(Collectors.joining(","));
+			ModelResourceLocation mrl = new ModelResourceLocation(ForgeRegistries.BLOCKS.getKey(sculkEmitter), stateString);
+
+			event.getModels().put(mrl, new SculkEmitterModel(event.getModels().get(mrl)));
 		}
 	}
 
@@ -43,6 +53,10 @@ public class ClientHandler {
 			event.addSprite(new ResourceLocation(SculkTransporting.MODID, "block/sculk_receiver_side_2"));
 			event.addSprite(new ResourceLocation(SculkTransporting.MODID, "block/sculk_receiver_side_3"));
 			event.addSprite(new ResourceLocation(SculkTransporting.MODID, "block/sculk_receiver_side_4"));
+			event.addSprite(new ResourceLocation(SculkTransporting.MODID, "block/sculk_emitter_side_1"));
+			event.addSprite(new ResourceLocation(SculkTransporting.MODID, "block/sculk_emitter_side_2"));
+			event.addSprite(new ResourceLocation(SculkTransporting.MODID, "block/sculk_emitter_side_3"));
+			event.addSprite(new ResourceLocation(SculkTransporting.MODID, "block/sculk_emitter_side_4"));
 		}
 	}
 }

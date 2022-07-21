@@ -21,9 +21,9 @@ public class ItemModelGenerator extends ItemModelProvider {
 
 	@Override
 	protected void registerModels() {
-		simpleParent(STBlocks.SCULK_EMITTER.get());
+		simpleParent(STBlocks.SCULK_EMITTER.get(), "sculk_emitter_active");
 		simpleParent(STBlocks.SCULK_TRANSMITTER.get(), "sculk_transmitter_active");
-		simpleParent(STBlocks.SCULK_RECEIVER.get(), "sculk_receiver_inactive");
+		simpleParent(STBlocks.SCULK_RECEIVER.get(), "sculk_receiver_active");
 
 		for (RegistryObject<Item> item : STItems.ITEMS.getEntries()) {
 			simpleItem(item.get(), "item/generated");
