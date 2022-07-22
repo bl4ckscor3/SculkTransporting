@@ -1,6 +1,8 @@
 package sculktransporting.blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -50,15 +52,36 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 			}
 
 			if (player.isShiftKeyDown()) {
-				//TODO: properly handle removal -b
-				be.removeQuantityModifier();
-				be.removeSpeedModifier();
-			}
+				Direction clickedFace = hit.getDirection();
 
-			return InteractionResult.sidedSuccess(level.isClientSide);
+				if (clickedFace.getAxis().isHorizontal()) {
+					if (!level.isClientSide) {
+						double hitX = Mth.frac(hit.getLocation().x);
+						double hitZ = Mth.frac(hit.getLocation().z);
+
+						if (clickedFace == Direction.NORTH)
+							removeModifer(be, hitX < 0.5F);
+						else if (clickedFace == Direction.SOUTH)
+							removeModifer(be, hitX >= 0.5F);
+						else if (clickedFace == Direction.EAST)
+							removeModifer(be, hitZ < 0.5F);
+						else if (clickedFace == Direction.WEST)
+							removeModifer(be, hitZ >= 0.5F);
+					}
+
+					return InteractionResult.sidedSuccess(level.isClientSide);
+				}
+			}
 		}
 
 		return InteractionResult.PASS;
+	}
+
+	private void removeModifer(SculkEmitterBlockEntity be, boolean removeQuantityModifier) {
+		if (removeQuantityModifier)
+			be.removeQuantityModifier();
+		else
+			be.removeSpeedModifier();
 	}
 
 	@Override

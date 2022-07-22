@@ -51,10 +51,12 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 				return InteractionResult.sidedSuccess(level.isClientSide);
 			}
 
-			if (!level.isClientSide && player.isShiftKeyDown())
-				be.removeSpeedModifier();
+			if (player.isShiftKeyDown()) {
+				if (!level.isClientSide)
+					be.removeSpeedModifier();
 
-			return InteractionResult.sidedSuccess(level.isClientSide);
+				return InteractionResult.sidedSuccess(level.isClientSide);
+			}
 		}
 
 		return InteractionResult.PASS;
