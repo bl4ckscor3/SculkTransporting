@@ -3,6 +3,9 @@ package sculktransporting.blockentities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -82,4 +85,17 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 
 	@Override
 	public abstract BlockEntityType<?> getType();
+
+	@Override
+	public Packet<ClientGamePacketListener> getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
+	}
+
+	@Override
+	public CompoundTag getUpdateTag() {
+		CompoundTag tag = new CompoundTag();
+
+		saveAdditional(tag);
+		return tag;
+	}
 }

@@ -5,8 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -122,19 +120,6 @@ public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
 	@Override
 	public ModelData getModelData() {
 		return ModelData.builder().with(ClientHandler.SPEED_TIER, speedTier).build();
-	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getUpdatePacket() {
-		return ClientboundBlockEntityDataPacket.create(this);
-	}
-
-	@Override
-	public CompoundTag getUpdateTag() {
-		CompoundTag tag = new CompoundTag();
-
-		saveAdditional(tag);
-		return tag;
 	}
 
 	@Override

@@ -5,8 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -169,19 +167,6 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	@Override
 	public ModelData getModelData() {
 		return ModelData.builder().with(ClientHandler.SPEED_TIER, speedTier).with(ClientHandler.QUANTITY_TIER, quantityTier).build();
-	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getUpdatePacket() {
-		return ClientboundBlockEntityDataPacket.create(this);
-	}
-
-	@Override
-	public CompoundTag getUpdateTag() {
-		CompoundTag tag = new CompoundTag();
-
-		saveAdditional(tag);
-		return tag;
 	}
 
 	@Override
