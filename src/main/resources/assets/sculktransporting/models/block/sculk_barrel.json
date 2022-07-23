@@ -5,6 +5,7 @@
 		"top": "minecraft:block/barrel_top",
 		"side": "minecraft:block/barrel_side",
 		"overlay": "minecraft:block/sculk_vein",
+		"overlayTop": "minecraft:block/sculk_vein",
 		"particle": "minecraft:block/barrel_side"
 	}
 }
