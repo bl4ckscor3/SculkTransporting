@@ -9,6 +9,7 @@ import sculktransporting.registration.STBlockEntityTypes;
 import sculktransporting.registration.STBlocks;
 import sculktransporting.registration.STGameEvents;
 import sculktransporting.registration.STItems;
+import sculktransporting.registration.STParticleTypes;
 
 @Mod(SculkTransporting.MODID)
 public class SculkTransporting {
@@ -27,5 +28,6 @@ public class SculkTransporting {
 		STBlocks.BLOCKS.register(modEventBus);
 		STGameEvents.GAME_EVENTS.register(modEventBus);
 		STItems.ITEMS.register(modEventBus);
+		STParticleTypes.PARTICLE_TYPES.register(modEventBus);
 	}
 }

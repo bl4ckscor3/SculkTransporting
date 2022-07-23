@@ -11,6 +11,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.phys.Vec3;
+import sculktransporting.client.ItemSignalParticleOption;
 import sculktransporting.registration.STBlockEntityTypes;
 import sculktransporting.registration.STGameEvents;
 
@@ -48,6 +49,8 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 				item.setPos(originVec); //set the position of the item entity to the origin of the signal as a marker, so the transmitter doesn't send the item back where it came from
 				item.discard(); //marks this item signal as already scheduled for one receiver, so it doesn't get sent to another one
 			}
+
+			((ServerLevel)level).sendParticles(new ItemSignalParticleOption(getListener().getListenerSource(), getListener().travelTimeInTicks, item.getItem()), originVec.x, originVec.y , originVec.z, (item.getItem().getCount() + 15) / 16 * 5, 0, 0, 0, 0);
 		}
 	}
 
