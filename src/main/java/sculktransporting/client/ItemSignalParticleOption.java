@@ -21,20 +21,27 @@ import net.minecraft.world.level.gameevent.PositionSourceType;
 import sculktransporting.registration.STParticleTypes;
 
 public class ItemSignalParticleOption extends VibrationParticleOption {
-	public static final Codec<ItemSignalParticleOption> CODEC = RecordCodecBuilder.create(k -> k.group(PositionSource.CODEC.fieldOf("destination").forGetter(p -> p.destination), Codec.INT.fieldOf("arrival_in_ticks").forGetter(p -> p.arrivalInTicks), ItemStack.CODEC.fieldOf("stack").forGetter(p -> p.stack)).apply(k, ItemSignalParticleOption::new));
-	public static final ParticleOptions.Deserializer<ItemSignalParticleOption> DESERIALIZER = new ParticleOptions.Deserializer<>() {
+	//@formatter:off
+	public static final Codec<VibrationParticleOption> CODEC = RecordCodecBuilder.create(
+			instance -> instance.group(PositionSource.CODEC.fieldOf("destination")
+				.forGetter(p -> p.destination), Codec.INT.fieldOf("arrival_in_ticks")
+				.forGetter(p -> p.arrivalInTicks), ItemStack.CODEC.fieldOf("stack")
+				.forGetter(p -> ((ItemSignalParticleOption) p).stack))
+			.apply(instance, ItemSignalParticleOption::new));
+	//@formatter:on
+	public static final ParticleOptions.Deserializer<VibrationParticleOption> DESERIALIZER = new ParticleOptions.Deserializer<>() {
 		@Override
-		public ItemSignalParticleOption fromCommand(ParticleType<ItemSignalParticleOption> p_175859_, StringReader reader) throws CommandSyntaxException {
+		public VibrationParticleOption fromCommand(ParticleType<VibrationParticleOption> particleType, StringReader reader) throws CommandSyntaxException {
 			float x, y, z;
 			int arrivalInTicks;
 			ItemParser.ItemResult itemResult;
 
 			reader.expect(' ');
-			x = (float)reader.readDouble();
+			x = (float) reader.readDouble();
 			reader.expect(' ');
-			y = (float)reader.readDouble();
+			y = (float) reader.readDouble();
 			reader.expect(' ');
-			z = (float)reader.readDouble();
+			z = (float) reader.readDouble();
 			reader.expect(' ');
 			arrivalInTicks = reader.readInt();
 			reader.expect(' ');
@@ -47,7 +54,7 @@ public class ItemSignalParticleOption extends VibrationParticleOption {
 		}
 
 		@Override
-		public ItemSignalParticleOption fromNetwork(ParticleType<ItemSignalParticleOption> p_175862_, FriendlyByteBuf buffer) {
+		public VibrationParticleOption fromNetwork(ParticleType<VibrationParticleOption> particleType, FriendlyByteBuf buffer) {
 			PositionSource destination = PositionSourceType.fromNetwork(buffer);
 			int arrivalInTicks = buffer.readVarInt();
 			ItemStack stack = buffer.readItem();
@@ -74,9 +81,8 @@ public class ItemSignalParticleOption extends VibrationParticleOption {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public ParticleType<VibrationParticleOption> getType() {
-		return (ParticleType<VibrationParticleOption>)(Object)STParticleTypes.ITEM_SIGNAL.get(); //Using ParticleType<ItemSignalParticleOption> as a return type would clash with VibrationParticleOption#getType, and we can't let our particle type be a ParticleType<?>, so this is a bit cursed
+		return STParticleTypes.ITEM_SIGNAL.get();
 	}
 
 	public ItemStack getItem() {

@@ -50,7 +50,7 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 				item.discard(); //marks this item signal as already scheduled for one receiver, so it doesn't get sent to another one
 			}
 
-			((ServerLevel)level).sendParticles(new ItemSignalParticleOption(getListener().getListenerSource(), getListener().travelTimeInTicks, item.getItem()), originVec.x, originVec.y , originVec.z, (item.getItem().getCount() + 15) / 16 * 5, 0, 0, 0, 0);
+			((ServerLevel) level).sendParticles(new ItemSignalParticleOption(getListener().getListenerSource(), getListener().travelTimeInTicks, item.getItem()), originVec.x, originVec.y, originVec.z, (item.getItem().getCount() + 15) / 16 * 5, 0, 0, 0, 0);
 		}
 	}
 
