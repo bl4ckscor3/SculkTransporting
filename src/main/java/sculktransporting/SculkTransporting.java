@@ -17,7 +17,7 @@ public class SculkTransporting {
 	public static final CreativeModeTab TAB = new CreativeModeTab(SculkTransporting.MODID) {
 		@Override
 		public ItemStack makeIcon() {
-			return new ItemStack(STBlocks.SCULK_TRANSMITTER.get().asItem()); //TODO: Placeholder -R
+			return new ItemStack(STBlocks.SCULK_EMITTER.get().asItem());
 		}
 	};
 
