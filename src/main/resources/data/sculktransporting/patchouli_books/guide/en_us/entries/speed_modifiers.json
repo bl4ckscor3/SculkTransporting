@@ -2,7 +2,7 @@
 	"name": "book.sculktransporting.speed_modifiers.name",
 	"icon": "sculktransporting:speed_modifier_tier_1",
 	"category": "sculktransporting:default",
-	"sortnum": 5,
+	"sortnum": 6,
 	"pages": [
 		"book.sculktransporting.speed_modifiers.page1",
 		{

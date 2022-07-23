@@ -1,0 +1,19 @@
+{
+	"name": "block.sculktransporting.sculk_barrel",
+	"icon": "sculktransporting:sculk_barrel",
+	"category": "sculktransporting:default",
+	"sortnum": 2,
+	"pages": [
+		{
+			"type": "spotlight",
+			"item": "sculktransporting:sculk_barrel",
+			"text": "book.sculktransporting.sculk_barrel.page1"
+		},
+		{
+			"type": "patchouli:crafting",
+			"recipe": "sculktransporting:sculk_barrel",
+			"title": "book.sculktransporting.crafting",
+			"text": "book.sculktransporting.sculk_barrel.page2"
+		}
+	]
+}

@@ -2,7 +2,7 @@
 	"name": "block.sculktransporting.sculk_receiver",
 	"icon": "sculktransporting:sculk_receiver",
 	"category": "sculktransporting:default",
-	"sortnum": 2,
+	"sortnum": 3,
 	"pages": [
 		{
 			"type": "spotlight",

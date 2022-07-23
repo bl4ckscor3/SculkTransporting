@@ -2,7 +2,7 @@
 	"name": "book.sculktransporting.quantity_modifiers.name",
 	"icon": "sculktransporting:quantity_modifier_tier_1",
 	"category": "sculktransporting:default",
-	"sortnum": 4,
+	"sortnum": 5,
 	"pages": [
 		"book.sculktransporting.quantity_modifiers.page1",
 		{

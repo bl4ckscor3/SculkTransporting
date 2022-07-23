@@ -17,38 +17,43 @@
 		},
 		{
 			"type": "patchouli:spotlight",
-			"item": "minecraft:sculk_sensor",
+			"item": "minecraft:sculk_vein",
 			"text": "book.sculktransporting.gathering_resources.page4"
 		},
 		{
-			"type": "patchouli:text",
-			"title": "book.sculktransporting.gathering_resources.page5.title",
+			"type": "patchouli:spotlight",
+			"item": "minecraft:sculk_sensor",
 			"text": "book.sculktransporting.gathering_resources.page5"
 		},
 		{
-			"type": "patchouli:spotlight",
-			"item": "minecraft:tuff",
+			"type": "patchouli:text",
+			"title": "book.sculktransporting.gathering_resources.page6.title",
 			"text": "book.sculktransporting.gathering_resources.page6"
 		},
 		{
 			"type": "patchouli:spotlight",
-			"item": "minecraft:smooth_basalt",
+			"item": "minecraft:tuff",
 			"text": "book.sculktransporting.gathering_resources.page7"
 		},
 		{
 			"type": "patchouli:spotlight",
-			"item": "minecraft:raw_iron_block",
+			"item": "minecraft:smooth_basalt",
 			"text": "book.sculktransporting.gathering_resources.page8"
 		},
 		{
 			"type": "patchouli:spotlight",
-			"item": "minecraft:sculk_catalyst",
+			"item": "minecraft:raw_iron_block",
 			"text": "book.sculktransporting.gathering_resources.page9"
 		},
 		{
 			"type": "patchouli:spotlight",
-			"item": "minecraft:echo_shard",
+			"item": "minecraft:sculk_catalyst",
 			"text": "book.sculktransporting.gathering_resources.page10"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "minecraft:echo_shard",
+			"text": "book.sculktransporting.gathering_resources.page11"
 		}
 	]
 }

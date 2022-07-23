@@ -2,7 +2,7 @@
 	"name": "block.sculktransporting.sculk_transmitter",
 	"icon": "sculktransporting:sculk_transmitter",
 	"category": "sculktransporting:default",
-	"sortnum": 3,
+	"sortnum": 4,
 	"pages": [
 		{
 			"type": "spotlight",
