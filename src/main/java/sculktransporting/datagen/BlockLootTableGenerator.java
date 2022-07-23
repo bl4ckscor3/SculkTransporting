@@ -15,6 +15,8 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.CopyNameFunction;
+import net.minecraft.world.level.storage.loot.functions.CopyNameFunction.NameSource;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -33,6 +35,15 @@ public class BlockLootTableGenerator implements DataProvider {
 		putStandardBlockLootTable(STBlocks.SCULK_EMITTER);
 		putStandardBlockLootTable(STBlocks.SCULK_TRANSMITTER);
 		putStandardBlockLootTable(STBlocks.SCULK_RECEIVER);
+		//@formatter:off
+		lootTables.put(STBlocks.SCULK_BARREL,
+				LootTable.lootTable()
+				.withPool(LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1))
+						.add(LootItem.lootTableItem(STBlocks.SCULK_BARREL.get())
+								.apply(CopyNameFunction.copyName(NameSource.BLOCK_ENTITY)))
+						.when(ExplosionCondition.survivesExplosion())));
+		//@formatter:on
 	}
 
 	protected final void putStandardBlockLootTable(Supplier<Block> block) {

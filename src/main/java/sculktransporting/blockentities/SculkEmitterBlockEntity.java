@@ -26,6 +26,7 @@ import sculktransporting.client.ClientHandler;
 import sculktransporting.items.QuantityModifierItem.QuantityTier;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
 import sculktransporting.registration.STBlockEntityTypes;
+import sculktransporting.registration.STBlocks;
 
 public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity {
 	private BlockState lastKnownStateBelow;
@@ -41,7 +42,7 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 		if (level.getGameTime() % 5 == 0 && be.inventoryBelow == null) {
 			BlockEntity beBelow = level.getBlockEntity(pos.below());
 
-			if (beBelow != null)
+			if (beBelow != null && beBelow.getBlockState().is(STBlocks.SCULK_BARREL.get()))
 				be.inventoryBelow = beBelow.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP);
 			else
 				be.inventoryBelow = LazyOptional.empty();

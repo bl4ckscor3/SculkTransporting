@@ -2,6 +2,7 @@
 	"block.sculktransporting.sculk_emitter": "Sculk Emitter",
 	"block.sculktransporting.sculk_transmitter": "Sculk Transmitter",
 	"block.sculktransporting.sculk_receiver": "Sculk Receiver",
+	"block.sculktransporting.sculk_barrel": "Sculk Barrel",
 	"item.sculktransporting.quantity_modifier_tier_1": "Quantity Modifier (Tier 1)",
 	"item.sculktransporting.quantity_modifier_tier_2": "Quantity Modifier (Tier 2)",
 	"item.sculktransporting.quantity_modifier_tier_3": "Quantity Modifier (Tier 3)",

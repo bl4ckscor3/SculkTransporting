@@ -49,6 +49,15 @@ public class RecipeGenerator extends RecipeProvider {
 				.define('H', Blocks.HOPPER)
 				.unlockedBy("has_sculk_sensor", has(Blocks.SCULK_SENSOR))
 				.save(consumer);
+		ShapedRecipeBuilder.shaped(STBlocks.SCULK_BARREL.get())
+				.pattern(" S ")
+				.pattern("SBS")
+				.pattern(" S ")
+				.define('S', Blocks.SCULK_VEIN)
+				.define('B', Blocks.BARREL)
+				.unlockedBy("has_barrel", has(Blocks.BARREL))
+				.save(consumer);
+		//@formatter:on
 
 		addQuantityModifierRecipe(consumer, Items.ITEM_FRAME, Blocks.SCULK, STItems.QUANTITY_MODIFIER_TIER_1.get());
 		addQuantityModifierRecipe(consumer, STItems.QUANTITY_MODIFIER_TIER_1.get(), Blocks.SCULK_CATALYST, STItems.QUANTITY_MODIFIER_TIER_2.get());
@@ -57,7 +66,6 @@ public class RecipeGenerator extends RecipeProvider {
 		addSpeedModifierRecipe(consumer, STItems.SPEED_MODIFIER_TIER_1.get(), Blocks.RAW_IRON_BLOCK, STItems.SPEED_MODIFIER_TIER_2.get());
 		addSpeedModifierRecipe(consumer, STItems.SPEED_MODIFIER_TIER_2.get(), Blocks.SCULK_CATALYST, STItems.SPEED_MODIFIER_TIER_3.get());
 		addSpeedModifierRecipe(consumer, STItems.SPEED_MODIFIER_TIER_3.get(), Items.ECHO_SHARD, STItems.SPEED_MODIFIER_TIER_4.get());
-		//@formatter:on
 	}
 
 	protected final void addQuantityModifierRecipe(Consumer<FinishedRecipe> consumer, ItemLike previous, ItemLike material, ItemLike result) {

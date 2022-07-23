@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "minecraft:barrel"
+    },
+    "S": {
+      "item": "minecraft:sculk_vein"
+    }
+  },
+  "pattern": [
+    " S ",
+    "SBS",
+    " S "
+  ],
+  "result": {
+    "item": "sculktransporting:sculk_barrel"
+  }
+}
