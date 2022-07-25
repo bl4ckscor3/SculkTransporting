@@ -12,7 +12,7 @@
 	"item.sculktransporting.speed_modifier_tier_4": "Speed Modifier (Tier 4)",
 	"itemGroup.sculktransporting": "Sculk Transporting",
 	"book.sculktransporting.subtitle": "by Redstone_Dubstep, bl4ck",
-	"book.sculktransporting.landing_text": "In this guide you will learn all you need to know about transporting items using the mysterious power of sculk.",
+	"book.sculktransporting.landing_text": "In this guide you will learn all you need to know about setting up a sculk transporting system so you can transport items using the mysterious power of sculk.",
 	"book.sculktransporting.gathering_resources.title": "Gathering Resources",
 	"book.sculktransporting.gathering_resources.page1": "Setting up a basic sculk transporting system is relatively cheap and requires only few materials such as $(item)iron$(), $(item)gold$() or $(item)redstone$(). However, it also requires some materials that can only be found in the $(thing)Deep Dark$() underground biome, which generates uncommonly near the bottom of the world.",
 	"book.sculktransporting.gathering_resources.page2": "$(item)Deepslate$() can be found anywhere in the world below height 0. It can be obtained with any pickaxe and can be crafted into $(item)Deepslate Bricks$() using a $(thing)Crafting Table$() or a $(thing)Stonecutter$().",
