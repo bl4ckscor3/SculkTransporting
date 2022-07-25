@@ -18,7 +18,7 @@ import sculktransporting.blockentities.BaseSculkItemTransporterBlockEntity;
 
 public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 	public BaseSculkItemTransporterBlock(Properties properties) {
-		super(properties, 8); //maybe make range configurable? -R
+		super(properties, 8);
 	}
 
 	@Override

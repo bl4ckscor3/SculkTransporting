@@ -1,10 +1,13 @@
 {
-	"name": "book.sculktransporting.gathering_resources.name",
+	"name": "book.sculktransporting.gathering_resources.title",
 	"icon": "minecraft:deepslate_bricks",
 	"category": "sculktransporting:default",
 	"sortnum": 0,
 	"pages": [
-		"book.sculktransporting.gathering_resources.page1",
+		{ 
+			"type": "text",
+			"text": "book.sculktransporting.gathering_resources.page1"
+		},
 		{
 			"type": "patchouli:spotlight",
 			"item": "minecraft:deepslate_bricks",

@@ -12,8 +12,8 @@
 		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:sculk_transmitter",
-			"title": "book.sculktransporting.crafting",
-			"text": "book.sculktransporting.sculk_transmitter.page2"
+			"title": "book.sculktransporting.recipe",
+			"text": "book.sculktransporting.sculk_transmitter.crafting"
 		}
 	]
 }

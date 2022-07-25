@@ -1,29 +1,48 @@
 {
-	"name": "book.sculktransporting.speed_modifiers.name",
+	"name": "book.sculktransporting.speed_modifiers.title",
 	"icon": "sculktransporting:speed_modifier_tier_1",
 	"category": "sculktransporting:default",
 	"sortnum": 6,
 	"pages": [
-		"book.sculktransporting.speed_modifiers.page1",
 		{
-			"type": "patchouli:crafting",
-			"recipe": "sculktransporting:speed_modifier_tier_1",
+			"type": "text",
+			"text": "book.sculktransporting.speed_modifiers.page1"
+		},
+		{
+			"type": "text",
 			"text": "book.sculktransporting.speed_modifiers.page2"
 		},
 		{
 			"type": "patchouli:crafting",
+			"recipe": "sculktransporting:speed_modifier_tier_1",
+			"text": "book.sculktransporting.speed_modifiers.crafting1"
+		},
+		{
+			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:speed_modifier_tier_2",
-			"text": "book.sculktransporting.speed_modifiers.page3"
+			"text": "book.sculktransporting.speed_modifiers.crafting2"
 		},
 		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:speed_modifier_tier_3",
-			"text": "book.sculktransporting.speed_modifiers.page4"
+			"text": "book.sculktransporting.speed_modifiers.crafting3"
 		},
 		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:speed_modifier_tier_4",
-			"text": "book.sculktransporting.speed_modifiers.page5"
+			"text": "book.sculktransporting.speed_modifiers.crafting4"
+		},
+		{
+			"type": "text",
+			"text": "book.sculktransporting.speed_modifiers.page2"
+		},
+		{
+			"type": "image",
+			"images": [
+				"sculktransporting:/textures/gui/book/fully_modified_sculk_receiver.png"
+			],
+			"border": true,
+			"text": "book.sculktransporting.speed_modifiers.image"
 		}
 	]
 }

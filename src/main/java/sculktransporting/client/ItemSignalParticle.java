@@ -26,11 +26,11 @@ public class ItemSignalParticle extends BreakingItemParticle {
 
 	@Override
 	public void tick() { //mostly copied from VibrationSignalParticle#tick
-		this.xo = x;
-		this.yo = y;
-		this.zo = z;
+		xo = x;
+		yo = y;
+		zo = z;
 
-		if (this.age++ >= lifetime)
+		if (age++ >= lifetime)
 			remove();
 		else {
 			Optional<Vec3> optional = target.getPosition(level);

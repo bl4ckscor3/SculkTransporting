@@ -1,24 +1,39 @@
 {
-	"name": "book.sculktransporting.quantity_modifiers.name",
+	"name": "book.sculktransporting.quantity_modifiers.title",
 	"icon": "sculktransporting:quantity_modifier_tier_1",
 	"category": "sculktransporting:default",
 	"sortnum": 5,
 	"pages": [
-		"book.sculktransporting.quantity_modifiers.page1",
+		{
+			"type": "text",
+			"text": "book.sculktransporting.quantity_modifiers.page1"
+		},
 		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:quantity_modifier_tier_1",
-			"text": "book.sculktransporting.quantity_modifiers.page2"
+			"text": "book.sculktransporting.quantity_modifiers.crafting1"
 		},
 		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:quantity_modifier_tier_2",
-			"text": "book.sculktransporting.quantity_modifiers.page3"
+			"text": "book.sculktransporting.quantity_modifiers.crafting2"
 		},
 		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:quantity_modifier_tier_3",
-			"text": "book.sculktransporting.quantity_modifiers.page4"
+			"text": "book.sculktransporting.quantity_modifiers.crafting3"
+		},
+		{
+			"type": "text",
+			"text": "book.sculktransporting.quantity_modifiers.page2"
+		},
+		{
+			"type": "image",
+			"images": [
+				"sculktransporting:/textures/gui/book/partly_modified_sculk_emitter.png"
+			],
+			"border": true,
+			"text": "book.sculktransporting.quantity_modifiers.image"
 		}
 	]
 }
