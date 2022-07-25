@@ -19,5 +19,6 @@ build
 .gradle
 
 # other
+logs
 run
 src/generated/resources/.cache/*

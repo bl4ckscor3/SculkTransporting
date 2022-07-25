@@ -10,10 +10,14 @@
 			"text": "book.sculktransporting.sculk_emitter.page1"
 		},
 		{
+			"type": "text",
+			"text": "book.sculktransporting.sculk_emitter.page2"
+		},
+		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:sculk_emitter",
 			"title": "book.sculktransporting.recipe",
-			"text": "book.sculktransporting.sculk_emitter.page2"
+			"text": "book.sculktransporting.sculk_emitter.crafting"
 		}
 	]
 }

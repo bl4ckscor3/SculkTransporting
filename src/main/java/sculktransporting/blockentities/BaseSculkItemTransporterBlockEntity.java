@@ -28,8 +28,10 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 		be.getListener().tick(level);
 
 		if (!be.storedItemSignal.isEmpty()) {
-			if (be.cachedItemEntity == null)
+			if (be.cachedItemEntity == null) {
+				be.level.updateNeighborsAt(pos, state.getBlock());
 				be.cachedItemEntity = new ItemEntity(level, be.signalOrigin.getX(), be.signalOrigin.getY(), be.signalOrigin.getZ(), be.storedItemSignal);
+			}
 
 			if (be.shouldPerformAction(level))
 				level.gameEvent(be.cachedItemEntity, STGameEvents.ITEM_TRANSMITTABLE.get(), pos);
@@ -71,6 +73,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 		if (itemSignal == null) {
 			storedItemSignal = ItemStack.EMPTY;
 			signalOrigin = null;
+			level.updateNeighborsAt(worldPosition, getBlockState().getBlock());
 		}
 		else {
 			if (storedItemSignal.isEmpty())

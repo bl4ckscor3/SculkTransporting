@@ -17,6 +17,8 @@ import net.minecraft.world.level.block.state.properties.SculkSensorPhase;
 import sculktransporting.blockentities.BaseSculkItemTransporterBlockEntity;
 
 public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
+	private static final float CONVERSION_FACTOR = 14.0F / 63.0F;
+
 	public BaseSculkItemTransporterBlock(Properties properties) {
 		super(properties, 8);
 	}
@@ -66,7 +68,10 @@ public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 
 	@Override
 	public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
-		return 0; //TODO: maybe comparator output signal should be how many items the block is currently holding? -R
+		if (level.getBlockEntity(pos) instanceof BaseSculkItemTransporterBlockEntity be && be.hasStoredItemSignal())
+			return (int) (1 + Math.floor(CONVERSION_FACTOR * (be.getStoredItemSignal().getCount() - 1))); //mapping 1 to 64 items onto 1 to 15 power output
+
+		return 0;
 	}
 
 	@Override
