@@ -22,11 +22,11 @@ import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import sculktransporting.STTags;
 import sculktransporting.client.ClientHandler;
 import sculktransporting.items.QuantityModifierItem.QuantityTier;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
 import sculktransporting.registration.STBlockEntityTypes;
-import sculktransporting.registration.STBlocks;
 
 public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity {
 	private BlockState lastKnownStateBelow;
@@ -42,7 +42,7 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 		if (level.getGameTime() % 5 == 0 && be.inventoryBelow == null) {
 			BlockEntity beBelow = level.getBlockEntity(pos.below());
 
-			if (beBelow != null && beBelow.getBlockState().is(STBlocks.SCULK_BARREL.get()))
+			if (beBelow != null && beBelow.getBlockState().is(STTags.Blocks.SCULK_EMITTER_CAN_EXTRACT_FROM))
 				be.inventoryBelow = beBelow.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP);
 			else
 				be.inventoryBelow = LazyOptional.empty();
