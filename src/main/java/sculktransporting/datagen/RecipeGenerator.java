@@ -10,6 +10,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 import sculktransporting.SculkTransporting;
 import sculktransporting.registration.STBlocks;
 import sculktransporting.registration.STItems;
@@ -61,39 +62,59 @@ public class RecipeGenerator extends RecipeProvider {
 
 		addQuantityModifierRecipe(consumer, Items.ITEM_FRAME, Blocks.SCULK, STItems.QUANTITY_MODIFIER_TIER_1.get());
 		addQuantityModifierRecipe(consumer, STItems.QUANTITY_MODIFIER_TIER_1.get(), Blocks.SCULK_CATALYST, STItems.QUANTITY_MODIFIER_TIER_2.get());
-		addQuantityModifierRecipe(consumer, STItems.QUANTITY_MODIFIER_TIER_2.get(), Items.ECHO_SHARD, STItems.QUANTITY_MODIFIER_TIER_3.get());
+		addModifierRecipe(consumer, STItems.QUANTITY_MODIFIER_TIER_2.get(), Blocks.SMOOTH_BASALT, Items.ECHO_SHARD, Items.SCULK_SHRIEKER, STItems.QUANTITY_MODIFIER_TIER_3.get());
 		addSpeedModifierRecipe(consumer, Items.ITEM_FRAME, Blocks.SCULK, STItems.SPEED_MODIFIER_TIER_1.get());
 		addSpeedModifierRecipe(consumer, STItems.SPEED_MODIFIER_TIER_1.get(), Blocks.RAW_IRON_BLOCK, STItems.SPEED_MODIFIER_TIER_2.get());
 		addSpeedModifierRecipe(consumer, STItems.SPEED_MODIFIER_TIER_2.get(), Blocks.SCULK_CATALYST, STItems.SPEED_MODIFIER_TIER_3.get());
-		addSpeedModifierRecipe(consumer, STItems.SPEED_MODIFIER_TIER_3.get(), Items.ECHO_SHARD, STItems.SPEED_MODIFIER_TIER_4.get());
+		addModifierRecipe(consumer, STItems.SPEED_MODIFIER_TIER_3.get(), Blocks.TUFF, Items.ECHO_SHARD, Items.SCULK_SHRIEKER, STItems.SPEED_MODIFIER_TIER_4.get());
 	}
 
 	protected final void addQuantityModifierRecipe(Consumer<FinishedRecipe> consumer, ItemLike previous, ItemLike material, ItemLike result) {
-		//@formatter:off
-		ShapedRecipeBuilder.shaped(result)
-				.pattern("BMB")
-				.pattern("MPM")
-				.pattern("BMB")
-				.define('B', Blocks.SMOOTH_BASALT)
-				.define('M', material)
-				.define('P', previous)
-				.unlockedBy("has_previous", has(previous))
-				.save(consumer);
-		//@formatter:on
+		addModifierRecipe(consumer, previous, Blocks.SMOOTH_BASALT, material, null, result);
 	}
 
 	protected final void addSpeedModifierRecipe(Consumer<FinishedRecipe> consumer, ItemLike previous, ItemLike material, ItemLike result) {
-		//@formatter:off
-		ShapedRecipeBuilder.shaped(result)
-				.pattern("TMT")
-				.pattern("MPM")
-				.pattern("TMT")
-				.define('T', Blocks.TUFF)
-				.define('M', material)
-				.define('P', previous)
-				.unlockedBy("has_previous", has(previous))
-				.save(consumer);
-		//@formatter:on
+		addModifierRecipe(consumer, previous, Blocks.TUFF, material, null, result);
+	}
+
+	protected final void addModifierRecipe(Consumer<FinishedRecipe> consumer, ItemLike previous, ItemLike frameMaterial, ItemLike material1, ItemLike material2, ItemLike result) {
+		if (material2 == null) {
+			//@formatter:off
+			ShapedRecipeBuilder.shaped(result)
+					.pattern("FMF")
+					.pattern("MPM")
+					.pattern("FMF")
+					.define('F', frameMaterial)
+					.define('M', material1)
+					.define('P', previous)
+					.unlockedBy("has_previous", has(previous))
+					.save(consumer);
+			//@formatter:on
+		}
+		else {
+			//@formatter:off
+			ShapedRecipeBuilder.shaped(result)
+					.pattern("FMF")
+					.pattern("NPN")
+					.pattern("FMF")
+					.define('F', frameMaterial)
+					.define('M', material1)
+					.define('N', material2)
+					.define('P', previous)
+					.unlockedBy("has_previous", has(previous))
+					.save(consumer);
+			ShapedRecipeBuilder.shaped(result)
+					.pattern("FNF")
+					.pattern("MPM")
+					.pattern("FNF")
+					.define('F', frameMaterial)
+					.define('M', material1)
+					.define('N', material2)
+					.define('P', previous)
+					.unlockedBy("has_previous", has(previous))
+					.save(consumer, ForgeRegistries.ITEMS.getKey(result.asItem()) + "_alt");
+			//@formatter:on
+		}
 	}
 
 	@Override

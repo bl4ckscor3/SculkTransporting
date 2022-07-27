@@ -1,20 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
   "key": {
-    "B": {
+    "F": {
       "item": "minecraft:smooth_basalt"
     },
     "M": {
       "item": "minecraft:echo_shard"
+    },
+    "N": {
+      "item": "minecraft:sculk_shrieker"
     },
     "P": {
       "item": "sculktransporting:quantity_modifier_tier_2"
     }
   },
   "pattern": [
-    "BMB",
-    "MPM",
-    "BMB"
+    "FMF",
+    "NPN",
+    "FMF"
   ],
   "result": {
     "item": "sculktransporting:quantity_modifier_tier_3"

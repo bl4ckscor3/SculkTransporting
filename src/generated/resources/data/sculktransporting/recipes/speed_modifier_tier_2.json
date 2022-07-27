@@ -1,20 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
   "key": {
+    "F": {
+      "item": "minecraft:tuff"
+    },
     "M": {
       "item": "minecraft:raw_iron_block"
     },
     "P": {
       "item": "sculktransporting:speed_modifier_tier_1"
-    },
-    "T": {
-      "item": "minecraft:tuff"
     }
   },
   "pattern": [
-    "TMT",
+    "FMF",
     "MPM",
-    "TMT"
+    "FMF"
   ],
   "result": {
     "item": "sculktransporting:speed_modifier_tier_2"

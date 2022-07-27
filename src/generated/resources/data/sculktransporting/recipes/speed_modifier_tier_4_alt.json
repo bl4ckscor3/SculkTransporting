@@ -15,9 +15,9 @@
     }
   },
   "pattern": [
-    "FMF",
-    "NPN",
-    "FMF"
+    "FNF",
+    "MPM",
+    "FNF"
   ],
   "result": {
     "item": "sculktransporting:speed_modifier_tier_4"
