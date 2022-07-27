@@ -55,8 +55,13 @@
 		},
 		{
 			"type": "patchouli:spotlight",
-			"item": "minecraft:echo_shard",
+			"item": "minecraft:sculk_shrieker",
 			"text": "book.sculktransporting.gathering_resources.page11"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "minecraft:echo_shard",
+			"text": "book.sculktransporting.gathering_resources.page12"
 		}
 	]
 }
