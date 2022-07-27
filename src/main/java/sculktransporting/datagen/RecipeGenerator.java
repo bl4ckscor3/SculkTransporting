@@ -6,6 +6,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
@@ -92,8 +93,11 @@ public class RecipeGenerator extends RecipeProvider {
 			//@formatter:on
 		}
 		else {
+			ResourceLocation resultName = ForgeRegistries.ITEMS.getKey(result.asItem());
+
 			//@formatter:off
 			ShapedRecipeBuilder.shaped(result)
+					.group(resultName.getPath())
 					.pattern("FMF")
 					.pattern("NPN")
 					.pattern("FMF")
@@ -104,6 +108,7 @@ public class RecipeGenerator extends RecipeProvider {
 					.unlockedBy("has_previous", has(previous))
 					.save(consumer);
 			ShapedRecipeBuilder.shaped(result)
+					.group(resultName.getPath())
 					.pattern("FNF")
 					.pattern("MPM")
 					.pattern("FNF")
@@ -112,7 +117,7 @@ public class RecipeGenerator extends RecipeProvider {
 					.define('N', material2)
 					.define('P', previous)
 					.unlockedBy("has_previous", has(previous))
-					.save(consumer, ForgeRegistries.ITEMS.getKey(result.asItem()) + "_alt");
+					.save(consumer, resultName + "_alt");
 			//@formatter:on
 		}
 	}

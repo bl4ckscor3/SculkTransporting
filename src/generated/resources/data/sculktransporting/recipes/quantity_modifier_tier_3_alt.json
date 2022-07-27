@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "group": "quantity_modifier_tier_3",
   "key": {
     "F": {
       "item": "minecraft:smooth_basalt"
