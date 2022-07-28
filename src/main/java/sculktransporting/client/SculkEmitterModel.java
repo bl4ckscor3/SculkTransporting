@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
@@ -33,7 +35,7 @@ import sculktransporting.items.SpeedModifierItem.SpeedTier;
 public class SculkEmitterModel implements IDynamicBakedModel {
 	private static final FaceBakery FACE_BAKERY = new FaceBakery();
 	private BakedModel originalModel;
-	private Map<CacheKey, List<BakedQuad>> quadCache = new HashMap<>();
+	private Map<Pair<SpeedTier, QuantityTier>, List<BakedQuad>> quadCache = new HashMap<>();
 
 	public SculkEmitterModel(BakedModel originalModel) {
 		this.originalModel = originalModel;
@@ -46,7 +48,7 @@ public class SculkEmitterModel implements IDynamicBakedModel {
 			QuantityTier quantityTier = data.get(ClientHandler.QUANTITY_TIER);
 
 			if (speedTier != null && quantityTier != null) {
-				return quadCache.computeIfAbsent(new CacheKey(speedTier, quantityTier), k -> {
+				return quadCache.computeIfAbsent(Pair.of(speedTier, quantityTier), k -> {
 					List<BakedQuad> originalQuads = originalModel.getQuads(state, side, rand, data, renderType);
 
 					for (int i = 0; i < originalQuads.size(); i++) {
@@ -140,6 +142,4 @@ public class SculkEmitterModel implements IDynamicBakedModel {
 	public ItemOverrides getOverrides() {
 		return originalModel.getOverrides();
 	}
-
-	private static record CacheKey(SpeedTier speedTier, QuantityTier quantityTier) {}
 }
