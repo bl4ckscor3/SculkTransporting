@@ -1,6 +1,9 @@
 package sculktransporting.client;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.mojang.math.Vector3f;
 
@@ -28,6 +31,7 @@ import sculktransporting.items.SpeedModifierItem.SpeedTier;
 public class SculkReceiverModel implements IDynamicBakedModel {
 	private static final FaceBakery FACE_BAKERY = new FaceBakery();
 	private BakedModel originalModel;
+	private Map<SpeedTier, List<BakedQuad>> quadCache = new HashMap<>();
 
 	public SculkReceiverModel(BakedModel originalModel) {
 		this.originalModel = originalModel;
@@ -35,27 +39,35 @@ public class SculkReceiverModel implements IDynamicBakedModel {
 
 	@Override
 	public List<BakedQuad> getQuads(BlockState state, Direction side, RandomSource rand, ModelData data, RenderType renderType) {
-		List<BakedQuad> quads = originalModel.getQuads(state, side, rand, data, renderType);
-		SpeedTier speedTier = data.get(ClientHandler.SPEED_TIER);
+		if (side == null) {
+			SpeedTier speedTier = data.get(ClientHandler.SPEED_TIER);
 
-		if (speedTier != null) {
-			for (int i = 0; i < quads.size(); i++) {
-				BakedQuad quad = quads.get(i);
+			if (speedTier != null) {
+				return quadCache.computeIfAbsent(speedTier, k -> {
+					List<BakedQuad> originalQuads = originalModel.getQuads(state, side, rand, data, renderType);
 
-				if (quad.getTintIndex() == 0) {
-					if (quad.getDirection() == Direction.NORTH)
-						quads.set(i, bakeQuad(new Vector3f(0.0F, 3.0F, 0.0F), new Vector3f(16.0F, 8.0F, 0.0F), speedTier, quad));
-					else if (quad.getDirection() == Direction.EAST)
-						quads.set(i, bakeQuad(new Vector3f(16.0F, 3.0F, 0.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
-					else if (quad.getDirection() == Direction.SOUTH)
-						quads.set(i, bakeQuad(new Vector3f(0.0F, 3.0F, 16.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
-					else if (quad.getDirection() == Direction.WEST)
-						quads.set(i, bakeQuad(new Vector3f(0.0F, 3.0F, 0.0F), new Vector3f(0.0F, 8.0F, 16.0F), speedTier, quad));
-				}
+					for (int i = 0; i < originalQuads.size(); i++) {
+						BakedQuad quad = originalQuads.get(i);
+
+						if (quad.getTintIndex() == 0) {
+							Direction quadDirection = quad.getDirection();
+
+							if (quadDirection == Direction.NORTH)
+								originalQuads.set(i, bakeQuad(new Vector3f(0.0F, 3.0F, 0.0F), new Vector3f(16.0F, 8.0F, 0.0F), speedTier, quad));
+							else if (quadDirection == Direction.EAST)
+								originalQuads.set(i, bakeQuad(new Vector3f(16.0F, 3.0F, 0.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
+							else if (quadDirection == Direction.SOUTH)
+								originalQuads.set(i, bakeQuad(new Vector3f(0.0F, 3.0F, 16.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
+							else if (quadDirection == Direction.WEST)
+								originalQuads.set(i, bakeQuad(new Vector3f(0.0F, 3.0F, 0.0F), new Vector3f(0.0F, 8.0F, 16.0F), speedTier, quad));
+						}
+					}
+					return new ArrayList<>(originalQuads);
+				});
 			}
 		}
 
-		return quads;
+		return originalModel.getQuads(state, side, rand, data, renderType);
 	}
 
 	private BakedQuad bakeQuad(Vector3f from, Vector3f to, SpeedTier speedTier, BakedQuad originalQuad) {

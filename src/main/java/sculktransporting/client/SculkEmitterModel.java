@@ -1,6 +1,9 @@
 package sculktransporting.client;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.mojang.math.Vector3f;
 
@@ -30,6 +33,7 @@ import sculktransporting.items.SpeedModifierItem.SpeedTier;
 public class SculkEmitterModel implements IDynamicBakedModel {
 	private static final FaceBakery FACE_BAKERY = new FaceBakery();
 	private BakedModel originalModel;
+	private Map<CacheKey, List<BakedQuad>> quadCache = new HashMap<>();
 
 	public SculkEmitterModel(BakedModel originalModel) {
 		this.originalModel = originalModel;
@@ -37,46 +41,53 @@ public class SculkEmitterModel implements IDynamicBakedModel {
 
 	@Override
 	public List<BakedQuad> getQuads(BlockState state, Direction side, RandomSource rand, ModelData data, RenderType renderType) {
-		List<BakedQuad> quads = originalModel.getQuads(state, side, rand, data, renderType);
-		SpeedTier speedTier = data.get(ClientHandler.SPEED_TIER);
-		QuantityTier quantityTier = data.get(ClientHandler.QUANTITY_TIER);
+		if (side == null) {
+			SpeedTier speedTier = data.get(ClientHandler.SPEED_TIER);
+			QuantityTier quantityTier = data.get(ClientHandler.QUANTITY_TIER);
 
-		if (speedTier != null && quantityTier != null) {
-			for (int i = 0; i < quads.size(); i++) {
-				BakedQuad quad = quads.get(i);
+			if (speedTier != null && quantityTier != null) {
+				return quadCache.computeIfAbsent(new CacheKey(speedTier, quantityTier), k -> {
+					List<BakedQuad> originalQuads = originalModel.getQuads(state, side, rand, data, renderType);
 
-				if (quad.isTinted()) {
-					int tintIndex = quad.getTintIndex();
+					for (int i = 0; i < originalQuads.size(); i++) {
+						BakedQuad quad = originalQuads.get(i);
 
-					if (quad.getDirection() == Direction.NORTH) {
-						if (tintIndex == 0)
-							quads.set(i, bakeLeftQuad(new Vector3f(8.0F, 0.0F, 0.0F), new Vector3f(16.0F, 8.0F, 0.0F), speedTier, quad));
-						else if (tintIndex == 1)
-							quads.set(i, bakeRightQuad(new Vector3f(0.0F, 0.0F, 0.0F), new Vector3f(8.0F, 8.0F, 0.0F), quantityTier, quad));
+						if (quad.isTinted()) {
+							int tintIndex = quad.getTintIndex();
+
+							if (quad.getDirection() == Direction.NORTH) {
+								if (tintIndex == 0)
+									originalQuads.set(i, bakeLeftQuad(new Vector3f(8.0F, 0.0F, 0.0F), new Vector3f(16.0F, 8.0F, 0.0F), speedTier, quad));
+								else if (tintIndex == 1)
+									originalQuads.set(i, bakeRightQuad(new Vector3f(0.0F, 0.0F, 0.0F), new Vector3f(8.0F, 8.0F, 0.0F), quantityTier, quad));
+							}
+							else if (quad.getDirection() == Direction.EAST) {
+								if (tintIndex == 0)
+									originalQuads.set(i, bakeLeftQuad(new Vector3f(16.0F, 0.0F, 8.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
+								else if (tintIndex == 1)
+									originalQuads.set(i, bakeRightQuad(new Vector3f(16.0F, 0.0F, 0.0F), new Vector3f(16.0F, 8.0F, 8.0F), quantityTier, quad));
+							}
+							else if (quad.getDirection() == Direction.SOUTH) {
+								if (tintIndex == 0)
+									originalQuads.set(i, bakeLeftQuad(new Vector3f(0.0F, 0.0F, 16.0F), new Vector3f(8.0F, 8.0F, 16.0F), speedTier, quad));
+								else if (tintIndex == 1)
+									originalQuads.set(i, bakeRightQuad(new Vector3f(8.0F, 0.0F, 16.0F), new Vector3f(16.0F, 8.0F, 16.0F), quantityTier, quad));
+							}
+							else if (quad.getDirection() == Direction.WEST) {
+								if (tintIndex == 0)
+									originalQuads.set(i, bakeLeftQuad(new Vector3f(0.0F, 0.0F, 0.0F), new Vector3f(0.0F, 8.0F, 8.0F), speedTier, quad));
+								else if (tintIndex == 1)
+									originalQuads.set(i, bakeRightQuad(new Vector3f(0.0F, 0.0F, 8.0F), new Vector3f(0.0F, 8.0F, 16.0F), quantityTier, quad));
+							}
+						}
 					}
-					else if (quad.getDirection() == Direction.EAST) {
-						if (tintIndex == 0)
-							quads.set(i, bakeLeftQuad(new Vector3f(16.0F, 0.0F, 8.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
-						else if (tintIndex == 1)
-							quads.set(i, bakeRightQuad(new Vector3f(16.0F, 0.0F, 0.0F), new Vector3f(16.0F, 8.0F, 8.0F), quantityTier, quad));
-					}
-					else if (quad.getDirection() == Direction.SOUTH) {
-						if (tintIndex == 0)
-							quads.set(i, bakeLeftQuad(new Vector3f(0.0F, 0.0F, 16.0F), new Vector3f(8.0F, 8.0F, 16.0F), speedTier, quad));
-						else if (tintIndex == 1)
-							quads.set(i, bakeRightQuad(new Vector3f(8.0F, 0.0F, 16.0F), new Vector3f(16.0F, 8.0F, 16.0F), quantityTier, quad));
-					}
-					else if (quad.getDirection() == Direction.WEST) {
-						if (tintIndex == 0)
-							quads.set(i, bakeLeftQuad(new Vector3f(0.0F, 0.0F, 0.0F), new Vector3f(0.0F, 8.0F, 8.0F), speedTier, quad));
-						else if (tintIndex == 1)
-							quads.set(i, bakeRightQuad(new Vector3f(0.0F, 0.0F, 8.0F), new Vector3f(0.0F, 8.0F, 16.0F), quantityTier, quad));
-					}
-				}
+
+					return new ArrayList<>(originalQuads);
+				});
 			}
 		}
 
-		return quads;
+		return originalModel.getQuads(state, side, rand, data, renderType);
 	}
 
 	private BakedQuad bakeLeftQuad(Vector3f from, Vector3f to, ModifierTier modifierTier, BakedQuad originalQuad) {
@@ -129,4 +140,6 @@ public class SculkEmitterModel implements IDynamicBakedModel {
 	public ItemOverrides getOverrides() {
 		return originalModel.getOverrides();
 	}
+
+	private static record CacheKey(SpeedTier speedTier, QuantityTier quantityTier) {}
 }
