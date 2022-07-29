@@ -21,7 +21,7 @@ import sculktransporting.client.ClientHandler;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
 import sculktransporting.registration.STBlockEntityTypes;
 
-public class SculkReceiverBlockEntity extends SculkTransmitterBlockEntity {
+public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntity {
 	private BlockState lastKnownStateBelow;
 	private LazyOptional<IItemHandler> inventoryBelow;
 	private SpeedTier speedTier = SpeedTier.ZERO;

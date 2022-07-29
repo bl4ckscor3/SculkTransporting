@@ -1,21 +1,24 @@
 package sculktransporting.blockentities;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEvent.Context;
-import net.minecraft.world.level.gameevent.GameEventListener;
-import net.minecraft.world.phys.Vec3;
-import sculktransporting.client.ItemSignalParticleOption;
+import net.minecraftforge.registries.ForgeRegistries;
+import sculktransporting.blocks.SculkTransmitterBlock;
 import sculktransporting.registration.STBlockEntityTypes;
-import sculktransporting.registration.STGameEvents;
 
 public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEntity {
+	private ItemStack filteredItem = ItemStack.EMPTY;
+
 	public SculkTransmitterBlockEntity(BlockPos pos, BlockState state) {
 		super(pos, state);
 	}
@@ -27,37 +30,46 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 
 	@Override
 	public boolean isValidVibration(GameEvent gameEvent, Context ctx) {
-		return gameEvent == STGameEvents.ITEM_TRANSMITTABLE.get() && ctx.sourceEntity() instanceof ItemEntity item && item.isAlive();
+		return super.isValidVibration(gameEvent, ctx) && (filteredItem.is(Items.AIR) || (!getBlockState().getValue(SculkTransmitterBlock.INVERTED) == ((ItemEntity) ctx.sourceEntity()).getItem().is(filteredItem.getItem())));
 	}
 
 	@Override
-	public boolean shouldListen(ServerLevel level, GameEventListener listener, BlockPos pos, GameEvent event, GameEvent.Context ctx) {
-		return storedItemSignal.isEmpty() && ctx.sourceEntity() instanceof ItemEntity item && !item.blockPosition().equals(worldPosition) && super.shouldListen(level, listener, pos, event, ctx);
+	protected void saveAdditional(CompoundTag tag) {
+		super.saveAdditional(tag);
+		tag.putString("FilteredItem", ForgeRegistries.ITEMS.getKey(filteredItem.getItem()).toString());
 	}
 
 	@Override
-	public void onSignalSchedule() {
-		super.onSignalSchedule();
+	public void load(CompoundTag tag) {
+		super.load(tag);
 
-		if (getListener().receivingEvent != null && getListener().receivingEvent.entity() instanceof ItemEntity item) {
-			Vec3 originVec = getListener().receivingEvent.pos();
-			BlockPos originPos = new BlockPos(originVec);
+		Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(tag.getString("FilteredItem")));
 
-			if (level.getBlockEntity(originPos) instanceof BaseSculkItemTransporterBlockEntity be && be.hasStoredItemSignal()) {
-				be.setItemSignal(null, 0);
-				level.scheduleTick(originPos, be.getBlockState().getBlock(), 0);
-				item.setPos(originVec); //set the position of the item entity to the origin of the signal as a marker, so the transmitter doesn't send the item back where it came from
-				item.discard(); //marks this item signal as already scheduled for one receiver, so it doesn't get sent to another one
-			}
-
-			((ServerLevel) level).sendParticles(new ItemSignalParticleOption(getListener().getListenerSource(), getListener().travelTimeInTicks, item.getItem()), originVec.x, originVec.y, originVec.z, (item.getItem().getCount() + 15) / 16 * 5, 0, 0, 0, 0);
-		}
+		if (item == Items.AIR)
+			filteredItem = ItemStack.EMPTY;
+		else
+			filteredItem = new ItemStack(item);
 	}
 
-	@Override
-	public void onSignalReceive(ServerLevel level, GameEventListener listener, BlockPos pos, GameEvent event, Entity entity, Entity projectileOwner, float distance) {
-		if (event == STGameEvents.ITEM_TRANSMITTABLE.get() && entity instanceof ItemEntity item)
-			setItemSignal(item, getRedstoneStrengthForDistance(distance, listener.getListenerRadius()));
+	public void setFilteredItem(ItemStack stack) {
+		if (stack.is(filteredItem.getItem()))
+			return;
+
+		filteredItem = new ItemStack(stack.getItem());
+		setChanged();
+		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+		return;
+	}
+
+	public void removeFilteredItem() {
+		if (filteredItem.is(Items.AIR))
+			return;
+
+		setFilteredItem(ItemStack.EMPTY);
+	}
+
+	public ItemStack getFilteredItem() {
+		return filteredItem;
 	}
 
 	@Override
