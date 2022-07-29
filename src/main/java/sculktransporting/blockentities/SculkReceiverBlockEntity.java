@@ -8,7 +8,6 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -95,7 +94,6 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 		if (speedTier == SpeedTier.ZERO)
 			return;
 
-		Block.popResource(level, worldPosition, new ItemStack(speedTier.getItem()));
 		setSpeedTier(SpeedTier.ZERO);
 	}
 

@@ -30,6 +30,7 @@ public class QuantityModifierItem extends Item {
 			return value;
 		}
 
+		@Override
 		public Item getItem() {
 			return item;
 		}

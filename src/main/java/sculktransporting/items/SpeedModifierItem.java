@@ -31,6 +31,7 @@ public class SpeedModifierItem extends Item {
 			return value;
 		}
 
+		@Override
 		public Item getItem() {
 			return item;
 		}

@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import sculktransporting.STTags;
 import sculktransporting.blockentities.SculkEmitterBlockEntity;
+import sculktransporting.items.ModifierTier;
 import sculktransporting.items.QuantityModifierItem;
 import sculktransporting.items.QuantityModifierItem.QuantityTier;
 import sculktransporting.items.SpeedModifierItem;
@@ -60,13 +61,13 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 						double hitZ = Mth.frac(hit.getLocation().z);
 
 						if (clickedFace == Direction.NORTH)
-							removeModifer(be, hitX < 0.5F);
+							removeModifer(player, be, hitX < 0.5F);
 						else if (clickedFace == Direction.SOUTH)
-							removeModifer(be, hitX >= 0.5F);
+							removeModifer(player, be, hitX >= 0.5F);
 						else if (clickedFace == Direction.EAST)
-							removeModifer(be, hitZ < 0.5F);
+							removeModifer(player, be, hitZ < 0.5F);
 						else if (clickedFace == Direction.WEST)
-							removeModifer(be, hitZ >= 0.5F);
+							removeModifer(player, be, hitZ >= 0.5F);
 					}
 
 					return InteractionResult.sidedSuccess(level.isClientSide);
@@ -77,11 +78,19 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 		return InteractionResult.PASS;
 	}
 
-	private void removeModifer(SculkEmitterBlockEntity be, boolean removeQuantityModifier) {
-		if (removeQuantityModifier)
+	private void removeModifer(Player player, SculkEmitterBlockEntity be, boolean removeQuantityModifier) {
+		ModifierTier modifierTier;
+
+		if (removeQuantityModifier) {
+			modifierTier = be.getQuantityTier();
 			be.removeQuantityModifier();
-		else
+		}
+		else {
+			modifierTier = be.getSpeedTier();
 			be.removeSpeedModifier();
+		}
+
+		player.getInventory().placeItemBackInInventory(new ItemStack(modifierTier.getItem()));
 	}
 
 	@Override

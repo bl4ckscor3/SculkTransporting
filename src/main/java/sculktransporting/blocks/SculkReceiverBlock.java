@@ -52,8 +52,12 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 			}
 
 			if (player.isShiftKeyDown()) {
-				if (!level.isClientSide)
+				if (!level.isClientSide) {
+					SpeedTier speedTier = be.getSpeedTier();
+
 					be.removeSpeedModifier();
+					player.getInventory().placeItemBackInInventory(new ItemStack(speedTier.getItem()));
+				}
 
 				return InteractionResult.sidedSuccess(level.isClientSide);
 			}

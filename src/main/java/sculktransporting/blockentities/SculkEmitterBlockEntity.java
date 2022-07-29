@@ -11,7 +11,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -103,7 +102,6 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 		if (quantityTier == QuantityTier.ZERO)
 			return;
 
-		Block.popResource(level, worldPosition, new ItemStack(quantityTier.getItem()));
 		setQuantityTier(QuantityTier.ZERO);
 		return;
 	}
@@ -126,7 +124,6 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 		if (speedTier == SpeedTier.ZERO)
 			return;
 
-		Block.popResource(level, worldPosition, new ItemStack(speedTier.getItem()));
 		setSpeedTier(SpeedTier.ZERO);
 		return;
 	}
