@@ -7,7 +7,7 @@ issueTrackerURL="https://github.com/bl4ckscor3/SculkTransporting/issues"
 	modId="sculktransporting"
 	version="${file.jarVersion}"
 	displayName="Sculk Transporting"
-	displayURL="https://insert.curseforge.link.here"
+	displayURL="https://www.curseforge.com/minecraft/mc-mods/sculk-transporting/"
 	authors="bl4ckscor3, Redstone_Dubstep"
 	description='''A mod adding an item transport solution involving sculk.'''
 
