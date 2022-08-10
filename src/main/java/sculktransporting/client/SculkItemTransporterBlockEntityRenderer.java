@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import sculktransporting.blockentities.BaseSculkItemTransporterBlockEntity;
@@ -44,7 +43,7 @@ public class SculkItemTransporterBlockEntityRenderer<T extends BaseSculkItemTran
 
 			pose.pushPose();
 
-			if (signal.getItem() instanceof BlockItem)
+			if (isGui3d)
 				pose.translate(0.5D, 0.44D, 0.5D);
 			else {
 				pose.translate(0.5D, 0.52D, 0.375D);
