@@ -45,7 +45,7 @@ public class ItemSignalParticle extends BreakingItemParticle {
 				double y = Mth.lerp(delta, this.y, targetPos.y());
 				double z = Mth.lerp(delta, this.z, targetPos.z());
 
-				setPos(x, y, z); //this also sets the bounding box of the particle, so it gets rendered properly (this is a bug with the vibration particle that is introduced by Forge's particle culling)
+				setPos(x, y, z); //this also sets the bounding box of the particle, so there are no conflicts with Forge's particle culling. for more info see https://github.com/MinecraftForge/MinecraftForge/pull/8925
 			}
 		}
 	}

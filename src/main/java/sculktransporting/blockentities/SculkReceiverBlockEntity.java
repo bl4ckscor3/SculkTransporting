@@ -41,7 +41,6 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 				be.inventoryBelow = LazyOptional.empty();
 		}
 
-		//every tick, or only every 5, 10, 15, 20 ticks depending on 4, 3, 2, 1, or no modifiers installed
 		if (be.shouldPerformAction(level)) {
 			if (be.hasStoredItemSignal() && be.inventoryBelow != null) {
 				be.inventoryBelow.ifPresent(itemHandler -> {

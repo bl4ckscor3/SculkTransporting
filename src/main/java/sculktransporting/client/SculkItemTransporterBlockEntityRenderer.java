@@ -51,7 +51,7 @@ public class SculkItemTransporterBlockEntityRenderer<T extends BaseSculkItemTran
 				pose.mulPose(XP_90);
 			}
 
-			//translate the item stack so it sits on top of the block, or closer to the middle of it (for isGui3d = true)
+			//translate the item stack so it sits on top of the block, or closer to the middle of it (for when isGui3d is true)
 			pose.translate(0.0F, 0.0F, (renderAmount - 1) * -0.032F);
 
 			for (int k = 0; k < renderAmount; ++k) {
