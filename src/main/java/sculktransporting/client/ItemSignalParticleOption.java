@@ -8,11 +8,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.commands.arguments.item.ItemInput;
 import net.minecraft.commands.arguments.item.ItemParser;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.VibrationParticleOption;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.gameevent.BlockPositionSource;
@@ -45,7 +44,7 @@ public class ItemSignalParticleOption extends VibrationParticleOption {
 			reader.expect(' ');
 			arrivalInTicks = reader.readInt();
 			reader.expect(' ');
-			itemResult = ItemParser.parseForItem(HolderLookup.forRegistry(Registries.ITEM), reader);
+			itemResult = ItemParser.parseForItem(BuiltInRegistries.ITEM.asLookup(), reader);
 
 			BlockPos destination = new BlockPos(x, y, z);
 			ItemStack stack = new ItemInput(itemResult.item(), itemResult.nbt()).createItemStack(1, false);

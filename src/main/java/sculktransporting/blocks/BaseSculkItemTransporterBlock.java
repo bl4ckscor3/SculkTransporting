@@ -48,7 +48,7 @@ public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 			if (level.getBlockEntity(pos) instanceof BaseSculkItemTransporterBlockEntity be) {
 				if (be.hasStoredItemSignal())
 					Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), be.getStoredItemSignal());
-				else if (be.getListener().receivingEvent != null && be.getListener().receivingEvent.entity() instanceof ItemEntity item)
+				else if (be.getListener().currentVibration != null && be.getListener().currentVibration.entity() instanceof ItemEntity item)
 					Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), item.getItem());
 			}
 

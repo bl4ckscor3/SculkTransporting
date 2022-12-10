@@ -60,7 +60,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 			tag.put("StoredItemSignal", storedItemSignal.save(new CompoundTag()));
 			tag.put("SignalOrigin", NbtUtils.writeBlockPos(signalOrigin));
 		}
-		else if (getListener().receivingEvent != null && getListener().receivingEvent.entity() instanceof ItemEntity item) {
+		else if (getListener().currentVibration != null && getListener().currentVibration.entity() instanceof ItemEntity item) {
 			tag.put("StoredItemSignal", item.getItem().save(new CompoundTag()));
 			tag.put("SignalOrigin", NbtUtils.writeBlockPos(item.blockPosition()));
 		}
@@ -82,8 +82,8 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 	public void onSignalSchedule() {
 		super.onSignalSchedule();
 
-		if (getListener().receivingEvent != null && getListener().receivingEvent.entity() instanceof ItemEntity item) {
-			Vec3 originVec = getListener().receivingEvent.pos();
+		if (getListener().currentVibration != null && getListener().currentVibration.entity() instanceof ItemEntity item) {
+			Vec3 originVec = getListener().currentVibration.pos();
 			BlockPos originPos = new BlockPos(originVec);
 
 			if (level.getBlockEntity(originPos) instanceof BaseSculkItemTransporterBlockEntity be && be.hasStoredItemSignal()) {
@@ -102,7 +102,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 		if (event == STGameEvents.ITEM_TRANSMITTABLE.get() && entity instanceof ItemEntity item)
 			setItemSignal(item, getRedstoneStrengthForDistance(distance, listener.getListenerRadius()));
 	}
-	
+
 	public boolean hasStoredItemSignal() {
 		return !storedItemSignal.isEmpty();
 	}
