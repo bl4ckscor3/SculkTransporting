@@ -1,7 +1,13 @@
 package sculktransporting.blockentities;
 
+import org.slf4j.Logger;
+
+import com.mojang.logging.LogUtils;
+import com.mojang.serialization.Dynamic;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -11,24 +17,29 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.SculkSensorBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.SculkSensorBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.BlockPositionSource;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.gameevent.GameEvent.Context;
+import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.phys.Vec3;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 import sculktransporting.client.ItemSignalParticleOption;
+import sculktransporting.misc.OneReceiverVibrationListener;
 import sculktransporting.registration.STGameEvents;
 
 public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlockEntity {
+	private static final Logger LOGGER = LogUtils.getLogger();
 	protected ItemStack storedItemSignal = ItemStack.EMPTY;
 	protected BlockPos signalOrigin;
 	protected ItemEntity cachedItemEntity;
 
 	public BaseSculkItemTransporterBlockEntity(BlockPos pos, BlockState state) {
 		super(pos, state);
+		this.listener = new OneReceiverVibrationListener(new BlockPositionSource(worldPosition), ((SculkSensorBlock) state.getBlock()).getListenerRange(), this);
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, BaseSculkItemTransporterBlockEntity be) {
@@ -48,6 +59,10 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 	@Override
 	public void load(CompoundTag tag) {
 		super.load(tag);
+
+		if (tag.contains("listener", 10))
+			OneReceiverVibrationListener.oneReceiverCodec(this).parse(new Dynamic<>(NbtOps.INSTANCE, tag.getCompound("listener"))).resultOrPartial(LOGGER::error).ifPresent(listener -> this.listener = listener);
+
 		storedItemSignal = ItemStack.of(tag.getCompound("StoredItemSignal"));
 		signalOrigin = NbtUtils.readBlockPos(tag.getCompound("SignalOrigin"));
 	}
@@ -90,7 +105,6 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 				be.setItemSignal(null, 0);
 				level.scheduleTick(originPos, be.getBlockState().getBlock(), 0);
 				item.setPos(originVec); //set the position of the item entity to the origin of the signal as a marker, so the transmitter doesn't send the item back where it came from
-				item.discard(); //marks this item signal as already scheduled for one receiver, so it doesn't get sent to another one
 			}
 
 			((ServerLevel) level).sendParticles(new ItemSignalParticleOption(getListener().getListenerSource(), getListener().travelTimeInTicks, item.getItem()), originVec.x, originVec.y, originVec.z, (item.getItem().getCount() + 15) / 16 * 5, 0, 0, 0, 0);
