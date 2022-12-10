@@ -2,8 +2,9 @@ package sculktransporting.client;
 
 import java.util.Random;
 
+import org.joml.Quaternionf;
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -18,7 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import sculktransporting.blockentities.BaseSculkItemTransporterBlockEntity;
 
 public class SculkItemTransporterBlockEntityRenderer<T extends BaseSculkItemTransporterBlockEntity> implements BlockEntityRenderer<T> {
-	private static final Quaternion XP_90 = new Quaternion(90.0F, 0.0F, 0.0F, true);
+	private static final Quaternionf XP_90 = new Quaternionf().rotateXYZ(90.0F * ((float) Math.PI / 180.0F), 0.0F, 0.0F); //TODO: fixed?
 
 	public SculkItemTransporterBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {}
 

@@ -2,9 +2,7 @@ package sculktransporting.client;
 
 import java.util.stream.Collectors;
 
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateHolder;
@@ -12,7 +10,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.data.ModelProperty;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -47,20 +44,6 @@ public class ClientHandler {
 			ModelResourceLocation mrl = new ModelResourceLocation(ForgeRegistries.BLOCKS.getKey(sculkEmitter), stateString);
 
 			event.getModels().put(mrl, new SculkEmitterModel(event.getModels().get(mrl)));
-		}
-	}
-
-	@SubscribeEvent
-	public static void onTextureStitchPre(TextureStitchEvent.Pre event) {
-		if (event.getAtlas().location().equals(TextureAtlas.LOCATION_BLOCKS)) {
-			event.addSprite(new ResourceLocation(SculkTransporting.MODID, "block/sculk_receiver_side_1"));
-			event.addSprite(new ResourceLocation(SculkTransporting.MODID, "block/sculk_receiver_side_2"));
-			event.addSprite(new ResourceLocation(SculkTransporting.MODID, "block/sculk_receiver_side_3"));
-			event.addSprite(new ResourceLocation(SculkTransporting.MODID, "block/sculk_receiver_side_4"));
-			event.addSprite(new ResourceLocation(SculkTransporting.MODID, "block/sculk_emitter_side_1"));
-			event.addSprite(new ResourceLocation(SculkTransporting.MODID, "block/sculk_emitter_side_2"));
-			event.addSprite(new ResourceLocation(SculkTransporting.MODID, "block/sculk_emitter_side_3"));
-			event.addSprite(new ResourceLocation(SculkTransporting.MODID, "block/sculk_emitter_side_4"));
 		}
 	}
 

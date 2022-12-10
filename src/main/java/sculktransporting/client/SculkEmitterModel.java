@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
-
-import com.mojang.math.Vector3f;
+import org.joml.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
@@ -103,7 +102,7 @@ public class SculkEmitterModel implements IDynamicBakedModel {
 	private BakedQuad bakeQuad(Vector3f from, Vector3f to, ModifierTier modifierTier, BakedQuad originalQuad, float u0, float u1, float v0, float v1) {
 		TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(new ResourceLocation(SculkTransporting.MODID, "block/sculk_emitter_side_" + modifierTier.getValue()));
 
-		return FACE_BAKERY.bakeQuad(from, to, new BlockElementFace(null, originalQuad.getTintIndex(), sprite.getName().toString(), new BlockFaceUV(new float[] {
+		return FACE_BAKERY.bakeQuad(from, to, new BlockElementFace(null, originalQuad.getTintIndex(), sprite.contents().name().toString(), new BlockFaceUV(new float[] {
 				u0, u1, v0, v1
 		}, 0)), sprite, originalQuad.getDirection(), BlockModelRotation.X0_Y0, null, originalQuad.isShade(), new ResourceLocation(SculkTransporting.MODID, "sculk_emitter"));
 	}

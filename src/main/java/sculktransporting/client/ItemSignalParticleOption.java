@@ -45,7 +45,7 @@ public class ItemSignalParticleOption extends VibrationParticleOption {
 			reader.expect(' ');
 			arrivalInTicks = reader.readInt();
 			reader.expect(' ');
-			itemResult = ItemParser.parseForItem(HolderLookup.forRegistry(Registry.ITEM), reader);
+			itemResult = ItemParser.parseForItem(HolderLookup.forRegistry(Registries.ITEM), reader);
 
 			BlockPos destination = new BlockPos(x, y, z);
 			ItemStack stack = new ItemInput(itemResult.item(), itemResult.nbt()).createItemStack(1, false);

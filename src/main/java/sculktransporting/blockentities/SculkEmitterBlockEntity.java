@@ -18,8 +18,8 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import sculktransporting.STTags;
 import sculktransporting.client.ClientHandler;
@@ -42,17 +42,17 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 			BlockEntity beBelow = level.getBlockEntity(pos.below());
 
 			if (beBelow != null && beBelow.getBlockState().is(STTags.Blocks.SCULK_EMITTER_CAN_EXTRACT_FROM))
-				be.inventoryBelow = beBelow.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP);
+				be.inventoryBelow = beBelow.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP);
 			else
 				be.inventoryBelow = LazyOptional.empty();
 		}
 
 		if (be.shouldPerformAction(level)) {
 			if (!be.hasStoredItemSignal() && be.inventoryBelow != null) {
-				//from 0 to 3 installed modifiers: 1, 4, 16, 64
-				final int amountToExtract = (int) Math.pow(4, be.quantityTier.getValue());
-
 				be.inventoryBelow.ifPresent(itemHandler -> {
+					//from 0 to 3 installed modifiers: 1, 4, 16, 64
+					final int amountToExtract = (int) Math.pow(4, be.quantityTier.getValue());
+
 					for (int i = 0; i < itemHandler.getSlots(); i++) {
 						ItemStack extracted = itemHandler.extractItem(i, amountToExtract, false);
 

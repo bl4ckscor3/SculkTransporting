@@ -20,13 +20,13 @@ import sculktransporting.items.SpeedModifierItem.SpeedTier;
 @EventBusSubscriber(modid = SculkTransporting.MODID, bus = Bus.MOD)
 public class STItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SculkTransporting.MODID);
-	public static final RegistryObject<QuantityModifierItem> QUANTITY_MODIFIER_TIER_1 = ITEMS.register("quantity_modifier_tier_1", () -> new QuantityModifierItem(QuantityTier.ONE, new Item.Properties().tab(SculkTransporting.TAB)));
-	public static final RegistryObject<QuantityModifierItem> QUANTITY_MODIFIER_TIER_2 = ITEMS.register("quantity_modifier_tier_2", () -> new QuantityModifierItem(QuantityTier.TWO, new Item.Properties().tab(SculkTransporting.TAB)));
-	public static final RegistryObject<QuantityModifierItem> QUANTITY_MODIFIER_TIER_3 = ITEMS.register("quantity_modifier_tier_3", () -> new QuantityModifierItem(QuantityTier.THREE, new Item.Properties().tab(SculkTransporting.TAB)));
-	public static final RegistryObject<SpeedModifierItem> SPEED_MODIFIER_TIER_1 = ITEMS.register("speed_modifier_tier_1", () -> new SpeedModifierItem(SpeedTier.ONE, new Item.Properties().tab(SculkTransporting.TAB)));
-	public static final RegistryObject<SpeedModifierItem> SPEED_MODIFIER_TIER_2 = ITEMS.register("speed_modifier_tier_2", () -> new SpeedModifierItem(SpeedTier.TWO, new Item.Properties().tab(SculkTransporting.TAB)));
-	public static final RegistryObject<SpeedModifierItem> SPEED_MODIFIER_TIER_3 = ITEMS.register("speed_modifier_tier_3", () -> new SpeedModifierItem(SpeedTier.THREE, new Item.Properties().tab(SculkTransporting.TAB)));
-	public static final RegistryObject<SpeedModifierItem> SPEED_MODIFIER_TIER_4 = ITEMS.register("speed_modifier_tier_4", () -> new SpeedModifierItem(SpeedTier.FOUR, new Item.Properties().tab(SculkTransporting.TAB)));
+	public static final RegistryObject<QuantityModifierItem> QUANTITY_MODIFIER_TIER_1 = ITEMS.register("quantity_modifier_tier_1", () -> new QuantityModifierItem(QuantityTier.ONE, new Item.Properties()));
+	public static final RegistryObject<QuantityModifierItem> QUANTITY_MODIFIER_TIER_2 = ITEMS.register("quantity_modifier_tier_2", () -> new QuantityModifierItem(QuantityTier.TWO, new Item.Properties()));
+	public static final RegistryObject<QuantityModifierItem> QUANTITY_MODIFIER_TIER_3 = ITEMS.register("quantity_modifier_tier_3", () -> new QuantityModifierItem(QuantityTier.THREE, new Item.Properties()));
+	public static final RegistryObject<SpeedModifierItem> SPEED_MODIFIER_TIER_1 = ITEMS.register("speed_modifier_tier_1", () -> new SpeedModifierItem(SpeedTier.ONE, new Item.Properties()));
+	public static final RegistryObject<SpeedModifierItem> SPEED_MODIFIER_TIER_2 = ITEMS.register("speed_modifier_tier_2", () -> new SpeedModifierItem(SpeedTier.TWO, new Item.Properties()));
+	public static final RegistryObject<SpeedModifierItem> SPEED_MODIFIER_TIER_3 = ITEMS.register("speed_modifier_tier_3", () -> new SpeedModifierItem(SpeedTier.THREE, new Item.Properties()));
+	public static final RegistryObject<SpeedModifierItem> SPEED_MODIFIER_TIER_4 = ITEMS.register("speed_modifier_tier_4", () -> new SpeedModifierItem(SpeedTier.FOUR, new Item.Properties()));
 
 	@SubscribeEvent
 	public static void automaticallyRegisterBlockItems(RegisterEvent event) {
@@ -35,7 +35,7 @@ public class STItems {
 			for (RegistryObject<Block> ro : STBlocks.BLOCKS.getEntries()) {
 				Block block = ro.get();
 
-				helper.register(ForgeRegistries.BLOCKS.getKey(block), new BlockItem(block, new Item.Properties().tab(SculkTransporting.TAB)));
+				helper.register(ForgeRegistries.BLOCKS.getKey(block), new BlockItem(block, new Item.Properties()));
 			}
 		});
 	}

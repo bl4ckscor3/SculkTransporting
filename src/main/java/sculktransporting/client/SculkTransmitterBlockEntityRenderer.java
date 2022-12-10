@@ -1,7 +1,7 @@
 package sculktransporting.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -38,7 +38,7 @@ public class SculkTransmitterBlockEntityRenderer extends SculkItemTransporterBlo
 	private void renderItem(Direction direction, BlockEntity be, PoseStack pose, float translateX, float translateY, float translateZ, float degrees, ItemStack filteredItem, MultiBufferSource bufferSource, int packedOverlay) {
 		pose.pushPose();
 		pose.translate(translateX, translateY, translateZ);
-		pose.mulPose(Vector3f.YP.rotationDegrees(degrees));
+		pose.mulPose(Axis.YP.rotationDegrees(degrees));
 		pose.scale(0.35F, 0.35F, 0.35F);
 		Minecraft.getInstance().getItemRenderer().renderStatic(filteredItem, TransformType.FIXED, LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().relative(direction)), packedOverlay, pose, bufferSource, 0);
 		pose.popPose();

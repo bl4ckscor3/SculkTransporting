@@ -12,8 +12,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 import sculktransporting.client.ClientHandler;
@@ -36,7 +36,7 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 			BlockEntity beBelow = level.getBlockEntity(pos.below());
 
 			if (beBelow != null)
-				be.inventoryBelow = beBelow.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP);
+				be.inventoryBelow = beBelow.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP);
 			else
 				be.inventoryBelow = LazyOptional.empty();
 		}
