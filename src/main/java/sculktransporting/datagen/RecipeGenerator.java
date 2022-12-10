@@ -2,8 +2,9 @@ package sculktransporting.datagen;
 
 import java.util.function.Consumer;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
@@ -12,19 +13,18 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
-import sculktransporting.SculkTransporting;
 import sculktransporting.registration.STBlocks;
 import sculktransporting.registration.STItems;
 
 public class RecipeGenerator extends RecipeProvider {
-	public RecipeGenerator(DataGenerator generator) {
-		super(generator);
+	public RecipeGenerator(PackOutput output) {
+		super(output);
 	}
 
 	@Override
-	protected final void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
+	protected final void buildRecipes(Consumer<FinishedRecipe> consumer) {
 		//@formatter:off
-		ShapedRecipeBuilder.shaped(STBlocks.SCULK_EMITTER.get())
+		ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, STBlocks.SCULK_EMITTER.get())
 				.pattern("DSD")
 				.pattern("GBG")
 				.define('D', Blocks.DEEPSLATE_BRICKS)
@@ -33,7 +33,7 @@ public class RecipeGenerator extends RecipeProvider {
 				.define('G', Tags.Items.INGOTS_GOLD)
 				.unlockedBy("has_sculk_sensor", has(Blocks.SCULK_SENSOR))
 				.save(consumer);
-		ShapedRecipeBuilder.shaped(STBlocks.SCULK_TRANSMITTER.get())
+		ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, STBlocks.SCULK_TRANSMITTER.get())
 				.pattern("DBD")
 				.pattern("IRI")
 				.define('D', Blocks.DEEPSLATE_BRICKS)
@@ -42,7 +42,7 @@ public class RecipeGenerator extends RecipeProvider {
 				.define('R', Tags.Items.DUSTS_REDSTONE)
 				.unlockedBy("has_sculk", has(Blocks.SCULK))
 				.save(consumer);
-		ShapedRecipeBuilder.shaped(STBlocks.SCULK_RECEIVER.get())
+		ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, STBlocks.SCULK_RECEIVER.get())
 				.pattern("DSD")
 				.pattern("BHB")
 				.define('D', Blocks.DEEPSLATE_BRICKS)
@@ -51,7 +51,7 @@ public class RecipeGenerator extends RecipeProvider {
 				.define('H', Blocks.HOPPER)
 				.unlockedBy("has_sculk_sensor", has(Blocks.SCULK_SENSOR))
 				.save(consumer);
-		ShapedRecipeBuilder.shaped(STBlocks.SCULK_BARREL.get())
+		ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, STBlocks.SCULK_BARREL.get())
 				.pattern(" S ")
 				.pattern("SBS")
 				.pattern(" S ")
@@ -81,7 +81,7 @@ public class RecipeGenerator extends RecipeProvider {
 	protected final void addModifierRecipe(Consumer<FinishedRecipe> consumer, ItemLike previous, ItemLike frameMaterial, ItemLike material1, ItemLike material2, ItemLike result) {
 		if (material2 == null) {
 			//@formatter:off
-			ShapedRecipeBuilder.shaped(result)
+			ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, result)
 					.pattern("FMF")
 					.pattern("MPM")
 					.pattern("FMF")
@@ -96,7 +96,7 @@ public class RecipeGenerator extends RecipeProvider {
 			ResourceLocation resultName = ForgeRegistries.ITEMS.getKey(result.asItem());
 
 			//@formatter:off
-			ShapedRecipeBuilder.shaped(result)
+			ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, result)
 					.group(resultName.getPath())
 					.pattern("FMF")
 					.pattern("NPN")
@@ -107,7 +107,7 @@ public class RecipeGenerator extends RecipeProvider {
 					.define('P', previous)
 					.unlockedBy("has_previous", has(previous))
 					.save(consumer);
-			ShapedRecipeBuilder.shaped(result)
+			ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, result)
 					.group(resultName.getPath())
 					.pattern("FNF")
 					.pattern("MPM")
@@ -120,10 +120,5 @@ public class RecipeGenerator extends RecipeProvider {
 					.save(consumer, resultName + "_alt");
 			//@formatter:on
 		}
-	}
-
-	@Override
-	public String getName() {
-		return SculkTransporting.MODID + " Recipes";
 	}
 }
