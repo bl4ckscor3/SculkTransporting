@@ -50,4 +50,9 @@ public class OneReceiverVibrationListener extends VibrationListener {
 		if (ctx.sourceEntity() instanceof ItemEntity item && selectionStrategy.currentVibrationData.isPresent() && ctx.sourceEntity().equals(selectionStrategy.currentVibrationData.get().getLeft().entity()))
 			item.discard(); //If this item signal is scheduled for one receiver, mark it as such to prevent it from getting sent to another one
 	}
+
+	@Override
+	public DeliveryMode getDeliveryMode() {
+		return DeliveryMode.BY_DISTANCE;
+	}
 }
