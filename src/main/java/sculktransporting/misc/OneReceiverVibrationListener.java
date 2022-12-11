@@ -17,19 +17,15 @@ import net.minecraft.world.phys.Vec3;
 
 public class OneReceiverVibrationListener extends VibrationListener {
 	public static Codec<OneReceiverVibrationListener> oneReceiverCodec(VibrationListener.VibrationListenerConfig config) {
-		return RecordCodecBuilder.create(builder -> builder.group(PositionSource.CODEC.fieldOf("source").forGetter(listener -> {
-			return listener.listenerSource;
-		}), ExtraCodecs.NON_NEGATIVE_INT.fieldOf("range").forGetter((listener) -> {
-			return listener.listenerRange;
-		}), VibrationInfo.CODEC.optionalFieldOf("event").forGetter((listener) -> {
-			return Optional.ofNullable(listener.currentVibration);
-		}), VibrationSelector.CODEC.fieldOf("selector").forGetter((listener) -> {
-			return listener.selectionStrategy;
-		}), ExtraCodecs.NON_NEGATIVE_INT.fieldOf("event_delay").orElse(0).forGetter((listener) -> {
-			return listener.travelTimeInTicks;
-		})).apply(builder, (pos, range, currentVibration, selector, travelTime) -> {
-			return new OneReceiverVibrationListener(pos, range, config, currentVibration.orElse(null), selector, travelTime);
-		}));
+		//@formatter:off
+		return RecordCodecBuilder.create(builder -> builder.group(
+					PositionSource.CODEC.fieldOf("source").forGetter(listener -> listener.listenerSource),
+					ExtraCodecs.NON_NEGATIVE_INT.fieldOf("range").forGetter(listener -> listener.listenerRange),
+					VibrationInfo.CODEC.optionalFieldOf("event").forGetter(listener -> Optional.ofNullable(listener.currentVibration)),
+					VibrationSelector.CODEC.fieldOf("selector").forGetter(listener -> listener.selectionStrategy),
+					ExtraCodecs.NON_NEGATIVE_INT.fieldOf("event_delay").orElse(0).forGetter(listener -> listener.travelTimeInTicks))
+				.apply(builder, (pos, range, currentVibration, selector, travelTime) -> new OneReceiverVibrationListener(pos, range, config, currentVibration.orElse(null), selector, travelTime)));
+		//@formatter:on
 	}
 
 	public OneReceiverVibrationListener(PositionSource pos, int range, VibrationListener.VibrationListenerConfig config, VibrationInfo currentVibration, VibrationSelector selector, int travelTime) {
