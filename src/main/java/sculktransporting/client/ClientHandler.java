@@ -28,7 +28,7 @@ public class ClientHandler {
 	public static final ModelProperty<QuantityTier> QUANTITY_TIER = new ModelProperty<>();
 
 	@SubscribeEvent
-	public static void onModelBakingCompleted(ModelEvent.BakingCompleted event) {
+	public static void onModelBakingCompleted(ModelEvent.ModifyBakingResult event) {
 		Block sculkReceiver = STBlocks.SCULK_RECEIVER.get();
 		Block sculkEmitter = STBlocks.SCULK_EMITTER.get();
 
