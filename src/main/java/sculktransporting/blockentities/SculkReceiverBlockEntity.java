@@ -50,6 +50,7 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 						inserted = itemHandler.insertItem(i, inserted, false);
 
 						if (inserted.isEmpty()) {
+							be.storedItemSignal = ItemStack.EMPTY;
 							BaseSculkItemTransporterBlock.deactivate(level, be.worldPosition, be.getBlockState());
 							break;
 						}
