@@ -57,7 +57,7 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 						ItemStack extracted = itemHandler.extractItem(i, amountToExtract, false);
 
 						if (!extracted.isEmpty()) {
-							be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted), 0);
+							be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted), 15);
 							break;
 						}
 					}
