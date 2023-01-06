@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.joml.Vector3f;
 
 import net.minecraft.client.Minecraft;
@@ -31,7 +32,7 @@ import sculktransporting.items.SpeedModifierItem.SpeedTier;
 public class SculkReceiverModel implements IDynamicBakedModel {
 	private static final FaceBakery FACE_BAKERY = new FaceBakery();
 	private BakedModel originalModel;
-	private Map<SpeedTier, List<BakedQuad>> quadCache = new HashMap<>();
+	private Map<Pair<Direction, SpeedTier>, List<BakedQuad>> quadCache = new HashMap<>();
 
 	public SculkReceiverModel(BakedModel originalModel) {
 		this.originalModel = originalModel;
@@ -39,11 +40,11 @@ public class SculkReceiverModel implements IDynamicBakedModel {
 
 	@Override
 	public List<BakedQuad> getQuads(BlockState state, Direction side, RandomSource rand, ModelData data, RenderType renderType) {
-		if (side == null) {
+		if (side != null) {
 			SpeedTier speedTier = data.get(ClientHandler.SPEED_TIER);
 
 			if (speedTier != null) {
-				return quadCache.computeIfAbsent(speedTier, k -> {
+				return quadCache.computeIfAbsent(Pair.of(side, speedTier), k -> {
 					List<BakedQuad> originalQuads = originalModel.getQuads(state, side, rand, data, renderType);
 
 					for (int i = 0; i < originalQuads.size(); i++) {
