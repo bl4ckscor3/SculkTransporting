@@ -63,6 +63,7 @@ public class SculkReceiverModel implements IDynamicBakedModel {
 								originalQuads.set(i, bakeQuad(new Vector3f(0.0F, 3.0F, 0.0F), new Vector3f(0.0F, 8.0F, 16.0F), speedTier, quad));
 						}
 					}
+
 					return new ArrayList<>(originalQuads);
 				});
 			}
