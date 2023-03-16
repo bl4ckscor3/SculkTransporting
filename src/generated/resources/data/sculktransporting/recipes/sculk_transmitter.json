@@ -21,5 +21,6 @@
   ],
   "result": {
     "item": "sculktransporting:sculk_transmitter"
-  }
+  },
+  "show_notification": true
 }

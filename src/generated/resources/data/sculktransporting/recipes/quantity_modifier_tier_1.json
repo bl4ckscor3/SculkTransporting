@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "sculktransporting:quantity_modifier_tier_1"
-  }
+  },
+  "show_notification": true
 }

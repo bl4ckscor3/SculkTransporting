@@ -99,7 +99,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 
 		if (getListener().currentVibration != null && getListener().currentVibration.entity() instanceof ItemEntity item) {
 			Vec3 originVec = getListener().currentVibration.pos();
-			BlockPos originPos = new BlockPos(originVec);
+			BlockPos originPos = BlockPos.containing(originVec);
 
 			if (level.getBlockEntity(originPos) instanceof BaseSculkItemTransporterBlockEntity be && be.hasStoredItemSignal()) {
 				be.setItemSignal(null, 0);

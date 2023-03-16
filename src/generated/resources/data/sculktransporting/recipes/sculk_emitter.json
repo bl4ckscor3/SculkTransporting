@@ -21,5 +21,6 @@
   ],
   "result": {
     "item": "sculktransporting:sculk_emitter"
-  }
+  },
+  "show_notification": true
 }

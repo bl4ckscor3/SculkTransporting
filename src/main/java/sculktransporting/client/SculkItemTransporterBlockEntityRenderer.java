@@ -8,13 +8,13 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import sculktransporting.blockentities.BaseSculkItemTransporterBlockEntity;
 
@@ -73,7 +73,7 @@ public class SculkItemTransporterBlockEntityRenderer<T extends BaseSculkItemTran
 					}
 				}
 
-				itemRenderer.render(signal, TransformType.GROUND, false, pose, bufferSource, packedLight, OverlayTexture.NO_OVERLAY, itemModel);
+				itemRenderer.render(signal, ItemDisplayContext.GROUND, false, pose, bufferSource, packedLight, OverlayTexture.NO_OVERLAY, itemModel);
 				pose.popPose();
 
 				if (!isGui3d)

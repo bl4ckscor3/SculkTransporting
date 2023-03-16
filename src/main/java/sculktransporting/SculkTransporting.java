@@ -41,7 +41,7 @@ public class SculkTransporting {
 		tab = event.registerCreativeModeTab(new ResourceLocation(MODID, "tab"), builder -> builder
 				.icon(() -> new ItemStack(STBlocks.SCULK_EMITTER.get()))
 				.title(Component.translatable("itemGroup.sculktransporting"))
-				.displayItems((features, output, hasPermissions) -> {
+				.displayItems((displayParameters, output) -> {
 					output.acceptAll(List.of(
 							new ItemStack(STBlocks.SCULK_BARREL.get()),
 							new ItemStack(STBlocks.SCULK_EMITTER.get()),

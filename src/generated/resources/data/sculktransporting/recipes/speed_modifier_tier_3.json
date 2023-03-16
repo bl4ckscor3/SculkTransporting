@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "sculktransporting:speed_modifier_tier_3"
-  }
+  },
+  "show_notification": true
 }

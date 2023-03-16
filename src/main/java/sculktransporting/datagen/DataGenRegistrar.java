@@ -28,10 +28,10 @@ public class DataGenRegistrar {
 		ExistingFileHelper existingFileHelper = new ExistingFileHelper(Collections.EMPTY_LIST, Collections.EMPTY_SET, false, null, null);
 		BlockTagGenerator blockTagGenerator = new BlockTagGenerator(output, lookupProvider, existingFileHelper);
 
-		generator.addProvider(event.includeClient(), new ItemModelGenerator(generator, existingFileHelper));
+		generator.addProvider(event.includeClient(), new ItemModelGenerator(output, existingFileHelper));
 		generator.addProvider(event.includeServer(), new LootTableProvider(output, Set.of(), List.of(new SubProviderEntry(BlockLootTableGenerator::new, LootContextParamSets.BLOCK))));
 		generator.addProvider(event.includeServer(), blockTagGenerator);
-		generator.addProvider(event.includeServer(), new ItemTagGenerator(output, lookupProvider, blockTagGenerator, existingFileHelper));
+		generator.addProvider(event.includeServer(), new ItemTagGenerator(output, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
 		generator.addProvider(event.includeServer(), new RecipeGenerator(output));
 	}
 }

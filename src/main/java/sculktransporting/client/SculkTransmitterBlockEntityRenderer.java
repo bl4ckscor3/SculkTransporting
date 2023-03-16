@@ -6,9 +6,9 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import sculktransporting.blockentities.SculkTransmitterBlockEntity;
@@ -40,7 +40,7 @@ public class SculkTransmitterBlockEntityRenderer extends SculkItemTransporterBlo
 		pose.translate(translateX, translateY, translateZ);
 		pose.mulPose(Axis.YP.rotationDegrees(degrees));
 		pose.scale(0.35F, 0.35F, 0.35F);
-		Minecraft.getInstance().getItemRenderer().renderStatic(filteredItem, TransformType.FIXED, LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().relative(direction)), packedOverlay, pose, bufferSource, 0);
+		Minecraft.getInstance().getItemRenderer().renderStatic(filteredItem, ItemDisplayContext.FIXED, LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().relative(direction)), packedOverlay, pose, bufferSource, be.getLevel(), 0);
 		pose.popPose();
 	}
 }
