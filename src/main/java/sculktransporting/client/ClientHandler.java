@@ -56,6 +56,6 @@ public class ClientHandler {
 
 	@SubscribeEvent
 	public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
-		event.register(STParticleTypes.ITEM_SIGNAL.get(), new ItemSignalParticle.Provider());
+		event.registerSpecial(STParticleTypes.ITEM_SIGNAL.get(), new ItemSignalParticle.Provider());
 	}
 }
