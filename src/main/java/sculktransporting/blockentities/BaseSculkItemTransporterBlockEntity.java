@@ -43,7 +43,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 		VibrationSystem.Ticker.tick(level, be.getVibrationData(), be.getVibrationUser());
 
 		if (!be.storedItemSignal.isEmpty()) {
-			if (be.cachedItemEntity == null) {
+			if (be.cachedItemEntity == null || !be.cachedItemEntity.isAlive()) {
 				be.level.updateNeighborsAt(pos, state.getBlock());
 				be.cachedItemEntity = new ItemEntity(level, be.signalOrigin.getX(), be.signalOrigin.getY(), be.signalOrigin.getZ(), be.storedItemSignal);
 			}
@@ -106,7 +106,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 				Block block = getBlockState().getBlock();
 
 				if (block instanceof BaseSculkItemTransporterBlock sculkItemTransporterBlock)
-					sculkItemTransporterBlock.activate(itemSignal, level, worldPosition, getBlockState(), power);
+					sculkItemTransporterBlock.activate(itemSignal, level, worldPosition, getBlockState(), power, 0);
 			}
 		}
 
@@ -152,13 +152,12 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 				Vec3 originVec = getVibrationData().getCurrentVibration().pos();
 				BlockPos originPos = BlockPos.containing(originVec);
 
-				if (level.getBlockEntity(originPos) instanceof BaseSculkItemTransporterBlockEntity be && be.hasStoredItemSignal()) {
+				if (level.getBlockEntity(originPos) instanceof BaseSculkItemTransporterBlockEntity be && be.hasStoredItemSignal() && be.getStoredItemSignal() == item.getItem()) {
 					be.setItemSignal(null, 0);
 					level.scheduleTick(originPos, be.getBlockState().getBlock(), 0);
 					item.setPos(originVec); //set the position of the item entity to the origin of the signal as a marker, so the transmitter doesn't send the item back where it came from
+					((ServerLevel) level).sendParticles(new ItemSignalParticleOption(getListener().getListenerSource(), getVibrationData().getTravelTimeInTicks(), item.getItem()), originVec.x, originVec.y, originVec.z, (item.getItem().getCount() + 15) / 16 * 5, 0, 0, 0, 0);
 				}
-
-				((ServerLevel) level).sendParticles(new ItemSignalParticleOption(getListener().getListenerSource(), getVibrationData().getTravelTimeInTicks(), item.getItem()), originVec.x, originVec.y, originVec.z, (item.getItem().getCount() + 15) / 16 * 5, 0, 0, 0, 0);
 			}
 		}
 

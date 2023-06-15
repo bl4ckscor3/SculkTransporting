@@ -8,7 +8,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.SculkSensorBlock;
@@ -65,15 +64,15 @@ public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 		level.setBlockAndUpdate(pos, state.setValue(PHASE, SculkSensorPhase.INACTIVE).setValue(POWER, 0)); //skip SculkSensorPhase.COOLDOWN to reduce delay
 	}
 
-	public void activate(Entity entity, Level level, BlockPos pos, BlockState state, int distance) { //copied from SculkSensorBlock to remove vibration resonance
+	@Override
+	public void activate(Entity entity, Level level, BlockPos pos, BlockState state, int distance, int resonanceFrequency) { //copied from SculkSensorBlock to remove vibration resonance
 		level.setBlock(pos, state.setValue(PHASE, SculkSensorPhase.ACTIVE).setValue(POWER, Integer.valueOf(distance)), 3);
 		level.scheduleTick(pos, state.getBlock(), 0);
 		updateNeighbours(level, pos, state);
 		level.gameEvent(entity, GameEvent.SCULK_SENSOR_TENDRILS_CLICKING, pos);
 
-		if (!state.getValue(WATERLOGGED)) {
-			level.playSound((Player)null, (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, SoundEvents.SCULK_CLICKING, SoundSource.BLOCKS, 1.0F, level.random.nextFloat() * 0.2F + 0.8F);
-		}
+		if (!state.getValue(WATERLOGGED))
+			level.playSound(null, (double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, SoundEvents.SCULK_CLICKING, SoundSource.BLOCKS, 1.0F, level.random.nextFloat() * 0.2F + 0.8F);
 	}
 
 	@Override
