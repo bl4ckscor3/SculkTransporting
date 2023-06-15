@@ -30,5 +30,6 @@
     "recipes": [
       "sculktransporting:quantity_modifier_tier_3_alt"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }
