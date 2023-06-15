@@ -47,7 +47,7 @@ public class SculkEmitterModel implements IDynamicBakedModel {
 
 			if (speedTier != null && quantityTier != null) {
 				return quadCache.computeIfAbsent(new CacheKey(side, speedTier, quantityTier), k -> {
-					List<BakedQuad> originalQuads = originalModel.getQuads(state, side, rand, data, renderType);
+					List<BakedQuad> originalQuads = new ArrayList<>(originalModel.getQuads(state, side, rand, data, renderType));
 
 					for (int i = 0; i < originalQuads.size(); i++) {
 						BakedQuad quad = originalQuads.get(i);
@@ -82,7 +82,7 @@ public class SculkEmitterModel implements IDynamicBakedModel {
 						}
 					}
 
-					return new ArrayList<>(originalQuads);
+					return originalQuads;
 				});
 			}
 		}
