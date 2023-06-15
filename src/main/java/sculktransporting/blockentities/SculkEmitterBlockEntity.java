@@ -15,8 +15,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.gameevent.GameEvent.Context;
-import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -66,6 +64,11 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 
 			BaseSculkItemTransporterBlockEntity.serverTick(level, pos, state, be);
 		}
+	}
+
+	@Override
+	public User createVibrationUser() {
+		return new SculkEmitterVibrationUser(getBlockPos());
 	}
 
 	@Override
@@ -142,22 +145,6 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	}
 
 	@Override
-	public boolean isValidVibration(GameEvent gameEvent, Context ctx) {
-		return false;
-	}
-
-	@Override
-	public boolean shouldListen(ServerLevel level, GameEventListener listener, BlockPos pos, GameEvent event, GameEvent.Context ctx) {
-		return false;
-	}
-
-	@Override
-	public void onSignalSchedule() {}
-
-	@Override
-	public void onSignalReceive(ServerLevel level, GameEventListener listener, BlockPos pos, GameEvent event, Entity entity, Entity projectileOwner, float distance) {}
-
-	@Override
 	public BlockEntityType<?> getType() {
 		return STBlockEntityTypes.SCULK_EMITTER_BLOCK_ENTITY.get();
 	}
@@ -172,5 +159,27 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 		super.onDataPacket(net, pkt);
 		requestModelDataUpdate();
 		Minecraft.getInstance().levelRenderer.setBlocksDirty(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
+	}
+
+	public class SculkEmitterVibrationUser extends BaseVibrationUser {
+		public SculkEmitterVibrationUser(BlockPos pos) {
+			super(pos);
+		}
+
+		@Override
+		public boolean isValidVibration(GameEvent gameEvent, GameEvent.Context ctx) {
+			return false;
+		}
+
+		@Override
+		public boolean canReceiveVibration(ServerLevel level, BlockPos pos, GameEvent event, GameEvent.Context ctx) {
+			return false;
+		}
+
+		@Override
+		public void onDataChanged() {}
+
+		@Override
+		public void onReceiveVibration(ServerLevel level, BlockPos pos, GameEvent event, Entity entity, Entity projectileOwner, float distance) {}
 	}
 }

@@ -11,6 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.vibrations.VibrationSystem;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -30,7 +31,7 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SculkReceiverBlockEntity be) {
-		be.getListener().tick(level);
+		VibrationSystem.Ticker.tick(level, be.getVibrationData(), be.getVibrationUser());
 
 		if (level.getGameTime() % 5 == 0 && be.inventoryBelow == null) {
 			BlockEntity beBelow = level.getBlockEntity(pos.below());

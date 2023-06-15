@@ -24,13 +24,13 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 	}
 
 	@Override
-	public boolean shouldPerformAction(Level level) {
-		return true;
+	public User createVibrationUser() {
+		return new SculkTransmitterVibrationUser(getBlockPos());
 	}
 
 	@Override
-	public boolean isValidVibration(GameEvent gameEvent, Context ctx) {
-		return super.isValidVibration(gameEvent, ctx) && (filteredItem.is(Items.AIR) || (!getBlockState().getValue(SculkTransmitterBlock.INVERTED) == ((ItemEntity) ctx.sourceEntity()).getItem().is(filteredItem.getItem())));
+	public boolean shouldPerformAction(Level level) {
+		return true;
 	}
 
 	@Override
@@ -58,7 +58,6 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 		filteredItem = new ItemStack(stack.getItem());
 		setChanged();
 		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
-		return;
 	}
 
 	public void removeFilteredItem() {
@@ -75,5 +74,16 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 	@Override
 	public BlockEntityType<?> getType() {
 		return STBlockEntityTypes.SCULK_TRANSMITTER_BLOCK_ENTITY.get();
+	}
+
+	public class SculkTransmitterVibrationUser extends BaseVibrationUser {
+		public SculkTransmitterVibrationUser(BlockPos pos) {
+			super(pos);
+		}
+
+		@Override
+		public boolean isValidVibration(GameEvent gameEvent, Context ctx) {
+			return super.isValidVibration(gameEvent, ctx) && (filteredItem.is(Items.AIR) || (!getBlockState().getValue(SculkTransmitterBlock.INVERTED) == ((ItemEntity) ctx.sourceEntity()).getItem().is(filteredItem.getItem())));
+		}
 	}
 }
