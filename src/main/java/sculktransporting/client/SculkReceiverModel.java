@@ -45,7 +45,7 @@ public class SculkReceiverModel implements IDynamicBakedModel {
 
 			if (speedTier != null) {
 				return quadCache.computeIfAbsent(Pair.of(side, speedTier), k -> {
-					List<BakedQuad> originalQuads = originalModel.getQuads(state, side, rand, data, renderType);
+					List<BakedQuad> originalQuads = new ArrayList<>(originalModel.getQuads(state, side, rand, data, renderType));
 
 					for (int i = 0; i < originalQuads.size(); i++) {
 						BakedQuad quad = originalQuads.get(i);
@@ -64,7 +64,7 @@ public class SculkReceiverModel implements IDynamicBakedModel {
 						}
 					}
 
-					return new ArrayList<>(originalQuads);
+					return originalQuads;
 				});
 			}
 		}
