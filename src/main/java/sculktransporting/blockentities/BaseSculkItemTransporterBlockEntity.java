@@ -43,7 +43,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 		VibrationSystem.Ticker.tick(level, be.getVibrationData(), be.getVibrationUser());
 
 		if (!be.storedItemSignal.isEmpty()) {
-			if (be.cachedItemEntity == null || !be.cachedItemEntity.isAlive()) {
+			if (be.cachedItemEntity == null) {
 				be.level.updateNeighborsAt(pos, state.getBlock());
 				be.cachedItemEntity = new ItemEntity(level, be.signalOrigin.getX(), be.signalOrigin.getY(), be.signalOrigin.getZ(), be.storedItemSignal);
 			}

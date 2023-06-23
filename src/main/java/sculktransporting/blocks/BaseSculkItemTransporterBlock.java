@@ -66,13 +66,13 @@ public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 
 	@Override
 	public void activate(Entity entity, Level level, BlockPos pos, BlockState state, int distance, int resonanceFrequency) { //copied from SculkSensorBlock to remove vibration resonance
-		level.setBlock(pos, state.setValue(PHASE, SculkSensorPhase.ACTIVE).setValue(POWER, Integer.valueOf(distance)), 3);
+		level.setBlock(pos, state.setValue(PHASE, SculkSensorPhase.ACTIVE).setValue(POWER, distance), 3);
 		level.scheduleTick(pos, state.getBlock(), 0);
 		updateNeighbours(level, pos, state);
 		level.gameEvent(entity, GameEvent.SCULK_SENSOR_TENDRILS_CLICKING, pos);
 
 		if (!state.getValue(WATERLOGGED))
-			level.playSound(null, (double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, SoundEvents.SCULK_CLICKING, SoundSource.BLOCKS, 1.0F, level.random.nextFloat() * 0.2F + 0.8F);
+			level.playSound(null, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, SoundEvents.SCULK_CLICKING, SoundSource.BLOCKS, 1.0F, level.random.nextFloat() * 0.2F + 0.8F);
 	}
 
 	@Override
