@@ -9,5 +9,6 @@
 	"pamphlet": true,
 	"show_progress": false,
 	"creative_tab": "sculktransporting",
-	"i18n": true
+	"i18n": true,
+	"use_resource_pack": true
 }
