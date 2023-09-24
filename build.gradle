@@ -76,7 +76,7 @@ repositories {
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.19.4-45.1.4'
-    //implementation fg.deobf("curse.maven:patchouli-306770:3877555")
+    implementation fg.deobf("curse.maven:patchouli-306770:4636289")
 }
 
 sourceSets.main.resources {
