@@ -43,10 +43,8 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 					if (!isQuantityModifier && be.getSpeedTier() == SpeedTier.ZERO)
 						modifierAdded = be.setSpeedTier(((SpeedModifierItem) heldStack.getItem()).tier);
 
-					if (modifierAdded) {
-						if (!player.isCreative())
-							heldStack.shrink(1);
-					}
+					if (modifierAdded && !player.isCreative())
+						heldStack.shrink(1);
 				}
 
 				return InteractionResult.sidedSuccess(level.isClientSide);
@@ -107,11 +105,9 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (!state.is(newState.getBlock())) {
-			if (level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be) {
-				Block.popResource(level, pos, new ItemStack(be.getSpeedTier().getItem()));
-				Block.popResource(level, pos, new ItemStack(be.getQuantityTier().getItem()));
-			}
+		if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be) {
+			Block.popResource(level, pos, new ItemStack(be.getSpeedTier().getItem()));
+			Block.popResource(level, pos, new ItemStack(be.getQuantityTier().getItem()));
 		}
 
 		super.onRemove(state, level, pos, newState, isMoving);

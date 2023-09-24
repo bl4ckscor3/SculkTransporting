@@ -12,7 +12,7 @@ public class QuantityModifierItem extends Item {
 		tier.item = this;
 	}
 
-	public static enum QuantityTier implements ModifierTier {
+	public enum QuantityTier implements ModifierTier {
 		ZERO(0),
 		ONE(1),
 		TWO(2),

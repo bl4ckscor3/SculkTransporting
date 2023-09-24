@@ -28,6 +28,8 @@ public class STItems {
 	public static final RegistryObject<SpeedModifierItem> SPEED_MODIFIER_TIER_3 = ITEMS.register("speed_modifier_tier_3", () -> new SpeedModifierItem(SpeedTier.THREE, new Item.Properties()));
 	public static final RegistryObject<SpeedModifierItem> SPEED_MODIFIER_TIER_4 = ITEMS.register("speed_modifier_tier_4", () -> new SpeedModifierItem(SpeedTier.FOUR, new Item.Properties()));
 
+	private STItems() {}
+
 	@SubscribeEvent
 	public static void automaticallyRegisterBlockItems(RegisterEvent event) {
 		event.register(Keys.ITEMS, helper -> {

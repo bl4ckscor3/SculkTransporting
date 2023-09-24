@@ -16,4 +16,6 @@ public class STBlockEntityTypes {
 	public static final RegistryObject<BlockEntityType<SculkReceiverBlockEntity>> SCULK_RECEIVER_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("sculk_receiver", () -> BlockEntityType.Builder.of(SculkReceiverBlockEntity::new, STBlocks.SCULK_RECEIVER.get()).build(null));
 	public static final RegistryObject<BlockEntityType<SculkTransmitterBlockEntity>> SCULK_TRANSMITTER_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("sculk_transmitter", () -> BlockEntityType.Builder.of(SculkTransmitterBlockEntity::new, STBlocks.SCULK_TRANSMITTER.get()).build(null));
 	public static final RegistryObject<BlockEntityType<SculkBarrelBlockEntity>> SCULK_BARREL_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("sculk_barrel", () -> BlockEntityType.Builder.of(SculkBarrelBlockEntity::new, STBlocks.SCULK_BARREL.get()).build(null));
+
+	private STBlockEntityTypes() {}
 }

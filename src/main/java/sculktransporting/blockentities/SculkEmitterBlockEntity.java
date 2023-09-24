@@ -106,7 +106,6 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 			return;
 
 		setQuantityTier(QuantityTier.ZERO);
-		return;
 	}
 
 	public QuantityTier getQuantityTier() {
@@ -128,7 +127,6 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 			return;
 
 		setSpeedTier(SpeedTier.ZERO);
-		return;
 	}
 
 	public SpeedTier getSpeedTier() {

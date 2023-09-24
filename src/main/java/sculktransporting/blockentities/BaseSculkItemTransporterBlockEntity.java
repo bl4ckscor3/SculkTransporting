@@ -1,9 +1,5 @@
 package sculktransporting.blockentities;
 
-import org.slf4j.Logger;
-
-import com.mojang.logging.LogUtils;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -29,12 +25,11 @@ import sculktransporting.misc.OneReceiverVibrationListener;
 import sculktransporting.registration.STGameEvents;
 
 public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlockEntity {
-	private static final Logger LOGGER = LogUtils.getLogger();
 	protected ItemStack storedItemSignal = ItemStack.EMPTY;
 	protected BlockPos signalOrigin;
 	protected ItemEntity cachedItemEntity;
 
-	public BaseSculkItemTransporterBlockEntity(BlockPos pos, BlockState state) {
+	protected BaseSculkItemTransporterBlockEntity(BlockPos pos, BlockState state) {
 		super(pos, state);
 		this.vibrationListener = new OneReceiverVibrationListener(this);
 	}

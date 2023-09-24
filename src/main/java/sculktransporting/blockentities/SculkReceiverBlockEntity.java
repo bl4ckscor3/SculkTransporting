@@ -42,24 +42,22 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 				be.inventoryBelow = LazyOptional.empty();
 		}
 
-		if (be.shouldPerformAction(level)) {
-			if (be.hasStoredItemSignal() && be.inventoryBelow != null) {
-				be.inventoryBelow.ifPresent(itemHandler -> {
-					ItemStack inserted = be.storedItemSignal;
+		if (be.shouldPerformAction(level) && be.hasStoredItemSignal() && be.inventoryBelow != null) {
+			be.inventoryBelow.ifPresent(itemHandler -> {
+				ItemStack inserted = be.storedItemSignal;
 
-					for (int i = 0; i < itemHandler.getSlots(); i++) {
-						inserted = itemHandler.insertItem(i, inserted, false);
+				for (int i = 0; i < itemHandler.getSlots(); i++) {
+					inserted = itemHandler.insertItem(i, inserted, false);
 
-						if (inserted.isEmpty()) {
-							be.storedItemSignal = ItemStack.EMPTY;
-							BaseSculkItemTransporterBlock.deactivate(level, be.worldPosition, be.getBlockState());
-							break;
-						}
+					if (inserted.isEmpty()) {
+						be.storedItemSignal = ItemStack.EMPTY;
+						BaseSculkItemTransporterBlock.deactivate(level, be.worldPosition, be.getBlockState());
+						break;
 					}
+				}
 
-					be.storedItemSignal = inserted;
-				});
-			}
+				be.storedItemSignal = inserted;
+			});
 		}
 	}
 

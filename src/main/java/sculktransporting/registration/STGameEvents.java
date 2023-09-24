@@ -9,4 +9,6 @@ import sculktransporting.SculkTransporting;
 public class STGameEvents {
 	public static final DeferredRegister<GameEvent> GAME_EVENTS = DeferredRegister.create(Registries.GAME_EVENT, SculkTransporting.MODID);
 	public static final RegistryObject<GameEvent> ITEM_TRANSMITTABLE = GAME_EVENTS.register("item_transmittable", () -> new GameEvent("item_transmittable", 16));
+
+	private STGameEvents() {}
 }
