@@ -8,7 +8,7 @@
 	"flip_sound": "minecraft:block.sculk.spread",
 	"pamphlet": true,
 	"show_progress": false,
-	"creative_tab": "sculktransporting",
+	"creative_tab": "sculktransporting:tab",
 	"i18n": true,
 	"use_resource_pack": true
 }
