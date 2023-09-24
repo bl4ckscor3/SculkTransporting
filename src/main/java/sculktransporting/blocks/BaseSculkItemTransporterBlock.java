@@ -19,7 +19,7 @@ import sculktransporting.blockentities.BaseSculkItemTransporterBlockEntity;
 public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 	private static final float CONVERSION_FACTOR = 14.0F / 63.0F;
 
-	public BaseSculkItemTransporterBlock(Properties properties) {
+	protected BaseSculkItemTransporterBlock(Properties properties) {
 		super(properties, 8);
 	}
 

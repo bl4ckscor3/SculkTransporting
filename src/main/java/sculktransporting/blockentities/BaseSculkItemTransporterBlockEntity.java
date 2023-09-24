@@ -37,7 +37,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 	protected BlockPos signalOrigin;
 	protected ItemEntity cachedItemEntity;
 
-	public BaseSculkItemTransporterBlockEntity(BlockPos pos, BlockState state) {
+	protected BaseSculkItemTransporterBlockEntity(BlockPos pos, BlockState state) {
 		super(pos, state);
 		this.listener = new OneReceiverVibrationListener(new BlockPositionSource(worldPosition), ((SculkSensorBlock) state.getBlock()).getListenerRange(), this);
 	}

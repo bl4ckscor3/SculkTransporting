@@ -43,10 +43,8 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 			ItemStack heldStack = player.getItemInHand(hand);
 
 			if (heldStack.is(STTags.Items.SPEED_MODIFIERS)) {
-				if (!level.isClientSide && be.getSpeedTier() == SpeedTier.ZERO && be.setSpeedTier(((SpeedModifierItem) heldStack.getItem()).tier)) {
-					if (!player.isCreative())
-						heldStack.shrink(1);
-				}
+				if (!level.isClientSide && be.getSpeedTier() == SpeedTier.ZERO && be.setSpeedTier(((SpeedModifierItem) heldStack.getItem()).tier) && !player.isCreative())
+					heldStack.shrink(1);
 
 				return InteractionResult.sidedSuccess(level.isClientSide);
 			}
@@ -80,10 +78,8 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (!state.is(newState.getBlock())) {
-			if (level.getBlockEntity(pos) instanceof SculkReceiverBlockEntity be)
-				Block.popResource(level, pos, new ItemStack(be.getSpeedTier().getItem()));
-		}
+		if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof SculkReceiverBlockEntity be)
+			Block.popResource(level, pos, new ItemStack(be.getSpeedTier().getItem()));
 
 		super.onRemove(state, level, pos, newState, isMoving);
 	}

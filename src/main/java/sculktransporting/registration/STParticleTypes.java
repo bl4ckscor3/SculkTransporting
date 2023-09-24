@@ -18,4 +18,6 @@ public class STParticleTypes {
 			return ItemSignalParticleOption.CODEC;
 		}
 	});
+
+	private STParticleTypes() {}
 }

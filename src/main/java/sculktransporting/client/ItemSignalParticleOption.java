@@ -46,19 +46,12 @@ public class ItemSignalParticleOption extends VibrationParticleOption {
 			reader.expect(' ');
 			itemResult = ItemParser.parseForItem(BuiltInRegistries.ITEM.asLookup(), reader);
 
-			BlockPos destination = BlockPos.containing(x, y, z);
-			ItemStack stack = new ItemInput(itemResult.item(), itemResult.nbt()).createItemStack(1, false);
-
-			return new ItemSignalParticleOption(new BlockPositionSource(destination), arrivalInTicks, stack);
+			return new ItemSignalParticleOption(new BlockPositionSource(BlockPos.containing(x, y, z)), arrivalInTicks, new ItemInput(itemResult.item(), itemResult.nbt()).createItemStack(1, false));
 		}
 
 		@Override
 		public VibrationParticleOption fromNetwork(ParticleType<VibrationParticleOption> particleType, FriendlyByteBuf buffer) {
-			PositionSource destination = PositionSourceType.fromNetwork(buffer);
-			int arrivalInTicks = buffer.readVarInt();
-			ItemStack stack = buffer.readItem();
-
-			return new ItemSignalParticleOption(destination, arrivalInTicks, stack);
+			return new ItemSignalParticleOption(PositionSourceType.fromNetwork(buffer), buffer.readVarInt(), buffer.readItem());
 		}
 	};
 	private final ItemStack stack;

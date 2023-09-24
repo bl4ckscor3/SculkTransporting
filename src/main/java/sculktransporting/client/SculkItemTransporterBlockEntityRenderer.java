@@ -19,7 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import sculktransporting.blockentities.BaseSculkItemTransporterBlockEntity;
 
 public class SculkItemTransporterBlockEntityRenderer<T extends BaseSculkItemTransporterBlockEntity> implements BlockEntityRenderer<T> {
-	private static final Quaternionf XP_90 = new Quaternionf().rotateXYZ(90.0F * ((float) Math.PI / 180.0F), 0.0F, 0.0F); //TODO: fixed?
+	private static final Quaternionf XP_90 = new Quaternionf().rotateXYZ(90.0F * ((float) Math.PI / 180.0F), 0.0F, 0.0F);
 
 	public SculkItemTransporterBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {}
 
