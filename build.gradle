@@ -80,7 +80,7 @@ repositories {
 
 dependencies {
 	minecraft 'net.minecraftforge:forge:1.20.1-47.0.1'
-    //implementation fg.deobf("curse.maven:patchouli-306770:3877555")
+    implementation fg.deobf("curse.maven:patchouli-306770:4636277")
 }
 
 sourceSets.main.resources {
