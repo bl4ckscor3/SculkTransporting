@@ -1,9 +1,9 @@
 package sculktransporting.client;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.joml.Vector3f;
 
@@ -33,7 +33,7 @@ import sculktransporting.items.SpeedModifierItem.SpeedTier;
 public class SculkEmitterModel implements IDynamicBakedModel {
 	private static final FaceBakery FACE_BAKERY = new FaceBakery();
 	private BakedModel originalModel;
-	private Map<CacheKey, List<BakedQuad>> quadCache = new HashMap<>();
+	private Map<CacheKey, List<BakedQuad>> quadCache = new ConcurrentHashMap<>();
 
 	public SculkEmitterModel(BakedModel originalModel) {
 		this.originalModel = originalModel;
