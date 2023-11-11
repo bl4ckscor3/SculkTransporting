@@ -1,12 +1,11 @@
 package sculktransporting.registration;
 
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.VibrationParticleOption;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.RegistryObject;
 import sculktransporting.SculkTransporting;
 import sculktransporting.client.ItemSignalParticleOption;
 

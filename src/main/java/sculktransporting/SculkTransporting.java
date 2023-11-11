@@ -1,22 +1,22 @@
 package sculktransporting;
 
-import java.util.List;
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.RegistryObject;
 import sculktransporting.registration.STBlockEntityTypes;
 import sculktransporting.registration.STBlocks;
 import sculktransporting.registration.STGameEvents;
 import sculktransporting.registration.STItems;
 import sculktransporting.registration.STParticleTypes;
+
+import java.util.List;
 
 @Mod(SculkTransporting.MODID)
 public class SculkTransporting {

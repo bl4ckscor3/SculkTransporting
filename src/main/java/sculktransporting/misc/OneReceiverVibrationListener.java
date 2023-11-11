@@ -1,15 +1,14 @@
 package sculktransporting.misc;
 
-import java.util.Optional;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.vibrations.VibrationInfo;
 import net.minecraft.world.level.gameevent.vibrations.VibrationSystem;
 import net.minecraft.world.phys.Vec3;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.Optional;
 
 public class OneReceiverVibrationListener extends VibrationSystem.Listener {
 	public OneReceiverVibrationListener(VibrationSystem system) {

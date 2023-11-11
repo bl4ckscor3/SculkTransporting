@@ -12,10 +12,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.vibrations.VibrationSystem;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.common.capabilities.Capabilities;
+import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.items.IItemHandler;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 import sculktransporting.client.ClientHandler;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
@@ -37,7 +37,7 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 			BlockEntity beBelow = level.getBlockEntity(pos.below());
 
 			if (beBelow != null)
-				be.inventoryBelow = beBelow.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP);
+				be.inventoryBelow = beBelow.getCapability(Capabilities.ITEM_HANDLER, Direction.UP);
 			else
 				be.inventoryBelow = LazyOptional.empty();
 		}
