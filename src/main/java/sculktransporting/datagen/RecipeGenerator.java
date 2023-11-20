@@ -1,8 +1,10 @@
 package sculktransporting.datagen;
 
+import java.util.concurrent.CompletableFuture;
+
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
@@ -12,12 +14,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 import sculktransporting.registration.STBlocks;
 import sculktransporting.registration.STItems;
-
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 
 public class RecipeGenerator extends RecipeProvider {
 	public RecipeGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
@@ -96,7 +94,7 @@ public class RecipeGenerator extends RecipeProvider {
 			//@formatter:on
 		}
 		else {
-			ResourceLocation resultName = ForgeRegistries.ITEMS.getKey(result.asItem());
+			ResourceLocation resultName = BuiltInRegistries.ITEM.getKey(result.asItem());
 
 			//@formatter:off
 			ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, result)

@@ -1,6 +1,7 @@
 package sculktransporting.blockentities;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -12,7 +13,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEvent.Context;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 import sculktransporting.blocks.SculkTransmitterBlock;
 import sculktransporting.registration.STBlockEntityTypes;
 
@@ -36,14 +36,14 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 	@Override
 	protected void saveAdditional(CompoundTag tag) {
 		super.saveAdditional(tag);
-		tag.putString("FilteredItem", ForgeRegistries.ITEMS.getKey(filteredItem.getItem()).toString());
+		tag.putString("FilteredItem", BuiltInRegistries.ITEM.getKey(filteredItem.getItem()).toString());
 	}
 
 	@Override
 	public void load(CompoundTag tag) {
 		super.load(tag);
 
-		Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(tag.getString("FilteredItem")));
+		Item item = BuiltInRegistries.ITEM.get(new ResourceLocation(tag.getString("FilteredItem")));
 
 		if (item == Items.AIR)
 			filteredItem = ItemStack.EMPTY;
@@ -83,7 +83,7 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 
 		@Override
 		public boolean isValidVibration(GameEvent gameEvent, Context ctx) {
-			return super.isValidVibration(gameEvent, ctx) && (filteredItem.is(Items.AIR) || (!getBlockState().getValue(SculkTransmitterBlock.INVERTED) == ((ItemEntity) ctx.sourceEntity()).getItem().is(filteredItem.getItem())));
+			return super.isValidVibration(gameEvent, ctx) && (filteredItem.is(Items.AIR) || (getBlockState().getValue(SculkTransmitterBlock.INVERTED) ^ ((ItemEntity) ctx.sourceEntity()).getItem().is(filteredItem.getItem())));
 		}
 	}
 }

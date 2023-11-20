@@ -1,6 +1,9 @@
 package sculktransporting.client;
 
+import java.util.stream.Collectors;
+
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateHolder;
@@ -12,15 +15,12 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.model.data.ModelProperty;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 import sculktransporting.SculkTransporting;
 import sculktransporting.items.QuantityModifierItem.QuantityTier;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
 import sculktransporting.registration.STBlockEntityTypes;
 import sculktransporting.registration.STBlocks;
 import sculktransporting.registration.STParticleTypes;
-
-import java.util.stream.Collectors;
 
 @EventBusSubscriber(modid = SculkTransporting.MODID, value = Dist.CLIENT, bus = Bus.MOD)
 public class ClientHandler {
@@ -36,14 +36,14 @@ public class ClientHandler {
 
 		for (BlockState state : sculkReceiver.getStateDefinition().getPossibleStates()) {
 			String stateString = state.getValues().entrySet().stream().map(StateHolder.PROPERTY_ENTRY_TO_STRING_FUNCTION).collect(Collectors.joining(","));
-			ModelResourceLocation mrl = new ModelResourceLocation(ForgeRegistries.BLOCKS.getKey(sculkReceiver), stateString);
+			ModelResourceLocation mrl = new ModelResourceLocation(BuiltInRegistries.BLOCK.getKey(sculkReceiver), stateString);
 
 			event.getModels().put(mrl, new SculkReceiverModel(event.getModels().get(mrl)));
 		}
 
 		for (BlockState state : sculkEmitter.getStateDefinition().getPossibleStates()) {
 			String stateString = state.getValues().entrySet().stream().map(StateHolder.PROPERTY_ENTRY_TO_STRING_FUNCTION).collect(Collectors.joining(","));
-			ModelResourceLocation mrl = new ModelResourceLocation(ForgeRegistries.BLOCKS.getKey(sculkEmitter), stateString);
+			ModelResourceLocation mrl = new ModelResourceLocation(BuiltInRegistries.BLOCK.getKey(sculkEmitter), stateString);
 
 			event.getModels().put(mrl, new SculkEmitterModel(event.getModels().get(mrl)));
 		}

@@ -1,5 +1,6 @@
 package sculktransporting.datagen;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -8,8 +9,7 @@ import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.registries.ForgeRegistries;
-import net.neoforged.neoforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import sculktransporting.SculkTransporting;
 import sculktransporting.registration.STBlocks;
 import sculktransporting.registration.STItems;
@@ -26,7 +26,7 @@ public class ItemModelGenerator extends ItemModelProvider {
 		simpleParent(STBlocks.SCULK_RECEIVER.get(), "sculk_receiver_active");
 		simpleParent(STBlocks.SCULK_BARREL.get());
 
-		for (RegistryObject<Item> item : STItems.ITEMS.getEntries()) {
+		for (DeferredHolder<Item, ? extends Item> item : STItems.ITEMS.getEntries()) {
 			simpleItem(item.get(), "item/generated");
 		}
 	}
@@ -54,11 +54,11 @@ public class ItemModelGenerator extends ItemModelProvider {
 	}
 
 	private String name(Block block) {
-		return ForgeRegistries.BLOCKS.getKey(block).getPath();
+		return BuiltInRegistries.BLOCK.getKey(block).getPath();
 	}
 
 	private String name(Item item) {
-		return ForgeRegistries.ITEMS.getKey(item).getPath();
+		return BuiltInRegistries.ITEM.getKey(item).getPath();
 	}
 
 	@Override
