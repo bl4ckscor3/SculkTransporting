@@ -30,6 +30,5 @@
     "recipes": [
       "sculktransporting:speed_modifier_tier_4_alt"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

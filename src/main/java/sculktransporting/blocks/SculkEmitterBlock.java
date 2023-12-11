@@ -99,7 +99,7 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 			BlockState stateBelow = level.getBlockState(fromPos);
 
 			if (be.getLastKnownStateBelow() != stateBelow)
-				be.forgetInventoryBelow(stateBelow);
+				be.setLastKnownStateBelow(stateBelow);
 		}
 	}
 

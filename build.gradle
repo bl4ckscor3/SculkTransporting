@@ -49,7 +49,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'net.neoforged:neoforge:20.2.59-beta'
+    implementation 'net.neoforged:neoforge:20.4.11-beta'
 	//implementation "curse.maven:patchouli-306770:4636277"
 }
 

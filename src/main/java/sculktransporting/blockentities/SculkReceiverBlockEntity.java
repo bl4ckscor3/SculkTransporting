@@ -6,15 +6,15 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.vibrations.VibrationSystem;
+import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.client.model.data.ModelData;
-import net.neoforged.neoforge.common.capabilities.Capabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.items.IItemHandler;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 import sculktransporting.client.ClientHandler;
@@ -22,8 +22,7 @@ import sculktransporting.items.SpeedModifierItem.SpeedTier;
 import sculktransporting.registration.STBlockEntityTypes;
 
 public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntity {
-	private BlockState lastKnownStateBelow;
-	private LazyOptional<IItemHandler> inventoryBelow;
+	private BlockCapabilityCache<IItemHandler, Direction> inventoryBelow;
 	private SpeedTier speedTier = SpeedTier.ZERO;
 
 	public SculkReceiverBlockEntity(BlockPos pos, BlockState state) {
@@ -33,17 +32,10 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SculkReceiverBlockEntity be) {
 		VibrationSystem.Ticker.tick(level, be.getVibrationData(), be.getVibrationUser());
 
-		if (level.getGameTime() % 5 == 0 && be.inventoryBelow == null) {
-			BlockEntity beBelow = level.getBlockEntity(pos.below());
-
-			if (beBelow != null)
-				be.inventoryBelow = beBelow.getCapability(Capabilities.ITEM_HANDLER, Direction.UP);
-			else
-				be.inventoryBelow = LazyOptional.empty();
-		}
-
 		if (be.shouldPerformAction(level) && be.hasStoredItemSignal() && be.inventoryBelow != null) {
-			be.inventoryBelow.ifPresent(itemHandler -> {
+			IItemHandler itemHandler = be.inventoryBelow.getCapability();
+
+			if (itemHandler != null) {
 				ItemStack inserted = be.storedItemSignal;
 
 				for (int i = 0; i < itemHandler.getSlots(); i++) {
@@ -57,7 +49,7 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 				}
 
 				be.storedItemSignal = inserted;
-			});
+			}
 		}
 	}
 
@@ -100,15 +92,6 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 		return speedTier;
 	}
 
-	public BlockState getLastKnownStateBelow() {
-		return lastKnownStateBelow;
-	}
-
-	public void forgetInventoryBelow(BlockState stateBelow) {
-		inventoryBelow = null;
-		lastKnownStateBelow = stateBelow;
-	}
-
 	@Override
 	public BlockEntityType<?> getType() {
 		return STBlockEntityTypes.SCULK_RECEIVER_BLOCK_ENTITY.get();
@@ -124,5 +107,13 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 		super.onDataPacket(net, pkt);
 		requestModelDataUpdate();
 		Minecraft.getInstance().levelRenderer.setBlocksDirty(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
+	}
+
+	@Override
+	public void onLoad() {
+		super.onLoad();
+
+		if (level != null && !level.isClientSide)
+			inventoryBelow = BlockCapabilityCache.create(Capabilities.ItemHandler.BLOCK, (ServerLevel) level, worldPosition.below(), Direction.UP);
 	}
 }

@@ -30,6 +30,5 @@
     "recipes": [
       "sculktransporting:sculk_receiver"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }
