@@ -27,8 +27,7 @@ public class SculkTransporting {
 			.withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
 			.icon(() -> new ItemStack(STBlocks.SCULK_EMITTER.get()))
 			.title(Component.translatable("itemGroup.sculktransporting"))
-			.displayItems((displayParameters, output) -> {
-				output.acceptAll(List.of(
+			.displayItems((displayParameters, output) -> output.acceptAll(List.of(
 						new ItemStack(STBlocks.SCULK_BARREL.get()),
 						new ItemStack(STBlocks.SCULK_EMITTER.get()),
 						new ItemStack(STBlocks.SCULK_TRANSMITTER.get()),
@@ -39,8 +38,8 @@ public class SculkTransporting {
 						new ItemStack(STItems.SPEED_MODIFIER_TIER_1.get()),
 						new ItemStack(STItems.SPEED_MODIFIER_TIER_2.get()),
 						new ItemStack(STItems.SPEED_MODIFIER_TIER_3.get()),
-						new ItemStack(STItems.SPEED_MODIFIER_TIER_4.get())));
-			}).build());
+						new ItemStack(STItems.SPEED_MODIFIER_TIER_4.get())))
+			).build());
 	//@formatter:on
 
 	public SculkTransporting() {

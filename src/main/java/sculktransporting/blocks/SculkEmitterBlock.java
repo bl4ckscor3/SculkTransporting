@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import sculktransporting.STTags;
@@ -24,7 +25,7 @@ import sculktransporting.items.SpeedModifierItem.SpeedTier;
 import sculktransporting.registration.STBlockEntityTypes;
 
 public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
-	public SculkEmitterBlock(Properties properties) {
+	public SculkEmitterBlock(BlockBehaviour.Properties properties) {
 		super(properties);
 	}
 

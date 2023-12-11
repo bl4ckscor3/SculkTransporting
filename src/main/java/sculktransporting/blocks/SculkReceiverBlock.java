@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -28,7 +29,7 @@ import sculktransporting.registration.STBlockEntityTypes;
 public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 	private static final VoxelShape SHAPE = Stream.of(Block.box(0, 0, 0, 1, 3, 1), Block.box(0, 0, 15, 1, 3, 16), Block.box(15, 0, 0, 16, 3, 1), Block.box(15, 0, 15, 16, 3, 16), Block.box(6, 1, 6, 10, 2, 10), Block.box(5, 2, 5, 11, 3, 11), Block.box(7, 0, 7, 9, 1, 9), Block.box(0, 3, 0, 16, 8, 16)).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
-	public SculkReceiverBlock(Properties properties) {
+	public SculkReceiverBlock(BlockBehaviour.Properties properties) {
 		super(properties);
 	}
 

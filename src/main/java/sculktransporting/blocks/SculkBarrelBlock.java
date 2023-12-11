@@ -8,12 +8,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BarrelBlock;
 import net.minecraft.world.level.block.entity.BarrelBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import sculktransporting.blockentities.SculkBarrelBlockEntity;
 
 public class SculkBarrelBlock extends BarrelBlock {
-	public SculkBarrelBlock(Properties properties) {
+	public SculkBarrelBlock(BlockBehaviour.Properties properties) {
 		super(properties);
 	}
 
