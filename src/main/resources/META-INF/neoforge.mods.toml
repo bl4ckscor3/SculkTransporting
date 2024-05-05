@@ -11,6 +11,9 @@ issueTrackerURL="https://github.com/bl4ckscor3/SculkTransporting/issues"
 	authors="bl4ckscor3, Redstone_Dubstep"
 	description='''A mod adding an item transport solution involving sculk.'''
 
+[[mixins]]
+    config="sculktransporting.mixins.json"
+
 [[dependencies.sculktransporting]]
     modId="neoforge"
     mandatory=true

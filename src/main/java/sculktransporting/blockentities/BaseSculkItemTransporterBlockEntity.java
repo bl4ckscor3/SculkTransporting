@@ -60,7 +60,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 		super.loadAdditional(tag, lookupProvider);
 
 		storedItemSignal = ItemStack.parseOptional(lookupProvider, tag.getCompound("StoredItemSignal"));
-		signalOrigin = NbtUtils.readBlockPos(tag, "SignalOrigin").orElse(null);
+		signalOrigin = NbtUtils.readBlockPos(tag, "signal_origin").orElse(null);
 	}
 
 	@Override
@@ -69,11 +69,11 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 
 		if (!storedItemSignal.isEmpty()) {
 			tag.put("StoredItemSignal", storedItemSignal.save(lookupProvider));
-			tag.put("SignalOrigin", NbtUtils.writeBlockPos(signalOrigin));
+			tag.put("signal_origin", NbtUtils.writeBlockPos(signalOrigin));
 		}
 		else if (getVibrationData().getCurrentVibration() != null && getVibrationData().getCurrentVibration().entity() instanceof ItemEntity item) {
 			tag.put("StoredItemSignal", item.getItem().save(lookupProvider));
-			tag.put("SignalOrigin", NbtUtils.writeBlockPos(item.blockPosition()));
+			tag.put("signal_origin", NbtUtils.writeBlockPos(item.blockPosition()));
 		}
 	}
 
