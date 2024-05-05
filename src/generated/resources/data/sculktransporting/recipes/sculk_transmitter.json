@@ -9,10 +9,10 @@
       "item": "minecraft:deepslate_bricks"
     },
     "I": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "R": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     }
   },
   "pattern": [
@@ -20,6 +20,7 @@
     "IRI"
   ],
   "result": {
-    "item": "sculktransporting:sculk_transmitter"
+    "count": 1,
+    "id": "sculktransporting:sculk_transmitter"
   }
 }

@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "sculktransporting:speed_modifier_tier_2"
-            ]
+            "items": "sculktransporting:speed_modifier_tier_2"
           }
         ]
       },

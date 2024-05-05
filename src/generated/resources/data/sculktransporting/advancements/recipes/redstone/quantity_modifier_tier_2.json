@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "sculktransporting:quantity_modifier_tier_1"
-            ]
+            "items": "sculktransporting:quantity_modifier_tier_1"
           }
         ]
       },

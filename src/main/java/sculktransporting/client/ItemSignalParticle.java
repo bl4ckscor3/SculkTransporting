@@ -1,16 +1,15 @@
 package sculktransporting.client;
 
+import java.util.Optional;
+
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.BreakingItemParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.core.particles.VibrationParticleOption;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.gameevent.PositionSource;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.Optional;
 
 public class ItemSignalParticle extends BreakingItemParticle {
 	private final PositionSource target;
@@ -50,10 +49,10 @@ public class ItemSignalParticle extends BreakingItemParticle {
 		}
 	}
 
-	public static class Provider implements ParticleProvider<VibrationParticleOption> {
+	public static class Provider implements ParticleProvider<ItemSignalParticleOption> {
 		@Override
-		public Particle createParticle(VibrationParticleOption type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-			return new ItemSignalParticle(level, x, y, z, type.getDestination(), type.getArrivalInTicks(), ((ItemSignalParticleOption) type).getItem());
+		public Particle createParticle(ItemSignalParticleOption type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+			return new ItemSignalParticle(level, x, y, z, type.destination(), type.arrivalInTicks(), type.stack());
 		}
 	}
 }

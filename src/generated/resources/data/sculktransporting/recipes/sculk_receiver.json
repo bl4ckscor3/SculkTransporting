@@ -20,6 +20,7 @@
     "BHB"
   ],
   "result": {
-    "item": "sculktransporting:sculk_receiver"
+    "count": 1,
+    "id": "sculktransporting:sculk_receiver"
   }
 }

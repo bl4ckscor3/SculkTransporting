@@ -3,6 +3,7 @@ package sculktransporting.blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -28,15 +29,21 @@ public class SculkTransmitterBlock extends BaseSculkItemTransporterBlock {
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-		if (level.getBlockEntity(pos) instanceof SculkTransmitterBlockEntity be) {
-			ItemStack heldStack = player.getItemInHand(hand);
+	public ItemInteractionResult useItemOn(ItemStack heldStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		if (!heldStack.isEmpty() && level.getBlockEntity(pos) instanceof SculkTransmitterBlockEntity be) {
+			if (!level.isClientSide)
+				be.setFilteredItem(heldStack);
 
-			if (!heldStack.isEmpty()) {
-				if (!level.isClientSide)
-					be.setFilteredItem(heldStack);
-			}
-			else if (player.isShiftKeyDown()) {
+			return ItemInteractionResult.sidedSuccess(level.isClientSide);
+		}
+
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+	}
+
+	@Override
+	public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+		if (level.getBlockEntity(pos) instanceof SculkTransmitterBlockEntity be) {
+			if (player.isShiftKeyDown()) {
 				if (!level.isClientSide)
 					be.removeFilteredItem();
 			}

@@ -3,6 +3,8 @@ package sculktransporting.blockentities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -71,15 +73,15 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	}
 
 	@Override
-	public void load(CompoundTag tag) {
-		super.load(tag);
+	public void loadAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+		super.loadAdditional(tag, lookupProvider);
 		quantityTier = QuantityTier.values()[tag.getInt("QuantityTier")];
 		speedTier = SpeedTier.values()[tag.getInt("SpeedTier")];
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag) {
-		super.saveAdditional(tag);
+	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+		super.saveAdditional(tag, lookupProvider);
 		tag.putInt("QuantityTier", quantityTier.ordinal());
 		tag.putInt("SpeedTier", speedTier.ordinal());
 	}
@@ -152,8 +154,8 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	}
 
 	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		super.onDataPacket(net, pkt);
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+		super.onDataPacket(net, pkt, lookupProvider);
 		requestModelDataUpdate();
 		Minecraft.getInstance().levelRenderer.setBlocksDirty(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
 	}
@@ -172,12 +174,12 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 		}
 
 		@Override
-		public boolean isValidVibration(GameEvent gameEvent, GameEvent.Context ctx) {
+		public boolean isValidVibration(Holder<GameEvent> gameEvent, GameEvent.Context ctx) {
 			return false;
 		}
 
 		@Override
-		public boolean canReceiveVibration(ServerLevel level, BlockPos pos, GameEvent event, GameEvent.Context ctx) {
+		public boolean canReceiveVibration(ServerLevel level, BlockPos pos, Holder<GameEvent> event, GameEvent.Context ctx) {
 			return false;
 		}
 
@@ -185,6 +187,6 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 		public void onDataChanged() {}
 
 		@Override
-		public void onReceiveVibration(ServerLevel level, BlockPos pos, GameEvent event, Entity entity, Entity projectileOwner, float distance) {}
+		public void onReceiveVibration(ServerLevel level, BlockPos pos, Holder<GameEvent> event, Entity entity, Entity projectileOwner, float distance) {}
 	}
 }

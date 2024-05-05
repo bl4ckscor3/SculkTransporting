@@ -1,7 +1,13 @@
 package sculktransporting.datagen;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
+
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -15,16 +21,11 @@ import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import sculktransporting.registration.STBlocks;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Supplier;
-
 public class BlockLootTableGenerator implements LootTableSubProvider {
 	protected final Map<Supplier<Block>, LootTable.Builder> lootTables = new HashMap<>();
 
 	@Override
-	public void generate(BiConsumer<ResourceLocation, Builder> consumer) {
+	public void generate(HolderLookup.Provider lookupProvider, BiConsumer<ResourceKey<LootTable>, Builder> consumer) {
 		putStandardBlockLootTable(STBlocks.SCULK_EMITTER);
 		putStandardBlockLootTable(STBlocks.SCULK_TRANSMITTER);
 		putStandardBlockLootTable(STBlocks.SCULK_RECEIVER);

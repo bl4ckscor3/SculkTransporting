@@ -1,6 +1,8 @@
 package sculktransporting.blockentities;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -34,14 +36,14 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag) {
-		super.saveAdditional(tag);
+	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+		super.saveAdditional(tag, lookupProvider);
 		tag.putString("FilteredItem", BuiltInRegistries.ITEM.getKey(filteredItem.getItem()).toString());
 	}
 
 	@Override
-	public void load(CompoundTag tag) {
-		super.load(tag);
+	public void loadAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+		super.loadAdditional(tag, lookupProvider);
 
 		Item item = BuiltInRegistries.ITEM.get(new ResourceLocation(tag.getString("FilteredItem")));
 
@@ -82,7 +84,7 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 		}
 
 		@Override
-		public boolean isValidVibration(GameEvent gameEvent, Context ctx) {
+		public boolean isValidVibration(Holder<GameEvent> gameEvent, Context ctx) {
 			return super.isValidVibration(gameEvent, ctx) && (filteredItem.is(Items.AIR) || (getBlockState().getValue(SculkTransmitterBlock.INVERTED) ^ ((ItemEntity) ctx.sourceEntity()).getItem().is(filteredItem.getItem())));
 		}
 	}

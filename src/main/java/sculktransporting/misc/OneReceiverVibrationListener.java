@@ -1,14 +1,16 @@
 package sculktransporting.misc;
 
+import java.util.Optional;
+
+import org.apache.commons.lang3.tuple.Pair;
+
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.vibrations.VibrationInfo;
 import net.minecraft.world.level.gameevent.vibrations.VibrationSystem;
 import net.minecraft.world.phys.Vec3;
-import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.Optional;
 
 public class OneReceiverVibrationListener extends VibrationSystem.Listener {
 	public OneReceiverVibrationListener(VibrationSystem system) {
@@ -16,7 +18,7 @@ public class OneReceiverVibrationListener extends VibrationSystem.Listener {
 	}
 
 	@Override
-	public void scheduleVibration(ServerLevel level, VibrationSystem.Data data, GameEvent gameEvent, GameEvent.Context ctx, Vec3 from, Vec3 to) {
+	public void scheduleVibration(ServerLevel level, VibrationSystem.Data data, Holder<GameEvent> gameEvent, GameEvent.Context ctx, Vec3 from, Vec3 to) {
 		Optional<Pair<VibrationInfo, Long>> oldVibrationData = data.getSelectionStrategy().currentVibrationData;
 		Optional<Pair<VibrationInfo, Long>> newVibrationData;
 

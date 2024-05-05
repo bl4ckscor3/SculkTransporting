@@ -9,7 +9,6 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import sculktransporting.registration.STBlockEntityTypes;
@@ -42,9 +41,7 @@ public class SculkTransporting {
 			).build());
 	//@formatter:on
 
-	public SculkTransporting() {
-		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
+	public SculkTransporting(IEventBus modEventBus) {
 		STBlockEntityTypes.BLOCK_ENTITY_TYPES.register(modEventBus);
 		STBlocks.BLOCKS.register(modEventBus);
 		STGameEvents.GAME_EVENTS.register(modEventBus);

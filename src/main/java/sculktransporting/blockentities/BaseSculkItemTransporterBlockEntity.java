@@ -1,6 +1,8 @@
 package sculktransporting.blockentities;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.Packet;
@@ -44,7 +46,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 			}
 
 			if (be.shouldPerformAction(level) && be.cachedItemEntity.isAlive())
-				level.gameEvent(be.cachedItemEntity, STGameEvents.ITEM_TRANSMITTABLE.get(), pos);
+				level.gameEvent(be.cachedItemEntity, STGameEvents.ITEM_TRANSMITTABLE, pos);
 		}
 	}
 
@@ -54,23 +56,23 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 	}
 
 	@Override
-	public void load(CompoundTag tag) {
-		super.load(tag);
+	public void loadAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+		super.loadAdditional(tag, lookupProvider);
 
-		storedItemSignal = ItemStack.of(tag.getCompound("StoredItemSignal"));
-		signalOrigin = NbtUtils.readBlockPos(tag.getCompound("SignalOrigin"));
+		storedItemSignal = ItemStack.parseOptional(lookupProvider, tag.getCompound("StoredItemSignal"));
+		signalOrigin = NbtUtils.readBlockPos(tag, "SignalOrigin").orElse(null);
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag) {
-		super.saveAdditional(tag);
+	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+		super.saveAdditional(tag, lookupProvider);
 
 		if (!storedItemSignal.isEmpty()) {
-			tag.put("StoredItemSignal", storedItemSignal.save(new CompoundTag()));
+			tag.put("StoredItemSignal", storedItemSignal.save(lookupProvider));
 			tag.put("SignalOrigin", NbtUtils.writeBlockPos(signalOrigin));
 		}
 		else if (getVibrationData().getCurrentVibration() != null && getVibrationData().getCurrentVibration().entity() instanceof ItemEntity item) {
-			tag.put("StoredItemSignal", item.getItem().save(new CompoundTag()));
+			tag.put("StoredItemSignal", item.getItem().save(lookupProvider));
 			tag.put("SignalOrigin", NbtUtils.writeBlockPos(item.blockPosition()));
 		}
 	}
@@ -117,11 +119,8 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		CompoundTag tag = new CompoundTag();
-
-		saveAdditional(tag);
-		return tag;
+	public CompoundTag getUpdateTag(HolderLookup.Provider lookupProvider) {
+		return saveCustomOnly(lookupProvider);
 	}
 
 	public class BaseVibrationUser extends SculkSensorBlockEntity.VibrationUser {
@@ -130,12 +129,12 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 		}
 
 		@Override
-		public boolean isValidVibration(GameEvent gameEvent, Context ctx) {
-			return gameEvent == STGameEvents.ITEM_TRANSMITTABLE.get() && ctx.sourceEntity() instanceof ItemEntity item && item.isAlive();
+		public boolean isValidVibration(Holder<GameEvent> gameEvent, Context ctx) {
+			return gameEvent.is(STGameEvents.ITEM_TRANSMITTABLE) && ctx.sourceEntity() instanceof ItemEntity item && item.isAlive();
 		}
 
 		@Override
-		public boolean canReceiveVibration(ServerLevel level, BlockPos pos, GameEvent event, GameEvent.Context ctx) {
+		public boolean canReceiveVibration(ServerLevel level, BlockPos pos, Holder<GameEvent> event, GameEvent.Context ctx) {
 			return storedItemSignal.isEmpty() && ctx.sourceEntity() instanceof ItemEntity item && !item.blockPosition().equals(worldPosition) && super.canReceiveVibration(level, pos, event, ctx);
 		}
 
@@ -151,16 +150,16 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 					be.setItemSignal(null, 0);
 					level.scheduleTick(originPos, be.getBlockState().getBlock(), 0);
 					item.setPos(originVec); //set the position of the item entity to the origin of the signal as a marker, so the transmitter doesn't send the item back where it came from
-					((ServerLevel) level).sendParticles(new ItemSignalParticleOption(getListener().getListenerSource(), getVibrationData().getTravelTimeInTicks(), item.getItem()), originVec.x, originVec.y, originVec.z, (item.getItem().getCount() + 15) / 16 * 5, 0, 0, 0, 0);
+					((ServerLevel) level).sendParticles(new ItemSignalParticleOption(getListener().getListenerSource(), getVibrationData().getTravelTimeInTicks(), item.getItem().copy()), originVec.x, originVec.y, originVec.z, (item.getItem().getCount() + 15) / 16 * 5, 0, 0, 0, 0);
 				}
 			}
 		}
 
 		@Override
-		public void onReceiveVibration(ServerLevel level, BlockPos pos, GameEvent event, Entity entity, Entity projectileOwner, float distance) {
+		public void onReceiveVibration(ServerLevel level, BlockPos pos, Holder<GameEvent> event, Entity entity, Entity projectileOwner, float distance) {
 			super.onReceiveVibration(level, pos, event, entity, projectileOwner, distance);
 
-			if (event == STGameEvents.ITEM_TRANSMITTABLE.get() && entity instanceof ItemEntity item)
+			if (event.is(STGameEvents.ITEM_TRANSMITTABLE) && entity instanceof ItemEntity item)
 				setItemSignal(item, VibrationSystem.getRedstoneStrengthForDistance(distance, getListenerRadius()));
 		}
 	}
