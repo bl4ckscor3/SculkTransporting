@@ -22,7 +22,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import sculktransporting.STTags;
-import sculktransporting.blockentities.SculkEmitterBlockEntity;
 import sculktransporting.blockentities.SculkReceiverBlockEntity;
 import sculktransporting.items.SpeedModifierItem;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
@@ -54,7 +53,7 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 
 	@Override
 	public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-		if (level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be && player.isShiftKeyDown()) {
+		if (level.getBlockEntity(pos) instanceof SculkReceiverBlockEntity be && player.isShiftKeyDown()) {
 			if (!level.isClientSide) {
 				SpeedTier speedTier = be.getSpeedTier();
 
