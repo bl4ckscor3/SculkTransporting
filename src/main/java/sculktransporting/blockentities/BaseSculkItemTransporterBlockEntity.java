@@ -30,6 +30,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 	protected ItemStack storedItemSignal = ItemStack.EMPTY;
 	protected BlockPos signalOrigin;
 	protected ItemEntity cachedItemEntity;
+	protected long lastHandledSignalTick = 0;
 
 	protected BaseSculkItemTransporterBlockEntity(BlockPos pos, BlockState state) {
 		super(pos, state);
@@ -61,6 +62,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 
 		storedItemSignal = ItemStack.parseOptional(lookupProvider, tag.getCompound("StoredItemSignal"));
 		signalOrigin = NbtUtils.readBlockPos(tag, "signal_origin").orElse(null);
+		lastHandledSignalTick = tag.getLong("lastHandledSignalTick");
 	}
 
 	@Override
@@ -75,6 +77,8 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 			tag.put("StoredItemSignal", item.getItem().save(lookupProvider));
 			tag.put("signal_origin", NbtUtils.writeBlockPos(item.blockPosition()));
 		}
+
+		tag.putLong("lastHandledSignalTick", lastHandledSignalTick);
 	}
 
 	public abstract boolean shouldPerformAction(Level level);
@@ -107,6 +111,8 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 			}
 		}
 
+		level.scheduleTick(worldPosition, getBlockState().getBlock(), 0);
+		lastHandledSignalTick = level.getGameTime();
 		cachedItemEntity = null;
 	}
 
@@ -135,7 +141,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 
 		@Override
 		public boolean canReceiveVibration(ServerLevel level, BlockPos pos, Holder<GameEvent> event, GameEvent.Context ctx) {
-			return storedItemSignal.isEmpty() && ctx.sourceEntity() instanceof ItemEntity item && !item.blockPosition().equals(worldPosition) && super.canReceiveVibration(level, pos, event, ctx);
+			return storedItemSignal.isEmpty() && ctx.sourceEntity() instanceof ItemEntity item && !item.blockPosition().equals(worldPosition) && lastHandledSignalTick < level.getGameTime() && super.canReceiveVibration(level, pos, event, ctx);
 		}
 
 		@Override
