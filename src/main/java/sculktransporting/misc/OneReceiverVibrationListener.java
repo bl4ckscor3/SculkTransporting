@@ -24,7 +24,17 @@ public class OneReceiverVibrationListener extends VibrationSystem.Listener {
 		super.scheduleVibration(level, data, gameEvent, ctx, from, to);
 		newVibrationData = data.getSelectionStrategy().currentVibrationData;
 
-		if (ctx.sourceEntity() instanceof ItemEntity item && newVibrationData.isPresent() && ctx.sourceEntity().equals(newVibrationData.get().getLeft().entity())) {
+		//Special case: If the old vibration was read from data, it will always have a null entity, and such a broken vibration should always be overridable by one from the same origin but with a provided entity
+		if (oldVibrationData.isPresent()) {
+			VibrationInfo oldVibrationInfo = oldVibrationData.get().getLeft();
+
+			if (oldVibrationInfo.distance() == (float) from.distanceTo(to) && oldVibrationInfo.entity() == null && ctx.sourceEntity() != null) {
+				data.getSelectionStrategy().currentVibrationData = Optional.of(Pair.of(new VibrationInfo(oldVibrationInfo.gameEvent(), oldVibrationInfo.distance(), oldVibrationInfo.pos(), ctx.sourceEntity()), level.getGameTime()));
+				newVibrationData = data.getSelectionStrategy().currentVibrationData;
+			}
+		}
+
+		if (ctx.sourceEntity() instanceof ItemEntity item && newVibrationData.isPresent() && item.equals(newVibrationData.get().getLeft().entity())) {
 			item.discard(); //If this item signal is scheduled for one receiver, mark it as such to prevent it from getting sent to another one
 
 			if (oldVibrationData.isPresent() && oldVibrationData.get().getLeft().entity() instanceof ItemEntity oldItem && !oldVibrationData.get().getLeft().equals(newVibrationData.get().getLeft()))
