@@ -38,27 +38,26 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SculkEmitterBlockEntity be) {
-		if (be.shouldPerformAction(level)) {
-			if (!be.hasStoredItemSignal() && be.inventoryBelow != null && be.getLastKnownStateBelow().is(STTags.Blocks.SCULK_EMITTER_CAN_EXTRACT_FROM)) {
-				IItemHandler itemHandler = be.inventoryBelow.getCapability();
+		if (!be.hasStoredItemSignal() && be.inventoryBelow != null && be.getLastKnownStateBelow().is(STTags.Blocks.SCULK_EMITTER_CAN_EXTRACT_FROM)) {
+			IItemHandler itemHandler = be.inventoryBelow.getCapability();
 
-				if (itemHandler != null) {
-					//from 0 to 3 installed modifiers: 1, 4, 16, 64
-					final int amountToExtract = (int) Math.pow(4, be.quantityTier.getValue());
+			if (itemHandler != null) {
+				//from 0 to 3 installed modifiers: 1, 4, 16, 64
+				final int amountToExtract = (int) Math.pow(4, be.quantityTier.getValue());
 
-					for (int i = 0; i < itemHandler.getSlots(); i++) {
-						ItemStack extracted = itemHandler.extractItem(i, amountToExtract, false);
+				for (int i = 0; i < itemHandler.getSlots(); i++) {
+					ItemStack extracted = itemHandler.extractItem(i, amountToExtract, false);
 
-						if (!extracted.isEmpty()) {
-							be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted), 15);
-							break;
-						}
+					if (!extracted.isEmpty()) {
+						be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted), 15);
+						break;
 					}
 				}
 			}
-
-			BaseSculkItemTransporterBlockEntity.serverTick(level, pos, state, be);
 		}
+
+		if (be.shouldPerformAction(level))
+			BaseSculkItemTransporterBlockEntity.serverTick(level, pos, state, be);
 	}
 
 	@Override
