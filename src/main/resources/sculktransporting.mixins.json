@@ -1,11 +1,12 @@
 {
-	"required": true,
-	"package": "sculktransporting.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"refmap": "sculktransporting.refmap.json",
-	"mixins": [
-		"BlockPosFormatAndRenamesFixMixin",
-		"V1460Mixin"
-	],
-	"minVersion": "0.8"
+    "required": true,
+    "package": "sculktransporting.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "refmap": "sculktransporting.refmap.json",
+    "mixins": [
+        "BlockPosFormatAndRenamesFixMixin",
+        "GameEventListenerInfoMixin",
+        "V1460Mixin"
+    ],
+    "minVersion": "0.8"
 }

@@ -30,6 +30,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 	protected ItemStack storedItemSignal = ItemStack.EMPTY;
 	protected BlockPos signalOrigin;
 	protected ItemEntity cachedItemEntity;
+	protected long placedDownTick = 0;
 	protected long lastHandledSignalTick = 0;
 
 	protected BaseSculkItemTransporterBlockEntity(BlockPos pos, BlockState state) {
@@ -38,6 +39,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, BaseSculkItemTransporterBlockEntity be) {
+		be.setPlacedDown(level.getGameTime());
 		VibrationSystem.Ticker.tick(level, be.getVibrationData(), be.getVibrationUser());
 
 		if (!be.storedItemSignal.isEmpty()) {
@@ -62,6 +64,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 
 		storedItemSignal = ItemStack.parseOptional(lookupProvider, tag.getCompound("StoredItemSignal"));
 		signalOrigin = NbtUtils.readBlockPos(tag, "signal_origin").orElse(null);
+		placedDownTick = tag.getLong("placedDownTick");
 		lastHandledSignalTick = tag.getLong("lastHandledSignalTick");
 	}
 
@@ -78,6 +81,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 			tag.put("signal_origin", NbtUtils.writeBlockPos(item.blockPosition()));
 		}
 
+		tag.putLong("placedDownTick", placedDownTick);
 		tag.putLong("lastHandledSignalTick", lastHandledSignalTick);
 	}
 
@@ -114,6 +118,15 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 		level.scheduleTick(worldPosition, getBlockState().getBlock(), 0);
 		lastHandledSignalTick = level.getGameTime();
 		cachedItemEntity = null;
+	}
+
+	public long getPlacedDownTick() {
+		return placedDownTick;
+	}
+
+	public void setPlacedDown(long gameTime) {
+		if (placedDownTick <= 0)
+			placedDownTick = gameTime;
 	}
 
 	@Override
