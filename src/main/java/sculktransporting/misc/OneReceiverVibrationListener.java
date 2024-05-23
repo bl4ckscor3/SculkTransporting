@@ -35,4 +35,8 @@ public class OneReceiverVibrationListener extends VibrationSystem.Listener {
 	public DeliveryMode getDeliveryMode() {
 		return DeliveryMode.BY_DISTANCE;
 	}
+
+	public VibrationSystem getSystem() {
+		return system;
+	}
 }
