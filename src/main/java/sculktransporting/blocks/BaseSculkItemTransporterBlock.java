@@ -60,8 +60,8 @@ public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 	}
 
 	public static void deactivate(Level level, BlockPos pos, BlockState state) {
-		SculkSensorBlock.deactivate(level, pos, state);
 		level.setBlockAndUpdate(pos, state.setValue(PHASE, SculkSensorPhase.INACTIVE).setValue(POWER, 0)); //skip SculkSensorPhase.COOLDOWN to reduce delay
+		updateNeighbours(level, pos, state);
 	}
 
 	@Override
