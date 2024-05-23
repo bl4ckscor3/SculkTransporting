@@ -31,6 +31,7 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SculkReceiverBlockEntity be) {
+		be.setPlacedDown(level.getGameTime());
 		VibrationSystem.Ticker.tick(level, be.getVibrationData(), be.getVibrationUser());
 
 		if (level.getGameTime() % 5 == 0 && be.inventoryBelow == null) {

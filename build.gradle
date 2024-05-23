@@ -2,6 +2,7 @@ plugins {
     id 'eclipse'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.spongepowered.mixin' version '0.7.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
@@ -80,7 +81,14 @@ repositories {
 
 dependencies {
 	minecraft 'net.minecraftforge:forge:1.20.1-47.1.3'
-	implementation fg.deobf("curse.maven:patchouli-306770:4636277")
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    implementation fg.deobf("curse.maven:patchouli-306770:4636277")
+}
+
+mixin {
+    add sourceSets.main, "sculktransporting.refmap.json"
+    config 'sculktransporting.mixins.json'
 }
 
 sourceSets.main.resources {
