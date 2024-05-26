@@ -24,21 +24,19 @@ public class GameEventListenerInfoMixin {
 	@Shadow
 	@Final
 	private GameEventListener recipient;
-
 	@Shadow
 	@Final
 	private Holder<GameEvent> gameEvent;
 
-	@WrapOperation(method = "compareTo(Lnet/minecraft/world/level/gameevent/GameEvent$ListenerInfo;)I", at = @At(value = "INVOKE", target = "Ljava/lang/Double;compare(DD)I"))
-	public int sculktransporting$compareListeners(double thisDistance, double otherDistance, Operation<Integer> doubleComparator, GameEvent.ListenerInfo other) {
-		if (gameEvent.is(STGameEvents.ITEM_TRANSMITTABLE) && thisDistance == otherDistance) {
+	@WrapOperation(method = "compareTo", at = @At(value = "INVOKE", target = "Ljava/lang/Double;compare(DD)I"))
+	public int sculktransporting$compareListeners(double thisDistance, double otherDistance, Operation<Integer> original, GameEvent.ListenerInfo other) {
+		if (thisDistance == otherDistance && gameEvent.is(STGameEvents.ITEM_TRANSMITTABLE)) {
 			if (recipient instanceof OneReceiverVibrationListener thisListener && other.recipient() instanceof OneReceiverVibrationListener otherListener) {
-				if (thisListener.getSystem() instanceof BaseSculkItemTransporterBlockEntity thisBe && otherListener.getSystem() instanceof BaseSculkItemTransporterBlockEntity otherBe) {
+				if (thisListener.getSystem() instanceof BaseSculkItemTransporterBlockEntity thisBe && otherListener.getSystem() instanceof BaseSculkItemTransporterBlockEntity otherBe)
 					return Long.compare(thisBe.getPlacedDownTick(), otherBe.getPlacedDownTick());
-				}
 			}
 		}
 
-		return doubleComparator.call(thisDistance, otherDistance);
+		return original.call(thisDistance, otherDistance);
 	}
 }

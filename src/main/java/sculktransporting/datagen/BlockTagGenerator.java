@@ -1,5 +1,7 @@
 package sculktransporting.datagen;
 
+import java.util.concurrent.CompletableFuture;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
@@ -9,8 +11,6 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sculktransporting.STTags;
 import sculktransporting.SculkTransporting;
 import sculktransporting.registration.STBlocks;
-
-import java.util.concurrent.CompletableFuture;
 
 public class BlockTagGenerator extends BlockTagsProvider {
 	public BlockTagGenerator(PackOutput output, CompletableFuture<Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
