@@ -43,14 +43,18 @@ public class SculkReceiverModel implements IDynamicBakedModel {
 					for (int i = 0; i < originalQuads.size(); i++) {
 						BakedQuad quad = originalQuads.get(i);
 
-						if (quad.getTintIndex() == 0)
-							originalQuads.set(i, bakeQuad(Direction.NORTH, new Vector3f(0.0F, 3.0F, 0.0F), new Vector3f(16.0F, 8.0F, 0.0F), speedTier, quad));
-						else if (quad.getTintIndex() == 1)
-							originalQuads.set(i, bakeQuad(Direction.EAST, new Vector3f(16.0F, 3.0F, 0.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
-						else if (quad.getTintIndex() == 2)
-							originalQuads.set(i, bakeQuad(Direction.SOUTH, new Vector3f(0.0F, 3.0F, 16.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
-						else if (quad.getTintIndex() == 3)
-							originalQuads.set(i, bakeQuad(Direction.WEST, new Vector3f(0.0F, 3.0F, 0.0F), new Vector3f(0.0F, 8.0F, 16.0F), speedTier, quad));
+						if (quad.isTinted()) {
+							int tintIndex = quad.getTintIndex();
+
+							if (tintIndex == 0)
+								originalQuads.set(i, bakeQuad(Direction.NORTH, new Vector3f(0.0F, 3.0F, 0.0F), new Vector3f(16.0F, 8.0F, 0.0F), speedTier, quad));
+							else if (tintIndex == 1)
+								originalQuads.set(i, bakeQuad(Direction.EAST, new Vector3f(16.0F, 3.0F, 0.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
+							else if (tintIndex == 2)
+								originalQuads.set(i, bakeQuad(Direction.SOUTH, new Vector3f(0.0F, 3.0F, 16.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
+							else if (tintIndex == 3)
+								originalQuads.set(i, bakeQuad(Direction.WEST, new Vector3f(0.0F, 3.0F, 0.0F), new Vector3f(0.0F, 8.0F, 16.0F), speedTier, quad));
+						}
 					}
 
 					return originalQuads;
