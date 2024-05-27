@@ -1,10 +1,18 @@
 package sculktransporting.client;
 
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.tuple.Pair;
+import org.joml.Vector3f;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.BlockElementFace;
+import net.minecraft.client.renderer.block.model.BlockFaceUV;
+import net.minecraft.client.renderer.block.model.FaceBakery;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -24,6 +32,7 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.model.data.ModelProperty;
 import sculktransporting.SculkTransporting;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
+import sculktransporting.items.ModifierTier;
 import sculktransporting.items.QuantityModifierItem.QuantityTier;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
 import sculktransporting.registration.STBlockEntityTypes;
@@ -32,6 +41,7 @@ import sculktransporting.registration.STParticleTypes;
 
 @EventBusSubscriber(modid = SculkTransporting.MODID, value = Dist.CLIENT, bus = Bus.MOD)
 public class ClientHandler {
+	private static final FaceBakery FACE_BAKERY = new FaceBakery();
 	public static final ModelProperty<SpeedTier> SPEED_TIER = new ModelProperty<>();
 	public static final ModelProperty<QuantityTier> QUANTITY_TIER = new ModelProperty<>();
 
@@ -40,22 +50,9 @@ public class ClientHandler {
 	@SubscribeEvent
 	public static void onModelBakingCompleted(ModelEvent.ModifyBakingResult event) {
 		Map<ResourceLocation, BakedModel> models = event.getModels();
-		Block sculkReceiver = STBlocks.SCULK_RECEIVER.get();
-		ResourceLocation receiverName = BuiltInRegistries.BLOCK.getKey(sculkReceiver);
-		Block sculkEmitter = STBlocks.SCULK_EMITTER.get();
-		ResourceLocation emitterName = BuiltInRegistries.BLOCK.getKey(sculkEmitter);
 
-		for (BlockState state : sculkReceiver.getStateDefinition().getPossibleStates()) {
-			Pair<ModelResourceLocation, BakedModel> model = getModel(models, state, receiverName);
-
-			event.getModels().put(model.getLeft(), new SculkReceiverModel(model.getRight(), state.getValue(BaseSculkItemTransporterBlock.FACING)));
-		}
-
-		for (BlockState state : sculkEmitter.getStateDefinition().getPossibleStates()) {
-			Pair<ModelResourceLocation, BakedModel> model = getModel(models, state, emitterName);
-
-			event.getModels().put(model.getLeft(), new SculkEmitterModel(model.getRight(), state.getValue(BaseSculkItemTransporterBlock.FACING)));
-		}
+		replaceModels(models, STBlocks.SCULK_RECEIVER.get(), SculkReceiverModel::new);
+		replaceModels(models, STBlocks.SCULK_EMITTER.get(), SculkEmitterModel::new);
 	}
 
 	@SubscribeEvent
@@ -70,14 +67,26 @@ public class ClientHandler {
 		event.registerSpecial(STParticleTypes.ITEM_SIGNAL.get(), new ItemSignalParticle.Provider());
 	}
 
-	private static Pair<ModelResourceLocation, BakedModel> getModel(Map<ResourceLocation, BakedModel> models, BlockState state, ResourceLocation blockName) {
-		String stateString = state.getValues().entrySet().stream().map(StateHolder.PROPERTY_ENTRY_TO_STRING_FUNCTION).collect(Collectors.joining(","));
-		ModelResourceLocation mrl = new ModelResourceLocation(blockName, stateString);
+	private static void replaceModels(Map<ResourceLocation, BakedModel> models, Block block, BiFunction<BakedModel, Direction, BakedModel> modelFactory) {
+		ResourceLocation blockName = BuiltInRegistries.BLOCK.getKey(block);
 
-		return Pair.of(mrl, models.get(mrl));
+		for (BlockState state : block.getStateDefinition().getPossibleStates()) {
+			String stateString = state.getValues().entrySet().stream().map(StateHolder.PROPERTY_ENTRY_TO_STRING_FUNCTION).collect(Collectors.joining(","));
+			ModelResourceLocation mrl = new ModelResourceLocation(blockName, stateString);
+
+			models.put(mrl, modelFactory.apply(models.get(mrl), state.getValue(BaseSculkItemTransporterBlock.FACING)));
+		}
 	}
 
-	public static BlockModelRotation getModelRotation(Direction dir) {
+	public static BakedQuad bakeQuad(Direction quadDirection, Direction modelDirection, String blockName, Vector3f from, Vector3f to, ModifierTier modifierTier, BakedQuad originalQuad, float u0, float u1, float v0, float v1) {
+		TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(new ResourceLocation(SculkTransporting.MODID, "block/" + blockName + "_side_" + modifierTier.getValue()));
+
+		return FACE_BAKERY.bakeQuad(from, to, new BlockElementFace(null, originalQuad.getTintIndex(), sprite.contents().name().toString(), new BlockFaceUV(new float[] {
+				u0, u1, v0, v1
+		}, 0)), sprite, quadDirection, getModelRotation(modelDirection), null, originalQuad.isShade(), new ResourceLocation(SculkTransporting.MODID, blockName));
+	}
+
+	private static BlockModelRotation getModelRotation(Direction dir) {
 		return switch (dir) {
 			case DOWN -> BlockModelRotation.X180_Y0;
 			case UP -> BlockModelRotation.X0_Y0;

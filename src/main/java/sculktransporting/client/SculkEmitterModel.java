@@ -7,30 +7,22 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.joml.Vector3f;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.BlockElementFace;
-import net.minecraft.client.renderer.block.model.BlockFaceUV;
-import net.minecraft.client.renderer.block.model.FaceBakery;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.ChunkRenderTypeSet;
 import net.neoforged.neoforge.client.model.IDynamicBakedModel;
 import net.neoforged.neoforge.client.model.data.ModelData;
-import sculktransporting.SculkTransporting;
 import sculktransporting.items.ModifierTier;
 import sculktransporting.items.QuantityModifierItem.QuantityTier;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
 
 public class SculkEmitterModel implements IDynamicBakedModel {
-	private static final FaceBakery FACE_BAKERY = new FaceBakery();
 	private final BakedModel originalModel;
 	private final Direction modelDirection;
 	private final Map<CacheKey, List<BakedQuad>> quadCache = new ConcurrentHashMap<>();
@@ -92,11 +84,7 @@ public class SculkEmitterModel implements IDynamicBakedModel {
 	}
 
 	private BakedQuad bakeQuad(Direction quadDirection, Vector3f from, Vector3f to, ModifierTier modifierTier, BakedQuad originalQuad, float u0, float u1, float v0, float v1) {
-		TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(new ResourceLocation(SculkTransporting.MODID, "block/sculk_emitter_side_" + modifierTier.getValue()));
-
-		return FACE_BAKERY.bakeQuad(from, to, new BlockElementFace(null, originalQuad.getTintIndex(), sprite.contents().name().toString(), new BlockFaceUV(new float[] {
-				u0, u1, v0, v1
-		}, 0)), sprite, quadDirection, ClientHandler.getModelRotation(modelDirection), null, originalQuad.isShade(), new ResourceLocation(SculkTransporting.MODID, "sculk_emitter"));
+		return ClientHandler.bakeQuad(quadDirection, modelDirection, "sculk_emitter", from, to, modifierTier, originalQuad, u0, u1, v0, v1);
 	}
 
 	@Override
