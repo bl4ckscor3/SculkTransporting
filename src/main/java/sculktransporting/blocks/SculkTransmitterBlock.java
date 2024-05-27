@@ -68,6 +68,7 @@ public class SculkTransmitterBlock extends BaseSculkItemTransporterBlock {
 
 	@Override
 	public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(PHASE, POWER, WATERLOGGED, INVERTED);
+		super.createBlockStateDefinition(builder);
+		builder.add(INVERTED);
 	}
 }

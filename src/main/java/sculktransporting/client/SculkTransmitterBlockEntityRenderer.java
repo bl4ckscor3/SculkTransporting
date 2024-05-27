@@ -26,6 +26,7 @@ public class SculkTransmitterBlockEntityRenderer extends SculkItemTransporterBlo
 
 		if (!filteredItem.isEmpty()) {
 			pose.pushPose();
+			adjustForRotation(pose, be);
 			pose.translate(1.0F, 0.25F, 1.0F);
 			renderItem(Direction.NORTH, be, pose, -0.5F, 0.0F, -1.0F, 0.0F, filteredItem, bufferSource, packedOverlay);
 			renderItem(Direction.WEST, be, pose, -1.0F, 0.0F, -0.5F, 90.0F, filteredItem, bufferSource, packedOverlay);

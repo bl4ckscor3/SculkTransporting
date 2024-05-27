@@ -115,7 +115,10 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 	public void onLoad() {
 		super.onLoad();
 
-		if (level != null && !level.isClientSide)
-			inventoryBelow = BlockCapabilityCache.create(Capabilities.ItemHandler.BLOCK, (ServerLevel) level, worldPosition.below(), Direction.UP);
+		if (level != null && !level.isClientSide) {
+			Direction direction = getBlockState().getValue(BaseSculkItemTransporterBlock.FACING);
+
+			inventoryBelow = BlockCapabilityCache.create(Capabilities.ItemHandler.BLOCK, (ServerLevel) level, worldPosition.relative(direction.getOpposite()), direction);
+		}
 	}
 }

@@ -17,7 +17,6 @@ import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -32,11 +31,13 @@ import sculktransporting.items.SpeedModifierItem.SpeedTier;
 
 public class SculkEmitterModel implements IDynamicBakedModel {
 	private static final FaceBakery FACE_BAKERY = new FaceBakery();
-	private BakedModel originalModel;
-	private Map<CacheKey, List<BakedQuad>> quadCache = new ConcurrentHashMap<>();
+	private final BakedModel originalModel;
+	private final Direction modelDirection;
+	private final Map<CacheKey, List<BakedQuad>> quadCache = new ConcurrentHashMap<>();
 
-	public SculkEmitterModel(BakedModel originalModel) {
+	public SculkEmitterModel(BakedModel originalModel, Direction direction) {
 		this.originalModel = originalModel;
+		this.modelDirection = direction;
 	}
 
 	@Override
@@ -55,30 +56,22 @@ public class SculkEmitterModel implements IDynamicBakedModel {
 						if (quad.isTinted()) {
 							int tintIndex = quad.getTintIndex();
 
-							if (quad.getDirection() == Direction.NORTH) {
-								if (tintIndex == 0)
-									originalQuads.set(i, bakeLeftQuad(new Vector3f(8.0F, 0.0F, 0.0F), new Vector3f(16.0F, 8.0F, 0.0F), speedTier, quad));
-								else if (tintIndex == 1)
-									originalQuads.set(i, bakeRightQuad(new Vector3f(0.0F, 0.0F, 0.0F), new Vector3f(8.0F, 8.0F, 0.0F), quantityTier, quad));
-							}
-							else if (quad.getDirection() == Direction.EAST) {
-								if (tintIndex == 0)
-									originalQuads.set(i, bakeLeftQuad(new Vector3f(16.0F, 0.0F, 8.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
-								else if (tintIndex == 1)
-									originalQuads.set(i, bakeRightQuad(new Vector3f(16.0F, 0.0F, 0.0F), new Vector3f(16.0F, 8.0F, 8.0F), quantityTier, quad));
-							}
-							else if (quad.getDirection() == Direction.SOUTH) {
-								if (tintIndex == 0)
-									originalQuads.set(i, bakeLeftQuad(new Vector3f(0.0F, 0.0F, 16.0F), new Vector3f(8.0F, 8.0F, 16.0F), speedTier, quad));
-								else if (tintIndex == 1)
-									originalQuads.set(i, bakeRightQuad(new Vector3f(8.0F, 0.0F, 16.0F), new Vector3f(16.0F, 8.0F, 16.0F), quantityTier, quad));
-							}
-							else if (quad.getDirection() == Direction.WEST) {
-								if (tintIndex == 0)
-									originalQuads.set(i, bakeLeftQuad(new Vector3f(0.0F, 0.0F, 0.0F), new Vector3f(0.0F, 8.0F, 8.0F), speedTier, quad));
-								else if (tintIndex == 1)
-									originalQuads.set(i, bakeRightQuad(new Vector3f(0.0F, 0.0F, 8.0F), new Vector3f(0.0F, 8.0F, 16.0F), quantityTier, quad));
-							}
+							if (tintIndex == 0)
+								originalQuads.set(i, bakeLeftQuad(Direction.NORTH, new Vector3f(8.0F, 0.0F, 0.0F), new Vector3f(16.0F, 8.0F, 0.0F), speedTier, quad));
+							else if (tintIndex == 1)
+								originalQuads.set(i, bakeRightQuad(Direction.NORTH, new Vector3f(0.0F, 0.0F, 0.0F), new Vector3f(8.0F, 8.0F, 0.0F), quantityTier, quad));
+							else if (tintIndex == 2)
+								originalQuads.set(i, bakeLeftQuad(Direction.EAST, new Vector3f(16.0F, 0.0F, 8.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
+							else if (tintIndex == 3)
+								originalQuads.set(i, bakeRightQuad(Direction.EAST, new Vector3f(16.0F, 0.0F, 0.0F), new Vector3f(16.0F, 8.0F, 8.0F), quantityTier, quad));
+							else if (tintIndex == 4)
+								originalQuads.set(i, bakeLeftQuad(Direction.SOUTH, new Vector3f(0.0F, 0.0F, 16.0F), new Vector3f(8.0F, 8.0F, 16.0F), speedTier, quad));
+							else if (tintIndex == 5)
+								originalQuads.set(i, bakeRightQuad(Direction.SOUTH, new Vector3f(8.0F, 0.0F, 16.0F), new Vector3f(16.0F, 8.0F, 16.0F), quantityTier, quad));
+							else if (tintIndex == 6)
+								originalQuads.set(i, bakeLeftQuad(Direction.WEST, new Vector3f(0.0F, 0.0F, 0.0F), new Vector3f(0.0F, 8.0F, 8.0F), speedTier, quad));
+							else if (tintIndex == 7)
+								originalQuads.set(i, bakeRightQuad(Direction.WEST, new Vector3f(0.0F, 0.0F, 8.0F), new Vector3f(0.0F, 8.0F, 16.0F), quantityTier, quad));
 						}
 					}
 
@@ -90,20 +83,20 @@ public class SculkEmitterModel implements IDynamicBakedModel {
 		return originalModel.getQuads(state, side, rand, data, renderType);
 	}
 
-	private BakedQuad bakeLeftQuad(Vector3f from, Vector3f to, ModifierTier modifierTier, BakedQuad originalQuad) {
-		return bakeQuad(from, to, modifierTier, originalQuad, 0.0F, 8.0F, 8.0F, 16.0F);
+	private BakedQuad bakeLeftQuad(Direction quadDirection, Vector3f from, Vector3f to, ModifierTier modifierTier, BakedQuad originalQuad) {
+		return bakeQuad(quadDirection, from, to, modifierTier, originalQuad, 0.0F, 8.0F, 8.0F, 16.0F);
 	}
 
-	private BakedQuad bakeRightQuad(Vector3f from, Vector3f to, ModifierTier modifierTier, BakedQuad originalQuad) {
-		return bakeQuad(from, to, modifierTier, originalQuad, 8.0F, 8.0F, 16.0F, 16.0F);
+	private BakedQuad bakeRightQuad(Direction quadDirection, Vector3f from, Vector3f to, ModifierTier modifierTier, BakedQuad originalQuad) {
+		return bakeQuad(quadDirection, from, to, modifierTier, originalQuad, 8.0F, 8.0F, 16.0F, 16.0F);
 	}
 
-	private BakedQuad bakeQuad(Vector3f from, Vector3f to, ModifierTier modifierTier, BakedQuad originalQuad, float u0, float u1, float v0, float v1) {
+	private BakedQuad bakeQuad(Direction quadDirection, Vector3f from, Vector3f to, ModifierTier modifierTier, BakedQuad originalQuad, float u0, float u1, float v0, float v1) {
 		TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(new ResourceLocation(SculkTransporting.MODID, "block/sculk_emitter_side_" + modifierTier.getValue()));
 
 		return FACE_BAKERY.bakeQuad(from, to, new BlockElementFace(null, originalQuad.getTintIndex(), sprite.contents().name().toString(), new BlockFaceUV(new float[] {
 				u0, u1, v0, v1
-		}, 0)), sprite, originalQuad.getDirection(), BlockModelRotation.X0_Y0, null, originalQuad.isShade(), new ResourceLocation(SculkTransporting.MODID, "sculk_emitter"));
+		}, 0)), sprite, quadDirection, ClientHandler.getModelRotation(modelDirection), null, originalQuad.isShade(), new ResourceLocation(SculkTransporting.MODID, "sculk_emitter"));
 	}
 
 	@Override
