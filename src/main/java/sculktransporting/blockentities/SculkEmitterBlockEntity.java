@@ -50,11 +50,8 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 				IItemHandler itemHandler = be.inventoryBelow.getCapability();
 
 				if (itemHandler != null) {
-					//from 0 to 3 installed modifiers: 1, 4, 16, 64
-					final int amountToExtract = (int) Math.pow(4, be.quantityTier.getValue());
-
 					for (int i = 0; i < itemHandler.getSlots(); i++) {
-						ItemStack extracted = itemHandler.extractItem(i, amountToExtract, false);
+						ItemStack extracted = itemHandler.extractItem(i, be.getAmountToExtract(), false);
 
 						if (!extracted.isEmpty()) {
 							be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted), 15);
@@ -69,15 +66,23 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 
 				if (!items.isEmpty()) {
 					ItemEntity item = items.get(SculkTransporting.RANDOM.nextInt(items.size()));
+					ItemStack extracted = item.getItem().split(be.getAmountToExtract());
 
-					be.setItemSignal(item, 15);
-					item.kill();
+					be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted), 15);
+
+					if (item.getItem().isEmpty())
+						item.kill();
 				}
 			}
 		}
 
 		if (be.shouldPerformAction(level))
 			BaseSculkItemTransporterBlockEntity.serverTick(level, pos, state, be);
+	}
+
+	public int getAmountToExtract() {
+		//from 0 to 3 installed modifiers: 1, 4, 16, 64
+		return (int) Math.pow(4, quantityTier.getValue());
 	}
 
 	@Override
