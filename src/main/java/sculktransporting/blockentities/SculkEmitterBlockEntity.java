@@ -14,6 +14,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -82,7 +83,7 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 
 	public int getAmountToExtract() {
 		//from 0 to 3 installed modifiers: 1, 4, 16, 64
-		return (int) Math.pow(4, quantityTier.getValue());
+		return quantityTier == QuantityTier.THREE ? Item.ABSOLUTE_MAX_STACK_SIZE : (int) Math.pow(4, quantityTier.getValue());
 	}
 
 	@Override
