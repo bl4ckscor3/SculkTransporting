@@ -37,6 +37,7 @@ public class DataGenRegistrar {
 		ExistingFileHelper existingFileHelper = new ExistingFileHelper(Collections.emptyList(), Collections.emptySet(), false, null, null);
 		BlockTagGenerator blockTagGenerator = new BlockTagGenerator(output, lookupProvider, existingFileHelper);
 
+		generator.addProvider(event.includeClient(), new BlockStateGenerator(output, existingFileHelper));
 		generator.addProvider(event.includeClient(), new ItemModelGenerator(output, existingFileHelper));
 		generator.addProvider(event.includeServer(), new LootTableProvider(output, Set.of(), List.of(new SubProviderEntry(BlockLootTableGenerator::new, LootContextParamSets.BLOCK)), lookupProvider));
 		generator.addProvider(event.includeServer(), blockTagGenerator);

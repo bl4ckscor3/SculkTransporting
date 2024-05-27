@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "inverted=false,sculk_sensor_phase=active": {
+      "model": "sculktransporting:block/sculk_transmitter_active"
+    },
+    "inverted=false,sculk_sensor_phase=cooldown": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive"
+    },
+    "inverted=false,sculk_sensor_phase=inactive": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive"
+    },
+    "inverted=true,sculk_sensor_phase=active": {
+      "model": "sculktransporting:block/sculk_transmitter_active_inverted"
+    },
+    "inverted=true,sculk_sensor_phase=cooldown": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive_inverted"
+    },
+    "inverted=true,sculk_sensor_phase=inactive": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive_inverted"
+    }
+  }
+}
