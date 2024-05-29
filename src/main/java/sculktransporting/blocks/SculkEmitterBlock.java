@@ -1,8 +1,9 @@
 package sculktransporting.blocks;
 
+import org.joml.Vector3f;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
@@ -16,6 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import sculktransporting.STTags;
 import sculktransporting.blockentities.SculkEmitterBlockEntity;
 import sculktransporting.items.ModifierTier;
@@ -59,20 +61,25 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 	public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
 		if (level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be && player.isShiftKeyDown()) {
 			Direction clickedFace = hit.getDirection();
+			Direction emitterFacing = state.getValue(FACING);
 
-			if (clickedFace.getAxis().isHorizontal()) {
+			if (!clickedFace.getAxis().test(emitterFacing)) {
 				if (!level.isClientSide) {
-					double hitX = Mth.frac(hit.getLocation().x);
-					double hitZ = Mth.frac(hit.getLocation().z);
+					Vec3 centeredHitVec = hit.getLocation().subtract(pos.getCenter());
+					Vector3f rotatableVec = new Vector3f((float) centeredHitVec.x, (float) centeredHitVec.y, (float) centeredHitVec.z);
 
-					if (clickedFace == Direction.NORTH)
-						removeModifer(player, be, hitX < 0.5F);
-					else if (clickedFace == Direction.SOUTH)
-						removeModifer(player, be, hitX >= 0.5F);
-					else if (clickedFace == Direction.EAST)
-						removeModifer(player, be, hitZ < 0.5F);
-					else if (clickedFace == Direction.WEST)
-						removeModifer(player, be, hitZ >= 0.5F);
+					//Rotate hit vector to mimic up-facing emitter
+					rotatableVec.rotate(emitterFacing.getRotation().invert());
+					float relNorthFaceX = rotatableVec.x;
+
+					if (relNorthFaceX == 0.5F) //East block face
+						relNorthFaceX = rotatableVec.z;
+					else if (relNorthFaceX == -0.5F) //West block face
+						relNorthFaceX = -rotatableVec.z;
+					else if (rotatableVec.z == 0.5F) //South block face
+						relNorthFaceX = -relNorthFaceX;
+
+					removeModifer(player, be, relNorthFaceX < 0.0F);
 				}
 
 				return InteractionResult.sidedSuccess(level.isClientSide);
