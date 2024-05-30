@@ -16,7 +16,7 @@
 		{
 			"type": "image",
 			"images": [
-				"sculktransporting:/textures/gui/book/filtered_inverted_sculk_transmitter.png"
+				"sculktransporting:textures/gui/book/filtered_inverted_sculk_transmitter.png"
 			],
 			"border": true,
 			"text": "book.sculktransporting.sculk_transmitter.image"
@@ -24,6 +24,10 @@
 		{
 			"type": "text",
 			"text": "book.sculktransporting.sculk_transmitter.page3"
+		},
+		{
+			"type": "text",
+			"text": "book.sculktransporting.sculk_transmitter.page4"
 		},
 		{
 			"type": "patchouli:crafting",

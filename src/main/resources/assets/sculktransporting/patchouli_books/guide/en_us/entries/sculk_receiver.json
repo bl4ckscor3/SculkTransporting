@@ -14,6 +14,10 @@
 			"text": "book.sculktransporting.sculk_receiver.page2"
 		},
 		{
+			"type": "text",
+			"text": "book.sculktransporting.sculk_receiver.page3"
+		},
+		{
 			"type": "patchouli:crafting",
 			"recipe": "sculktransporting:sculk_receiver",
 			"title": "book.sculktransporting.recipe",
