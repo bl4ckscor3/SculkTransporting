@@ -44,8 +44,10 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 			IItemHandler itemHandler = be.inventoryBelow.getCapability();
 
 			if (itemHandler != null) {
+				final int amountToExtract = be.getAmountToExtract();
+
 				for (int i = 0; i < itemHandler.getSlots(); i++) {
-					ItemStack extracted = itemHandler.extractItem(i, be.getAmountToExtract(), false);
+					ItemStack extracted = itemHandler.extractItem(i, amountToExtract, false);
 
 					if (!extracted.isEmpty()) {
 						be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted), 15);
