@@ -41,7 +41,7 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 			Direction emitterFacing = be.getBlockState().getValue(BaseSculkItemTransporterBlock.FACING);
 			BlockEntity beBelow = level.getBlockEntity(pos.relative(emitterFacing.getOpposite()));
 
-			if (beBelow != null && beBelow.getBlockState().is(STTags.Blocks.SCULK_EMITTER_CAN_EXTRACT_FROM))
+			if (beBelow != null && be.canExtractFrom(beBelow))
 				be.inventoryBelow = beBelow.getCapability(ForgeCapabilities.ITEM_HANDLER, emitterFacing);
 			else
 				be.inventoryBelow = LazyOptional.empty();
@@ -49,8 +49,7 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 
 		if (!be.hasStoredItemSignal() && be.inventoryBelow != null) {
 			be.inventoryBelow.ifPresent(itemHandler -> {
-				//from 0 to 3 installed modifiers: 1, 4, 16, 64
-				final int amountToExtract = (int) Math.pow(4, be.quantityTier.getValue());
+				final int amountToExtract = be.getAmountToExtract();
 
 				for (int i = 0; i < itemHandler.getSlots(); i++) {
 					ItemStack extracted = itemHandler.extractItem(i, amountToExtract, false);
@@ -65,6 +64,11 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 
 		if (be.shouldPerformAction(level))
 			BaseSculkItemTransporterBlockEntity.serverTick(level, pos, state, be);
+	}
+
+	public int getAmountToExtract() {
+		//from 0 to 3 installed modifiers: 1, 4, 16, 64
+		return (int) Math.pow(4, quantityTier.getValue());
 	}
 
 	@Override
@@ -141,6 +145,18 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	public void forgetInventoryBelow(BlockState stateBelow) {
 		inventoryBelow = null;
 		lastKnownStateBelow = stateBelow;
+	}
+
+	public boolean canExtractFrom(BlockState state) {
+		return state.is(STTags.Blocks.SCULK_EMITTER_CAN_EXTRACT_FROM);
+	}
+
+	public boolean canExtractFrom(BlockEntity be) {
+		return canExtractFrom(be.getBlockState());
+	}
+
+	public boolean canExtractFromBelow() {
+		return canExtractFrom(getLastKnownStateBelow());
 	}
 
 	@Override

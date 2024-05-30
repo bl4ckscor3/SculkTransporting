@@ -6,6 +6,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -105,6 +107,18 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 
 			if (be.getLastKnownStateBelow() != stateBelow)
 				be.forgetInventoryBelow(stateBelow);
+		}
+	}
+
+	@Override
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+		if (entity instanceof ItemEntity item && level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be && !be.hasStoredItemSignal() && !be.canExtractFromBelow()) {
+			ItemStack extracted = item.getItem().split(be.getAmountToExtract());
+
+			be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted), 15);
+
+			if (item.getItem().isEmpty())
+				item.kill();
 		}
 	}
 
