@@ -37,12 +37,11 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SculkEmitterBlockEntity be) {
-		if (!be.hasStoredItemSignal() && be.inventoryBelow != null && be.getLastKnownStateBelow().is(STTags.Blocks.SCULK_EMITTER_CAN_EXTRACT_FROM)) {
+		if (!be.hasStoredItemSignal() && be.inventoryBelow != null && be.canExtractFromBelow()) {
 			IItemHandler itemHandler = be.inventoryBelow.getCapability();
 
 			if (itemHandler != null) {
-				//from 0 to 3 installed modifiers: 1, 4, 16, 64
-				final int amountToExtract = (int) Math.pow(4, be.quantityTier.getValue());
+				final int amountToExtract = be.getAmountToExtract();
 
 				for (int i = 0; i < itemHandler.getSlots(); i++) {
 					ItemStack extracted = itemHandler.extractItem(i, amountToExtract, false);
@@ -57,6 +56,11 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 
 		if (be.shouldPerformAction(level))
 			BaseSculkItemTransporterBlockEntity.serverTick(level, pos, state, be);
+	}
+
+	public int getAmountToExtract() {
+		//from 0 to 3 installed modifiers: 1, 4, 16, 64
+		return (int) Math.pow(4, quantityTier.getValue());
 	}
 
 	@Override
@@ -139,6 +143,10 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 
 	public void setLastKnownStateBelow(BlockState lastKnownStateBelow) {
 		this.lastKnownStateBelow = lastKnownStateBelow;
+	}
+
+	public boolean canExtractFromBelow() {
+		return getLastKnownStateBelow().is(STTags.Blocks.SCULK_EMITTER_CAN_EXTRACT_FROM);
 	}
 
 	@Override
