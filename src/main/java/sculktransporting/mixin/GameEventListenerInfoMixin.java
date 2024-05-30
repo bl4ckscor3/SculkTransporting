@@ -21,18 +21,16 @@ public class GameEventListenerInfoMixin {
 	@Shadow
 	@Final
 	private GameEventListener recipient;
-
 	@Shadow
 	@Final
 	private GameEvent gameEvent;
 
-	@Redirect(method = "compareTo(Lnet/minecraft/world/level/gameevent/GameEvent$ListenerInfo;)I", at = @At(value = "INVOKE", target = "Ljava/lang/Double;compare(DD)I"))
+	@Redirect(method = "compareTo", at = @At(value = "INVOKE", target = "Ljava/lang/Double;compare(DD)I"))
 	public int sculktransporting$compareListeners(double thisDistance, double otherDistance, GameEvent.ListenerInfo other) {
 		if (gameEvent == STGameEvents.ITEM_TRANSMITTABLE.get() && thisDistance == otherDistance) {
 			if (recipient instanceof OneReceiverVibrationListener thisListener && other.recipient() instanceof OneReceiverVibrationListener otherListener) {
-				if (thisListener.getSystem() instanceof BaseSculkItemTransporterBlockEntity thisBe && otherListener.getSystem() instanceof BaseSculkItemTransporterBlockEntity otherBe) {
+				if (thisListener.getSystem() instanceof BaseSculkItemTransporterBlockEntity thisBe && otherListener.getSystem() instanceof BaseSculkItemTransporterBlockEntity otherBe)
 					return Long.compare(thisBe.getPlacedDownTick(), otherBe.getPlacedDownTick());
-				}
 			}
 		}
 
