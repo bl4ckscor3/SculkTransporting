@@ -2,8 +2,7 @@ plugins {
     id 'java-library'
     id 'eclipse'
     id 'idea'
-    id 'net.neoforged.gradle.userdev' version '[7.0,7.1)'
-//	id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'net.neoforged.gradle.userdev' version '7.0.104'
 }
 
 version = '1.1.4'
@@ -49,8 +48,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'net.neoforged:neoforge:20.4.11-beta'
-	//implementation "curse.maven:patchouli-306770:4636277"
+    implementation 'net.neoforged:neoforge:20.4.235'
+	implementation "curse.maven:patchouli-306770:5240286"
 }
 
 sourceSets.main.resources {

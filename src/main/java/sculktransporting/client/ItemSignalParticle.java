@@ -1,5 +1,7 @@
 package sculktransporting.client;
 
+import java.util.Optional;
+
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.BreakingItemParticle;
 import net.minecraft.client.particle.Particle;
@@ -9,8 +11,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.gameevent.PositionSource;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.Optional;
 
 public class ItemSignalParticle extends BreakingItemParticle {
 	private final PositionSource target;

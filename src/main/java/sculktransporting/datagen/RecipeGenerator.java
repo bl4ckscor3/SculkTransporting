@@ -1,8 +1,5 @@
 package sculktransporting.datagen;
 
-import java.util.concurrent.CompletableFuture;
-
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -18,8 +15,8 @@ import sculktransporting.registration.STBlocks;
 import sculktransporting.registration.STItems;
 
 public class RecipeGenerator extends RecipeProvider {
-	public RecipeGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-		super(output, lookupProvider);
+	public RecipeGenerator(PackOutput output) {
+		super(output);
 	}
 
 	@Override
