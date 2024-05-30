@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -26,21 +25,22 @@ public class SculkTransmitterBlockEntityRenderer extends SculkItemTransporterBlo
 
 		if (!filteredItem.isEmpty()) {
 			pose.pushPose();
+			adjustForRotation(pose, be);
 			pose.translate(1.0F, 0.25F, 1.0F);
-			renderItem(Direction.NORTH, be, pose, -0.5F, 0.0F, -1.0F, 0.0F, filteredItem, bufferSource, packedOverlay);
-			renderItem(Direction.WEST, be, pose, -1.0F, 0.0F, -0.5F, 90.0F, filteredItem, bufferSource, packedOverlay);
-			renderItem(Direction.SOUTH, be, pose, -0.5F, 0.0F, 0.0F, 180.0F, filteredItem, bufferSource, packedOverlay);
-			renderItem(Direction.EAST, be, pose, 0.0F, 0.0F, -0.5F, 270.0F, filteredItem, bufferSource, packedOverlay);
+			renderItem(be, pose, -0.5F, 0.0F, -1.0F, 0.0F, filteredItem, bufferSource, packedOverlay);
+			renderItem(be, pose, -1.0F, 0.0F, -0.5F, 90.0F, filteredItem, bufferSource, packedOverlay);
+			renderItem(be, pose, -0.5F, 0.0F, 0.0F, 180.0F, filteredItem, bufferSource, packedOverlay);
+			renderItem(be, pose, 0.0F, 0.0F, -0.5F, 270.0F, filteredItem, bufferSource, packedOverlay);
 			pose.popPose();
 		}
 	}
 
-	private void renderItem(Direction direction, BlockEntity be, PoseStack pose, float translateX, float translateY, float translateZ, float degrees, ItemStack filteredItem, MultiBufferSource bufferSource, int packedOverlay) {
+	private void renderItem(BlockEntity be, PoseStack pose, float translateX, float translateY, float translateZ, float degrees, ItemStack filteredItem, MultiBufferSource bufferSource, int packedOverlay) {
 		pose.pushPose();
 		pose.translate(translateX, translateY, translateZ);
 		pose.mulPose(Axis.YP.rotationDegrees(degrees));
 		pose.scale(0.35F, 0.35F, 0.35F);
-		Minecraft.getInstance().getItemRenderer().renderStatic(filteredItem, ItemDisplayContext.FIXED, LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().relative(direction)), packedOverlay, pose, bufferSource, be.getLevel(), 0);
+		Minecraft.getInstance().getItemRenderer().renderStatic(filteredItem, ItemDisplayContext.FIXED, LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos()), packedOverlay, pose, bufferSource, be.getLevel(), 0);
 		pose.popPose();
 	}
 }

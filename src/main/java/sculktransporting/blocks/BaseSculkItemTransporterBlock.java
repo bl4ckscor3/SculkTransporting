@@ -1,6 +1,7 @@
 package sculktransporting.blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -8,22 +9,55 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SculkSensorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition.Builder;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.SculkSensorPhase;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import sculktransporting.blockentities.BaseSculkItemTransporterBlockEntity;
 
 public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 	private static final float CONVERSION_FACTOR = 14.0F / 63.0F;
+	public static final DirectionProperty FACING = BlockStateProperties.FACING;
+	protected VoxelShape upShape = SHAPE;
+	protected VoxelShape downShape = Block.box(0, 8, 0, 16, 16, 16);
+	protected VoxelShape northShape = Block.box(0, 0, 8, 16, 16, 16);
+	protected VoxelShape eastShape = Block.box(0, 0, 0, 8, 16, 16);
+	protected VoxelShape southShape = Block.box(0, 0, 0, 16, 16, 8);
+	protected VoxelShape westShape = Block.box(8, 0, 0, 16, 16, 16);
 
 	protected BaseSculkItemTransporterBlock(Properties properties) {
 		super(properties);
+		registerDefaultState(defaultBlockState().setValue(FACING, Direction.UP));
+	}
+
+	@Override
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
+		return switch (state.getValue(FACING)) {
+			case UP -> upShape;
+			case DOWN -> downShape;
+			case NORTH -> northShape;
+			case EAST -> eastShape;
+			case SOUTH -> southShape;
+			case WEST -> westShape;
+		};
+	}
+
+	@Override
+	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+		return super.getStateForPlacement(ctx).setValue(FACING, ctx.getClickedFace());
 	}
 
 	@Override
@@ -86,5 +120,11 @@ public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 	@Override
 	public int getExpDrop(BlockState state, LevelReader level, RandomSource randomSource, BlockPos pos, int fortuneLevel, int silkTouchLevel) {
 		return 0;
+	}
+
+	@Override
+	protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
+		super.createBlockStateDefinition(builder);
+		builder.add(FACING);
 	}
 }

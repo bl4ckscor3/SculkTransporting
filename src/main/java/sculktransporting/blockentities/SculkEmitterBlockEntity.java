@@ -29,6 +29,7 @@ import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.items.IItemHandler;
 import sculktransporting.STTags;
 import sculktransporting.SculkTransporting;
+import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 import sculktransporting.client.ClientHandler;
 import sculktransporting.items.QuantityModifierItem.QuantityTier;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
@@ -156,7 +157,7 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	public BlockState getLastKnownStateBelow() {
 		if (lastKnownStateBelow == null) {
 			if (level != null)
-				lastKnownStateBelow = level.getBlockState(worldPosition.below());
+				lastKnownStateBelow = level.getBlockState(worldPosition.relative(getBlockState().getValue(BaseSculkItemTransporterBlock.FACING).getOpposite()));
 			else
 				return Blocks.AIR.defaultBlockState();
 		}
@@ -189,8 +190,11 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	public void onLoad() {
 		super.onLoad();
 
-		if (level != null && !level.isClientSide)
-			inventoryBelow = BlockCapabilityCache.create(Capabilities.ItemHandler.BLOCK, (ServerLevel) level, worldPosition.below(), Direction.UP);
+		if (level != null && !level.isClientSide) {
+			Direction direction = getBlockState().getValue(BaseSculkItemTransporterBlock.FACING);
+
+			inventoryBelow = BlockCapabilityCache.create(Capabilities.ItemHandler.BLOCK, (ServerLevel) level, worldPosition.relative(direction.getOpposite()), direction);
+		}
 	}
 
 	public class SculkEmitterVibrationUser extends BaseVibrationUser {

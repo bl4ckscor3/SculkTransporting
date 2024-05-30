@@ -1,22 +1,160 @@
 {
   "variants": {
-    "inverted=false,sculk_sensor_phase=active": {
+    "facing=down,inverted=false,sculk_sensor_phase=active": {
+      "model": "sculktransporting:block/sculk_transmitter_active",
+      "x": 180
+    },
+    "facing=down,inverted=false,sculk_sensor_phase=cooldown": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive",
+      "x": 180
+    },
+    "facing=down,inverted=false,sculk_sensor_phase=inactive": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive",
+      "x": 180
+    },
+    "facing=down,inverted=true,sculk_sensor_phase=active": {
+      "model": "sculktransporting:block/sculk_transmitter_active_inverted",
+      "x": 180
+    },
+    "facing=down,inverted=true,sculk_sensor_phase=cooldown": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive_inverted",
+      "x": 180
+    },
+    "facing=down,inverted=true,sculk_sensor_phase=inactive": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive_inverted",
+      "x": 180
+    },
+    "facing=east,inverted=false,sculk_sensor_phase=active": {
+      "model": "sculktransporting:block/sculk_transmitter_active",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,inverted=false,sculk_sensor_phase=cooldown": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,inverted=false,sculk_sensor_phase=inactive": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,inverted=true,sculk_sensor_phase=active": {
+      "model": "sculktransporting:block/sculk_transmitter_active_inverted",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,inverted=true,sculk_sensor_phase=cooldown": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive_inverted",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,inverted=true,sculk_sensor_phase=inactive": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive_inverted",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north,inverted=false,sculk_sensor_phase=active": {
+      "model": "sculktransporting:block/sculk_transmitter_active",
+      "x": 90
+    },
+    "facing=north,inverted=false,sculk_sensor_phase=cooldown": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive",
+      "x": 90
+    },
+    "facing=north,inverted=false,sculk_sensor_phase=inactive": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive",
+      "x": 90
+    },
+    "facing=north,inverted=true,sculk_sensor_phase=active": {
+      "model": "sculktransporting:block/sculk_transmitter_active_inverted",
+      "x": 90
+    },
+    "facing=north,inverted=true,sculk_sensor_phase=cooldown": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive_inverted",
+      "x": 90
+    },
+    "facing=north,inverted=true,sculk_sensor_phase=inactive": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive_inverted",
+      "x": 90
+    },
+    "facing=south,inverted=false,sculk_sensor_phase=active": {
+      "model": "sculktransporting:block/sculk_transmitter_active",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,inverted=false,sculk_sensor_phase=cooldown": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,inverted=false,sculk_sensor_phase=inactive": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,inverted=true,sculk_sensor_phase=active": {
+      "model": "sculktransporting:block/sculk_transmitter_active_inverted",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,inverted=true,sculk_sensor_phase=cooldown": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive_inverted",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,inverted=true,sculk_sensor_phase=inactive": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive_inverted",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up,inverted=false,sculk_sensor_phase=active": {
       "model": "sculktransporting:block/sculk_transmitter_active"
     },
-    "inverted=false,sculk_sensor_phase=cooldown": {
+    "facing=up,inverted=false,sculk_sensor_phase=cooldown": {
       "model": "sculktransporting:block/sculk_transmitter_inactive"
     },
-    "inverted=false,sculk_sensor_phase=inactive": {
+    "facing=up,inverted=false,sculk_sensor_phase=inactive": {
       "model": "sculktransporting:block/sculk_transmitter_inactive"
     },
-    "inverted=true,sculk_sensor_phase=active": {
+    "facing=up,inverted=true,sculk_sensor_phase=active": {
       "model": "sculktransporting:block/sculk_transmitter_active_inverted"
     },
-    "inverted=true,sculk_sensor_phase=cooldown": {
+    "facing=up,inverted=true,sculk_sensor_phase=cooldown": {
       "model": "sculktransporting:block/sculk_transmitter_inactive_inverted"
     },
-    "inverted=true,sculk_sensor_phase=inactive": {
+    "facing=up,inverted=true,sculk_sensor_phase=inactive": {
       "model": "sculktransporting:block/sculk_transmitter_inactive_inverted"
+    },
+    "facing=west,inverted=false,sculk_sensor_phase=active": {
+      "model": "sculktransporting:block/sculk_transmitter_active",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,inverted=false,sculk_sensor_phase=cooldown": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,inverted=false,sculk_sensor_phase=inactive": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,inverted=true,sculk_sensor_phase=active": {
+      "model": "sculktransporting:block/sculk_transmitter_active_inverted",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,inverted=true,sculk_sensor_phase=cooldown": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive_inverted",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,inverted=true,sculk_sensor_phase=inactive": {
+      "model": "sculktransporting:block/sculk_transmitter_inactive_inverted",
+      "x": 90,
+      "y": 270
     }
   }
 }
