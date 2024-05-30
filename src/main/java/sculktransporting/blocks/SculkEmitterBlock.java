@@ -112,7 +112,7 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 	}
 
 	@Override
-	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
 		if (entity instanceof ItemEntity item && level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be && !be.hasStoredItemSignal() && !be.canExtractFromBelow()) {
 			ItemStack extracted = item.getItem().split(be.getAmountToExtract());
 

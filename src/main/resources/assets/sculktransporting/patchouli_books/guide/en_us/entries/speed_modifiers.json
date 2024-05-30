@@ -39,7 +39,7 @@
 		{
 			"type": "image",
 			"images": [
-				"sculktransporting:/textures/gui/book/fully_modified_sculk_receiver.png"
+				"sculktransporting:textures/gui/book/fully_modified_sculk_receiver.png"
 			],
 			"border": true,
 			"text": "book.sculktransporting.speed_modifiers.image"
