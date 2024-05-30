@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import sculktransporting.STTags;
 import sculktransporting.blockentities.SculkEmitterBlockEntity;
 import sculktransporting.items.ModifierTier;
@@ -65,21 +64,20 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 
 			if (!clickedFace.getAxis().test(emitterFacing)) {
 				if (!level.isClientSide) {
-					Vec3 centeredHitVec = hit.getLocation().subtract(pos.getCenter());
-					Vector3f rotatableVec = new Vector3f((float) centeredHitVec.x, (float) centeredHitVec.y, (float) centeredHitVec.z);
-
 					//Rotate hit vector to mimic up-facing emitter
-					rotatableVec.rotate(emitterFacing.getRotation().invert());
-					float relNorthFaceX = rotatableVec.x;
+					Vector3f rotatedHitVec = hit.getLocation().subtract(pos.getCenter()).toVector3f().rotate(emitterFacing.getRotation().invert());
+					float hitCheck;
 
-					if (relNorthFaceX == 0.5F) //East block face
-						relNorthFaceX = rotatableVec.z;
-					else if (relNorthFaceX == -0.5F) //West block face
-						relNorthFaceX = -rotatableVec.z;
-					else if (rotatableVec.z == 0.5F) //South block face
-						relNorthFaceX = -relNorthFaceX;
+					if (rotatedHitVec.x == 0.5F) //East block face
+						hitCheck = rotatedHitVec.z;
+					else if (rotatedHitVec.x == -0.5F) //West block face
+						hitCheck = -rotatedHitVec.z;
+					else if (rotatedHitVec.z == 0.5F) //South block face
+						hitCheck = -rotatedHitVec.x;
+					else
+						hitCheck = rotatedHitVec.x;
 
-					removeModifer(player, be, relNorthFaceX < 0.0F);
+					removeModifer(player, be, hitCheck < 0.0F);
 				}
 
 				return InteractionResult.sidedSuccess(level.isClientSide);
