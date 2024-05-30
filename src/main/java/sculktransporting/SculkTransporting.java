@@ -1,7 +1,6 @@
 package sculktransporting;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -21,7 +20,6 @@ import sculktransporting.registration.STParticleTypes;
 @Mod(SculkTransporting.MODID)
 public class SculkTransporting {
 	public static final String MODID = "sculktransporting";
-	public static final Random RANDOM = new Random();
 	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TECHNICAL_TAB = CREATIVE_MODE_TABS.register("tab", () -> CreativeModeTab.builder()
 	//@formatter:off

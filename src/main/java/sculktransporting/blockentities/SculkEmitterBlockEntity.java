@@ -1,7 +1,5 @@
 package sculktransporting.blockentities;
 
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,23 +10,19 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.items.IItemHandler;
 import sculktransporting.STTags;
-import sculktransporting.SculkTransporting;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 import sculktransporting.client.ClientHandler;
 import sculktransporting.items.QuantityModifierItem.QuantityTier;
@@ -36,7 +30,6 @@ import sculktransporting.items.SpeedModifierItem.SpeedTier;
 import sculktransporting.registration.STBlockEntityTypes;
 
 public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity {
-	private static final AABB SUCK_AABB = Block.box(0, 8, 0, 16, 32, 16).toAabbs().get(0);
 	private BlockState lastKnownStateBelow;
 	private BlockCapabilityCache<IItemHandler, Direction> inventoryBelow;
 	private QuantityTier quantityTier = QuantityTier.ZERO;
@@ -47,33 +40,17 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SculkEmitterBlockEntity be) {
-		if (!be.hasStoredItemSignal()) {
-			if (be.inventoryBelow != null && be.getLastKnownStateBelow().is(STTags.Blocks.SCULK_EMITTER_CAN_EXTRACT_FROM)) {
-				IItemHandler itemHandler = be.inventoryBelow.getCapability();
+		if (!be.hasStoredItemSignal() && be.inventoryBelow != null && be.canExtractFromBelow()) {
+			IItemHandler itemHandler = be.inventoryBelow.getCapability();
 
-				if (itemHandler != null) {
-					for (int i = 0; i < itemHandler.getSlots(); i++) {
-						ItemStack extracted = itemHandler.extractItem(i, be.getAmountToExtract(), false);
+			if (itemHandler != null) {
+				for (int i = 0; i < itemHandler.getSlots(); i++) {
+					ItemStack extracted = itemHandler.extractItem(i, be.getAmountToExtract(), false);
 
-						if (!extracted.isEmpty()) {
-							be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted), 15);
-							break;
-						}
+					if (!extracted.isEmpty()) {
+						be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted), 15);
+						break;
 					}
-				}
-			}
-			else if (level.getGameTime() % 8 == 0) {
-				AABB aabb = SUCK_AABB.move(pos.getX() - 0.5D, pos.getY() - 0.5D, pos.getZ() - 0.5D);
-				List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, aabb, EntitySelector.ENTITY_STILL_ALIVE);
-
-				if (!items.isEmpty()) {
-					ItemEntity item = items.get(SculkTransporting.RANDOM.nextInt(items.size()));
-					ItemStack extracted = item.getItem().split(be.getAmountToExtract());
-
-					be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted), 15);
-
-					if (item.getItem().isEmpty())
-						item.kill();
 				}
 			}
 		}
@@ -167,6 +144,10 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 
 	public void setLastKnownStateBelow(BlockState lastKnownStateBelow) {
 		this.lastKnownStateBelow = lastKnownStateBelow;
+	}
+
+	public boolean canExtractFromBelow() {
+		return getLastKnownStateBelow().is(STTags.Blocks.SCULK_EMITTER_CAN_EXTRACT_FROM);
 	}
 
 	@Override
