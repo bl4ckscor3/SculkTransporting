@@ -20,6 +20,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import sculktransporting.STTags;
+import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 import sculktransporting.client.ClientHandler;
 import sculktransporting.items.QuantityModifierItem.QuantityTier;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
@@ -37,10 +38,11 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SculkEmitterBlockEntity be) {
 		if (level.getGameTime() % 5 == 0 && be.inventoryBelow == null) {
-			BlockEntity beBelow = level.getBlockEntity(pos.below());
+			Direction emitterFacing = be.getBlockState().getValue(BaseSculkItemTransporterBlock.FACING);
+			BlockEntity beBelow = level.getBlockEntity(pos.relative(emitterFacing.getOpposite()));
 
 			if (beBelow != null && beBelow.getBlockState().is(STTags.Blocks.SCULK_EMITTER_CAN_EXTRACT_FROM))
-				be.inventoryBelow = beBelow.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP);
+				be.inventoryBelow = beBelow.getCapability(ForgeCapabilities.ITEM_HANDLER, emitterFacing);
 			else
 				be.inventoryBelow = LazyOptional.empty();
 		}

@@ -16,10 +16,14 @@ import sculktransporting.blocks.SculkTransmitterBlock;
 
 public class STBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SculkTransporting.MODID);
-	public static final RegistryObject<SculkEmitterBlock> SCULK_EMITTER = BLOCKS.register("sculk_emitter", () -> new SculkEmitterBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN).strength(1.5F).sound(SoundType.SCULK_SENSOR).lightLevel(state -> 1)));
-	public static final RegistryObject<SculkReceiverBlock> SCULK_RECEIVER = BLOCKS.register("sculk_receiver", () -> new SculkReceiverBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN).strength(1.5F).sound(SoundType.SCULK_SENSOR)));
-	public static final RegistryObject<SculkTransmitterBlock> SCULK_TRANSMITTER = BLOCKS.register("sculk_transmitter", () -> new SculkTransmitterBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN).strength(1.5F).sound(SoundType.SCULK_SENSOR)));
+	public static final RegistryObject<SculkEmitterBlock> SCULK_EMITTER = BLOCKS.register("sculk_emitter", () -> new SculkEmitterBlock(defaultProperties().lightLevel(state -> 1)));
+	public static final RegistryObject<SculkReceiverBlock> SCULK_RECEIVER = BLOCKS.register("sculk_receiver", () -> new SculkReceiverBlock(defaultProperties()));
+	public static final RegistryObject<SculkTransmitterBlock> SCULK_TRANSMITTER = BLOCKS.register("sculk_transmitter", () -> new SculkTransmitterBlock(defaultProperties()));
 	public static final RegistryObject<SculkBarrelBlock> SCULK_BARREL = BLOCKS.register("sculk_barrel", () -> new SculkBarrelBlock(BlockBehaviour.Properties.copy(Blocks.BARREL).mapColor(MapColor.COLOR_CYAN)));
 
 	private STBlocks() {}
+
+	public static BlockBehaviour.Properties defaultProperties() {
+		return BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN).strength(1.5F).sound(SoundType.SCULK_SENSOR).noOcclusion();
+	}
 }

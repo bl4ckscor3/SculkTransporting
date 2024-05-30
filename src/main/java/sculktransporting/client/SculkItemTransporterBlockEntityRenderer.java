@@ -17,6 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import sculktransporting.blockentities.BaseSculkItemTransporterBlockEntity;
+import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 
 public class SculkItemTransporterBlockEntityRenderer<T extends BaseSculkItemTransporterBlockEntity> implements BlockEntityRenderer<T> {
 	private static final Quaternionf XP_90 = new Quaternionf().rotateXYZ(90.0F * ((float) Math.PI / 180.0F), 0.0F, 0.0F);
@@ -43,6 +44,7 @@ public class SculkItemTransporterBlockEntityRenderer<T extends BaseSculkItemTran
 				renderAmount = 2;
 
 			pose.pushPose();
+			adjustForRotation(pose, be);
 
 			if (isGui3d)
 				pose.translate(0.5D, 0.44D, 0.5D);
@@ -82,5 +84,11 @@ public class SculkItemTransporterBlockEntityRenderer<T extends BaseSculkItemTran
 
 			pose.popPose();
 		}
+	}
+
+	protected void adjustForRotation(PoseStack pose, T be) {
+		pose.translate(0.5D, 0.5D, 0.5D);
+		pose.mulPose(be.getBlockState().getValue(BaseSculkItemTransporterBlock.FACING).getRotation());
+		pose.translate(-0.5D, -0.5D, -0.5D);
 	}
 }

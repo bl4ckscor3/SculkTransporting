@@ -1,8 +1,9 @@
 package sculktransporting.blocks;
 
+import org.joml.Vector3f;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -52,20 +53,24 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 
 			if (player.isShiftKeyDown()) {
 				Direction clickedFace = hit.getDirection();
+				Direction emitterFacing = state.getValue(FACING);
 
-				if (clickedFace.getAxis().isHorizontal()) {
+				if (!clickedFace.getAxis().test(emitterFacing)) {
 					if (!level.isClientSide) {
-						double hitX = Mth.frac(hit.getLocation().x);
-						double hitZ = Mth.frac(hit.getLocation().z);
+						//Rotate hit vector to mimic up-facing emitter
+						Vector3f rotatedHitVec = hit.getLocation().subtract(pos.getCenter()).toVector3f().rotate(emitterFacing.getRotation().invert());
+						float hitCheck;
 
-						if (clickedFace == Direction.NORTH)
-							removeModifer(player, be, hitX < 0.5F);
-						else if (clickedFace == Direction.SOUTH)
-							removeModifer(player, be, hitX >= 0.5F);
-						else if (clickedFace == Direction.EAST)
-							removeModifer(player, be, hitZ < 0.5F);
-						else if (clickedFace == Direction.WEST)
-							removeModifer(player, be, hitZ >= 0.5F);
+						if (rotatedHitVec.x == 0.5F) //East block face
+							hitCheck = rotatedHitVec.z;
+						else if (rotatedHitVec.x == -0.5F) //West block face
+							hitCheck = -rotatedHitVec.z;
+						else if (rotatedHitVec.z == 0.5F) //South block face
+							hitCheck = -rotatedHitVec.x;
+						else
+							hitCheck = rotatedHitVec.x;
+
+						removeModifer(player, be, hitCheck < 0.0F);
 					}
 
 					return InteractionResult.sidedSuccess(level.isClientSide);
@@ -93,7 +98,7 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 
 	@Override
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
-		if (fromPos.getY() == pos.getY() - 1 && level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be) {
+		if (fromPos.equals(pos.relative(state.getValue(FACING).getOpposite())) && level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be) {
 			//SculkSensorBlock#updateNeighbours calls Level#updateNeighborsAt for the position below itself, calling this method again.
 			//thus there's a need to check if the block below has changed, before updating the item handler
 			BlockState stateBelow = level.getBlockState(fromPos);

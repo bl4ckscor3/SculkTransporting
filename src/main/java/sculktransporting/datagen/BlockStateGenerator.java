@@ -24,17 +24,8 @@ public class BlockStateGenerator extends BlockStateProvider {
 	@Override
 	protected void registerStatesAndModels() {
 		getVariantBuilder(STBlocks.SCULK_BARREL.get()).forAllStates(state -> {
-			int x = switch (state.getValue(BarrelBlock.FACING)) {
-				case DOWN -> 180;
-				case UP -> 0;
-				default -> 90;
-			};
-			int y = switch (state.getValue(BarrelBlock.FACING)) {
-				case EAST -> 90;
-				case SOUTH -> 180;
-				case WEST -> 270;
-				default -> 0;
-			};
+			int x = getXRotationBasedOnFacing(state);
+			int y = getYRotationBasedOnFacing(state);
 			ModelFile modelFile = new UncheckedModelFile(blockTexture(state.getBlock()) + (state.getValue(BarrelBlock.OPEN) ? "_open" : ""));
 
 			return new ConfiguredModel[] {
@@ -52,14 +43,33 @@ public class BlockStateGenerator extends BlockStateProvider {
 
 	public void createSculkItemTransporterState(BaseSculkItemTransporterBlock block, BiFunction<String, BlockState, String> nameFunction) {
 		getVariantBuilder(block).forAllStatesExcept(state -> {
+			int x = getXRotationBasedOnFacing(state);
+			int y = getYRotationBasedOnFacing(state);
 			String baseName = blockTexture(block) + switch (state.getValue(SculkSensorBlock.PHASE)) {
 				case ACTIVE -> "_active";
 				default -> "_inactive";
 			};
 
 			return new ConfiguredModel[] {
-					new ConfiguredModel(new UncheckedModelFile(nameFunction.apply(baseName, state)))
+					new ConfiguredModel(new UncheckedModelFile(nameFunction.apply(baseName, state)), x, y, false)
 			};
 		}, SculkSensorBlock.POWER, SculkSensorBlock.WATERLOGGED);
+	}
+
+	private int getXRotationBasedOnFacing(BlockState state) {
+		return switch (state.getValue(BaseSculkItemTransporterBlock.FACING)) {
+			case DOWN -> 180;
+			case UP -> 0;
+			default -> 90;
+		};
+	}
+
+	private int getYRotationBasedOnFacing(BlockState state) {
+		return switch (state.getValue(BaseSculkItemTransporterBlock.FACING)) {
+			case EAST -> 90;
+			case SOUTH -> 180;
+			case WEST -> 270;
+			default -> 0;
+		};
 	}
 }

@@ -35,10 +35,11 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 		VibrationSystem.Ticker.tick(level, be.getVibrationData(), be.getVibrationUser());
 
 		if (level.getGameTime() % 5 == 0 && be.inventoryBelow == null) {
-			BlockEntity beBelow = level.getBlockEntity(pos.below());
+			Direction emitterFacing = be.getBlockState().getValue(BaseSculkItemTransporterBlock.FACING);
+			BlockEntity beBelow = level.getBlockEntity(pos.relative(emitterFacing.getOpposite()));
 
 			if (beBelow != null)
-				be.inventoryBelow = beBelow.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP);
+				be.inventoryBelow = beBelow.getCapability(ForgeCapabilities.ITEM_HANDLER, emitterFacing);
 			else
 				be.inventoryBelow = LazyOptional.empty();
 		}

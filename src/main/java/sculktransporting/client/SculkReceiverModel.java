@@ -8,34 +8,27 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joml.Vector3f;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.BlockElementFace;
-import net.minecraft.client.renderer.block.model.BlockFaceUV;
-import net.minecraft.client.renderer.block.model.FaceBakery;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.ChunkRenderTypeSet;
 import net.minecraftforge.client.model.IDynamicBakedModel;
 import net.minecraftforge.client.model.data.ModelData;
-import sculktransporting.SculkTransporting;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
 
 public class SculkReceiverModel implements IDynamicBakedModel {
-	private static final FaceBakery FACE_BAKERY = new FaceBakery();
-	private BakedModel originalModel;
-	private Map<Pair<Direction, SpeedTier>, List<BakedQuad>> quadCache = new ConcurrentHashMap<>();
+	private final BakedModel originalModel;
+	private final Direction modelDirection;
+	private final Map<Pair<Direction, SpeedTier>, List<BakedQuad>> quadCache = new ConcurrentHashMap<>();
 
-	public SculkReceiverModel(BakedModel originalModel) {
+	public SculkReceiverModel(BakedModel originalModel, Direction direction) {
 		this.originalModel = originalModel;
+		this.modelDirection = direction;
 	}
 
 	@Override
@@ -50,17 +43,17 @@ public class SculkReceiverModel implements IDynamicBakedModel {
 					for (int i = 0; i < originalQuads.size(); i++) {
 						BakedQuad quad = originalQuads.get(i);
 
-						if (quad.getTintIndex() == 0) {
-							Direction quadDirection = quad.getDirection();
+						if (quad.isTinted()) {
+							int tintIndex = quad.getTintIndex();
 
-							if (quadDirection == Direction.NORTH)
-								originalQuads.set(i, bakeQuad(new Vector3f(0.0F, 3.0F, 0.0F), new Vector3f(16.0F, 8.0F, 0.0F), speedTier, quad));
-							else if (quadDirection == Direction.EAST)
-								originalQuads.set(i, bakeQuad(new Vector3f(16.0F, 3.0F, 0.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
-							else if (quadDirection == Direction.SOUTH)
-								originalQuads.set(i, bakeQuad(new Vector3f(0.0F, 3.0F, 16.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
-							else if (quadDirection == Direction.WEST)
-								originalQuads.set(i, bakeQuad(new Vector3f(0.0F, 3.0F, 0.0F), new Vector3f(0.0F, 8.0F, 16.0F), speedTier, quad));
+							if (tintIndex == 0)
+								originalQuads.set(i, bakeQuad(Direction.NORTH, new Vector3f(0.0F, 3.0F, 0.0F), new Vector3f(16.0F, 8.0F, 0.0F), speedTier, quad));
+							else if (tintIndex == 1)
+								originalQuads.set(i, bakeQuad(Direction.EAST, new Vector3f(16.0F, 3.0F, 0.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
+							else if (tintIndex == 2)
+								originalQuads.set(i, bakeQuad(Direction.SOUTH, new Vector3f(0.0F, 3.0F, 16.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
+							else if (tintIndex == 3)
+								originalQuads.set(i, bakeQuad(Direction.WEST, new Vector3f(0.0F, 3.0F, 0.0F), new Vector3f(0.0F, 8.0F, 16.0F), speedTier, quad));
 						}
 					}
 
@@ -72,12 +65,8 @@ public class SculkReceiverModel implements IDynamicBakedModel {
 		return originalModel.getQuads(state, side, rand, data, renderType);
 	}
 
-	private BakedQuad bakeQuad(Vector3f from, Vector3f to, SpeedTier speedTier, BakedQuad originalQuad) {
-		TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(new ResourceLocation(SculkTransporting.MODID, "block/sculk_receiver_side_" + speedTier.getValue()));
-
-		return FACE_BAKERY.bakeQuad(from, to, new BlockElementFace(null, originalQuad.getTintIndex(), sprite.contents().name().toString(), new BlockFaceUV(new float[] {
-				0.0F, 8.0F, 16.0F, 13.0F
-		}, 0)), sprite, originalQuad.getDirection(), BlockModelRotation.X0_Y0, null, originalQuad.isShade(), new ResourceLocation(SculkTransporting.MODID, "sculk_receiver"));
+	private BakedQuad bakeQuad(Direction quadDirection, Vector3f from, Vector3f to, SpeedTier speedTier, BakedQuad originalQuad) {
+		return ClientHandler.bakeQuad(quadDirection, modelDirection, "sculk_receiver", from, to, speedTier, originalQuad, 0.0F, 8.0F, 16.0F, 13.0F);
 	}
 
 	@Override
