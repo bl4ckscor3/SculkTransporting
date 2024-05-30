@@ -30,7 +30,7 @@
 		{
 			"type": "image",
 			"images": [
-				"sculktransporting:/textures/gui/book/partly_modified_sculk_emitter.png"
+				"sculktransporting:textures/gui/book/partly_modified_sculk_emitter.png"
 			],
 			"border": true,
 			"text": "book.sculktransporting.quantity_modifiers.image"
