@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -139,6 +140,13 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	}
 
 	public BlockState getLastKnownStateBelow() {
+		if (lastKnownStateBelow == null) {
+			if (level != null)
+				lastKnownStateBelow = level.getBlockState(worldPosition.relative(getBlockState().getValue(BaseSculkItemTransporterBlock.FACING).getOpposite()));
+			else
+				return Blocks.AIR.defaultBlockState();
+		}
+
 		return lastKnownStateBelow;
 	}
 
