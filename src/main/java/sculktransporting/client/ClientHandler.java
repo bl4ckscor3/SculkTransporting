@@ -49,7 +49,7 @@ public class ClientHandler {
 
 	@SubscribeEvent
 	public static void onModelBakingCompleted(ModelEvent.ModifyBakingResult event) {
-		Map<ResourceLocation, BakedModel> models = event.getModels();
+		Map<ModelResourceLocation, BakedModel> models = event.getModels();
 
 		replaceModels(models, STBlocks.SCULK_RECEIVER.get(), SculkReceiverModel::new);
 		replaceModels(models, STBlocks.SCULK_EMITTER.get(), SculkEmitterModel::new);
@@ -67,7 +67,7 @@ public class ClientHandler {
 		event.registerSpecial(STParticleTypes.ITEM_SIGNAL.get(), new ItemSignalParticle.Provider());
 	}
 
-	private static void replaceModels(Map<ResourceLocation, BakedModel> models, Block block, BiFunction<BakedModel, Direction, BakedModel> modelFactory) {
+	private static void replaceModels(Map<ModelResourceLocation, BakedModel> models, Block block, BiFunction<BakedModel, Direction, BakedModel> modelFactory) {
 		ResourceLocation blockName = BuiltInRegistries.BLOCK.getKey(block);
 
 		for (BlockState state : block.getStateDefinition().getPossibleStates()) {
@@ -79,11 +79,11 @@ public class ClientHandler {
 	}
 
 	public static BakedQuad bakeQuad(Direction quadDirection, Direction modelDirection, String blockName, Vector3f from, Vector3f to, ModifierTier modifierTier, BakedQuad originalQuad, float u0, float u1, float v0, float v1) {
-		TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(new ResourceLocation(SculkTransporting.MODID, "block/" + blockName + "_side_" + modifierTier.getValue()));
+		TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(ResourceLocation.fromNamespaceAndPath(SculkTransporting.MODID, "block/" + blockName + "_side_" + modifierTier.getValue()));
 
 		return FACE_BAKERY.bakeQuad(from, to, new BlockElementFace(null, originalQuad.getTintIndex(), sprite.contents().name().toString(), new BlockFaceUV(new float[] {
 				u0, u1, v0, v1
-		}, 0)), sprite, quadDirection, getModelRotation(modelDirection), null, originalQuad.isShade(), new ResourceLocation(SculkTransporting.MODID, blockName));
+		}, 0)), sprite, quadDirection, getModelRotation(modelDirection), null, originalQuad.isShade());
 	}
 
 	private static BlockModelRotation getModelRotation(Direction dir) {

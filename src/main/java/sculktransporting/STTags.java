@@ -16,7 +16,7 @@ public class STTags {
 		private Blocks() {}
 
 		private static TagKey<Block> tag(String name) {
-			return BlockTags.create(new ResourceLocation(SculkTransporting.MODID, name));
+			return BlockTags.create(ResourceLocation.fromNamespaceAndPath(SculkTransporting.MODID, name));
 		}
 	}
 
@@ -27,7 +27,7 @@ public class STTags {
 		private Items() {}
 
 		private static TagKey<Item> tag(String name) {
-			return ItemTags.create(new ResourceLocation(SculkTransporting.MODID, name));
+			return ItemTags.create(ResourceLocation.fromNamespaceAndPath(SculkTransporting.MODID, name));
 		}
 	}
 }

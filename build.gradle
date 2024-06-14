@@ -2,14 +2,14 @@ plugins {
     id 'java-library'
     id 'eclipse'
     id 'idea'
-    id 'net.neoforged.gradle.userdev' version '7.0.105'
+    id 'net.neoforged.gradle.userdev' version '7.0.+'
 }
 
 version = '1.2'
 group = 'sculktransporting'
 
 base {
-	archivesName = 'sculktransporting-1.20.6'
+	archivesName = 'sculktransporting-1.21'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -48,7 +48,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'net.neoforged:neoforge:20.6.82-beta'
+	implementation 'net.neoforged:neoforge:21.0.2-beta'
 	//implementation "curse.maven:patchouli-306770:4636277"
 }
 

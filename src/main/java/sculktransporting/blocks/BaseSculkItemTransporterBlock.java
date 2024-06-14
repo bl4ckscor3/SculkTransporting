@@ -118,7 +118,7 @@ public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 	}
 
 	@Override
-	public int getExpDrop(BlockState state, LevelReader level, RandomSource randomSource, BlockPos pos, int fortuneLevel, int silkTouchLevel) {
+	public int getExpDrop(BlockState state, LevelReader level, RandomSource randomSource, BlockPos pos) {
 		return 0;
 	}
 
