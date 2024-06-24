@@ -9,10 +9,11 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SculkSensorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -118,7 +119,7 @@ public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 	}
 
 	@Override
-	public int getExpDrop(BlockState state, LevelReader level, RandomSource randomSource, BlockPos pos) {
+	public int getExpDrop(BlockState state, LevelAccessor level, BlockPos pos, BlockEntity be, Entity breaker, ItemStack tool) {
 		return 0;
 	}
 

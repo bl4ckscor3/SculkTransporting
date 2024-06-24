@@ -16,14 +16,14 @@ issueTrackerURL="https://github.com/bl4ckscor3/SculkTransporting/issues"
 
 [[dependencies.sculktransporting]]
     modId="neoforge"
-    mandatory=true
-    versionRange="[21,)"
+    type="required"
+    versionRange="[21.0.28-beta,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.sculktransporting]]
     modId="minecraft"
-    mandatory=true
+    type="required"
     versionRange="[1.21,1.22)"
     ordering="NONE"
     side="BOTH"
