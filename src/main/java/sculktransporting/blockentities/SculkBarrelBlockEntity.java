@@ -14,6 +14,11 @@ public class SculkBarrelBlockEntity extends BarrelBlockEntity {
 	}
 
 	@Override
+	public boolean isValidBlockState(BlockState state) {
+		return getType().isValid(state);
+	}
+
+	@Override
 	public BlockEntityType<?> getType() {
 		return STBlockEntityTypes.SCULK_BARREL_BLOCK_ENTITY.get();
 	}

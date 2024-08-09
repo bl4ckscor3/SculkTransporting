@@ -130,6 +130,11 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 	}
 
 	@Override
+	public boolean isValidBlockState(BlockState state) {
+		return getType().isValid(state);
+	}
+
+	@Override
 	public abstract BlockEntityType<?> getType();
 
 	@Override
