@@ -24,17 +24,17 @@ runs {
     }
 
     client {
-        workingDirectory project.file('run/client')
+        workingDirectory project.file('runs/client')
     }
 
     server {
-        workingDirectory project.file('run/server')
-        programArgument '-nogui'
+        workingDirectory project.file('runs/server')
+        argument '-nogui'
     }
 	
 	data {
-		workingDirectory project.file('run/data')
-		programArguments.addAll '--mod', 'sculktransporting', '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+		workingDirectory project.file('runs/data')
+		arguments.addAll '--mod', 'sculktransporting', '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
 	}
 }
 
@@ -48,8 +48,8 @@ repositories {
 }
 
 dependencies {
-	implementation 'net.neoforged:neoforge:21.1.2'
-	//implementation "curse.maven:patchouli-306770:4636277"
+	implementation 'net.neoforged:neoforge:21.1.47'
+	implementation "curse.maven:patchouli-306770:5683901"
 }
 
 sourceSets.main.resources {

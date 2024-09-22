@@ -20,5 +20,5 @@ build
 
 # other
 logs
-run
+runs
 src/generated/resources/.cache/*
