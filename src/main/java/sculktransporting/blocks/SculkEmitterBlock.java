@@ -4,14 +4,17 @@ import org.joml.Vector3f;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -34,7 +37,7 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 	}
 
 	@Override
-	public ItemInteractionResult useItemOn(ItemStack heldStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	public InteractionResult useItemOn(ItemStack heldStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be) {
 			boolean isQuantityModifier = heldStack.is(STTags.Items.QUANTITY_MODIFIERS);
 
@@ -51,11 +54,11 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 						heldStack.shrink(1);
 				}
 
-				return ItemInteractionResult.sidedSuccess(level.isClientSide);
+				return InteractionResult.SUCCESS;
 			}
 		}
 
-		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.TRY_WITH_EMPTY_HAND;
 	}
 
 	@Override
@@ -82,7 +85,7 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 					removeModifer(player, be, hitCheck < 0.0F);
 				}
 
-				return InteractionResult.sidedSuccess(level.isClientSide);
+				return InteractionResult.SUCCESS;
 			}
 		}
 
@@ -105,15 +108,15 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+	protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess tickAccess, BlockPos pos, Direction direction, BlockPos fromPos, BlockState fromState, RandomSource random) {
 		if (fromPos.equals(pos.relative(state.getValue(FACING).getOpposite())) && level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be) {
-			//SculkSensorBlock#updateNeighbours calls Level#updateNeighborsAt for the position below itself, calling this method again.
-			//thus there's a need to check if the block below has changed, before updating the item handler
 			BlockState stateBelow = level.getBlockState(fromPos);
 
 			if (be.getLastKnownStateBelow() != stateBelow)
 				be.setLastKnownStateBelow(stateBelow);
 		}
+
+		return super.updateShape(state, level, tickAccess, pos, direction, fromPos, fromState, random);
 	}
 
 	@Override
@@ -123,8 +126,8 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 
 			be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted), 15);
 
-			if (item.getItem().isEmpty())
-				item.kill();
+			if (item.getItem().isEmpty() && level instanceof ServerLevel serverLevel)
+				item.kill(serverLevel);
 		}
 	}
 

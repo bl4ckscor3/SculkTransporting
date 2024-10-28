@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "redstone",
   "key": {
-    "F": {
-      "item": "minecraft:smooth_basalt"
-    },
-    "M": {
-      "item": "minecraft:sculk"
-    },
-    "P": {
-      "item": "minecraft:item_frame"
-    }
+    "F": "minecraft:smooth_basalt",
+    "M": "minecraft:sculk",
+    "P": "minecraft:item_frame"
   },
   "pattern": [
     "FMF",

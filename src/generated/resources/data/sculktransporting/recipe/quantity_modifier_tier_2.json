@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "redstone",
   "key": {
-    "F": {
-      "item": "minecraft:smooth_basalt"
-    },
-    "M": {
-      "item": "minecraft:sculk_catalyst"
-    },
-    "P": {
-      "item": "sculktransporting:quantity_modifier_tier_1"
-    }
+    "F": "minecraft:smooth_basalt",
+    "M": "minecraft:sculk_catalyst",
+    "P": "sculktransporting:quantity_modifier_tier_1"
   },
   "pattern": [
     "FMF",

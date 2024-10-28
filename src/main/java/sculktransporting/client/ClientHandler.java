@@ -83,7 +83,7 @@ public class ClientHandler {
 
 		return FACE_BAKERY.bakeQuad(from, to, new BlockElementFace(null, originalQuad.getTintIndex(), sprite.contents().name().toString(), new BlockFaceUV(new float[] {
 				u0, u1, v0, v1
-		}, 0)), sprite, quadDirection, getModelRotation(modelDirection), null, originalQuad.isShade());
+		}, 0)), sprite, quadDirection, getModelRotation(modelDirection), null, originalQuad.isShade(), 0);
 	}
 
 	private static BlockModelRotation getModelRotation(Direction dir) {

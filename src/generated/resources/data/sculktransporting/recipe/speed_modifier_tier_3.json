@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "redstone",
   "key": {
-    "F": {
-      "item": "minecraft:tuff"
-    },
-    "M": {
-      "item": "minecraft:sculk_catalyst"
-    },
-    "P": {
-      "item": "sculktransporting:speed_modifier_tier_2"
-    }
+    "F": "minecraft:tuff",
+    "M": "minecraft:sculk_catalyst",
+    "P": "sculktransporting:speed_modifier_tier_2"
   },
   "pattern": [
     "FMF",

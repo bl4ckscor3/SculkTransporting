@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.SculkSensorPhase;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -31,7 +31,7 @@ import sculktransporting.blockentities.BaseSculkItemTransporterBlockEntity;
 
 public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 	private static final float CONVERSION_FACTOR = 14.0F / 63.0F;
-	public static final DirectionProperty FACING = BlockStateProperties.FACING;
+	public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
 	protected VoxelShape upShape = SHAPE;
 	protected VoxelShape downShape = Block.box(0, 8, 0, 16, 16, 16);
 	protected VoxelShape northShape = Block.box(0, 0, 8, 16, 16, 16);

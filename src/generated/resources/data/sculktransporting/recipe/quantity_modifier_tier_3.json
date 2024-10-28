@@ -3,18 +3,10 @@
   "category": "redstone",
   "group": "quantity_modifier_tier_3",
   "key": {
-    "F": {
-      "item": "minecraft:smooth_basalt"
-    },
-    "M": {
-      "item": "minecraft:echo_shard"
-    },
-    "N": {
-      "item": "minecraft:sculk_shrieker"
-    },
-    "P": {
-      "item": "sculktransporting:quantity_modifier_tier_2"
-    }
+    "F": "minecraft:smooth_basalt",
+    "M": "minecraft:echo_shard",
+    "N": "minecraft:sculk_shrieker",
+    "P": "sculktransporting:quantity_modifier_tier_2"
   },
   "pattern": [
     "FMF",

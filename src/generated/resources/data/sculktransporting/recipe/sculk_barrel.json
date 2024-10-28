@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "redstone",
   "key": {
-    "B": {
-      "item": "minecraft:barrel"
-    },
-    "S": {
-      "item": "minecraft:sculk_vein"
-    }
+    "B": "minecraft:barrel",
+    "S": "minecraft:sculk_vein"
   },
   "pattern": [
     " S ",

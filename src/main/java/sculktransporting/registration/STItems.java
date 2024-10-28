@@ -2,6 +2,7 @@ package sculktransporting.registration;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -21,13 +22,13 @@ import sculktransporting.items.SpeedModifierItem.SpeedTier;
 @EventBusSubscriber(modid = SculkTransporting.MODID, bus = Bus.MOD)
 public class STItems {
 	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SculkTransporting.MODID);
-	public static final DeferredItem<QuantityModifierItem> QUANTITY_MODIFIER_TIER_1 = ITEMS.register("quantity_modifier_tier_1", () -> new QuantityModifierItem(QuantityTier.ONE, new Item.Properties()));
-	public static final DeferredItem<QuantityModifierItem> QUANTITY_MODIFIER_TIER_2 = ITEMS.register("quantity_modifier_tier_2", () -> new QuantityModifierItem(QuantityTier.TWO, new Item.Properties()));
-	public static final DeferredItem<QuantityModifierItem> QUANTITY_MODIFIER_TIER_3 = ITEMS.register("quantity_modifier_tier_3", () -> new QuantityModifierItem(QuantityTier.THREE, new Item.Properties()));
-	public static final DeferredItem<SpeedModifierItem> SPEED_MODIFIER_TIER_1 = ITEMS.register("speed_modifier_tier_1", () -> new SpeedModifierItem(SpeedTier.ONE, new Item.Properties()));
-	public static final DeferredItem<SpeedModifierItem> SPEED_MODIFIER_TIER_2 = ITEMS.register("speed_modifier_tier_2", () -> new SpeedModifierItem(SpeedTier.TWO, new Item.Properties()));
-	public static final DeferredItem<SpeedModifierItem> SPEED_MODIFIER_TIER_3 = ITEMS.register("speed_modifier_tier_3", () -> new SpeedModifierItem(SpeedTier.THREE, new Item.Properties()));
-	public static final DeferredItem<SpeedModifierItem> SPEED_MODIFIER_TIER_4 = ITEMS.register("speed_modifier_tier_4", () -> new SpeedModifierItem(SpeedTier.FOUR, new Item.Properties()));
+	public static final DeferredItem<QuantityModifierItem> QUANTITY_MODIFIER_TIER_1 = ITEMS.registerItem("quantity_modifier_tier_1", p -> new QuantityModifierItem(QuantityTier.ONE, p));
+	public static final DeferredItem<QuantityModifierItem> QUANTITY_MODIFIER_TIER_2 = ITEMS.registerItem("quantity_modifier_tier_2", p -> new QuantityModifierItem(QuantityTier.TWO, p));
+	public static final DeferredItem<QuantityModifierItem> QUANTITY_MODIFIER_TIER_3 = ITEMS.registerItem("quantity_modifier_tier_3", p -> new QuantityModifierItem(QuantityTier.THREE, p));
+	public static final DeferredItem<SpeedModifierItem> SPEED_MODIFIER_TIER_1 = ITEMS.registerItem("speed_modifier_tier_1", p -> new SpeedModifierItem(SpeedTier.ONE, p));
+	public static final DeferredItem<SpeedModifierItem> SPEED_MODIFIER_TIER_2 = ITEMS.registerItem("speed_modifier_tier_2", p -> new SpeedModifierItem(SpeedTier.TWO, p));
+	public static final DeferredItem<SpeedModifierItem> SPEED_MODIFIER_TIER_3 = ITEMS.registerItem("speed_modifier_tier_3", p -> new SpeedModifierItem(SpeedTier.THREE, p));
+	public static final DeferredItem<SpeedModifierItem> SPEED_MODIFIER_TIER_4 = ITEMS.registerItem("speed_modifier_tier_4", p -> new SpeedModifierItem(SpeedTier.FOUR, p));
 
 	private STItems() {}
 
@@ -37,8 +38,9 @@ public class STItems {
 			//register block items from blocks
 			for (DeferredHolder<Block, ? extends Block> ro : STBlocks.BLOCKS.getEntries()) {
 				Block block = ro.get();
+				ResourceKey<Item> resourceKey = ResourceKey.create(Registries.ITEM, BuiltInRegistries.BLOCK.getKey(block));
 
-				helper.register(BuiltInRegistries.BLOCK.getKey(block), new BlockItem(block, new Item.Properties()));
+				helper.register(resourceKey, new BlockItem(block, new Item.Properties().setId(resourceKey).useBlockDescriptionPrefix()));
 			}
 		});
 	}

@@ -5,7 +5,6 @@ import java.util.stream.Stream;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -36,15 +35,15 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 	}
 
 	@Override
-	public ItemInteractionResult useItemOn(ItemStack heldStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	public InteractionResult useItemOn(ItemStack heldStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (level.getBlockEntity(pos) instanceof SculkReceiverBlockEntity be && heldStack.is(STTags.Items.SPEED_MODIFIERS)) {
 			if (!level.isClientSide && be.getSpeedTier() == SpeedTier.ZERO && be.setSpeedTier(((SpeedModifierItem) heldStack.getItem()).tier) && !player.isCreative())
 				heldStack.shrink(1);
 
-			return ItemInteractionResult.sidedSuccess(level.isClientSide);
+			return InteractionResult.SUCCESS;
 		}
 
-		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.TRY_WITH_EMPTY_HAND;
 	}
 
 	@Override
@@ -57,7 +56,7 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 				player.getInventory().placeItemBackInInventory(new ItemStack(speedTier.getItem()));
 			}
 
-			return InteractionResult.sidedSuccess(level.isClientSide);
+			return InteractionResult.SUCCESS;
 		}
 
 		return InteractionResult.PASS;

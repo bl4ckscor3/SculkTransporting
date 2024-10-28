@@ -3,18 +3,10 @@
   "category": "redstone",
   "group": "speed_modifier_tier_4",
   "key": {
-    "F": {
-      "item": "minecraft:tuff"
-    },
-    "M": {
-      "item": "minecraft:echo_shard"
-    },
-    "N": {
-      "item": "minecraft:sculk_shrieker"
-    },
-    "P": {
-      "item": "sculktransporting:speed_modifier_tier_3"
-    }
+    "F": "minecraft:tuff",
+    "M": "minecraft:echo_shard",
+    "N": "minecraft:sculk_shrieker",
+    "P": "sculktransporting:speed_modifier_tier_3"
   },
   "pattern": [
     "FNF",

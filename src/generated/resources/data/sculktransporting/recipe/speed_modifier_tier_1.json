@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "redstone",
   "key": {
-    "F": {
-      "item": "minecraft:tuff"
-    },
-    "M": {
-      "item": "minecraft:sculk"
-    },
-    "P": {
-      "item": "minecraft:item_frame"
-    }
+    "F": "minecraft:tuff",
+    "M": "minecraft:sculk",
+    "P": "minecraft:item_frame"
   },
   "pattern": [
     "FMF",

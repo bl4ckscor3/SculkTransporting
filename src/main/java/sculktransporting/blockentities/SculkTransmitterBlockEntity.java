@@ -1,7 +1,10 @@
 package sculktransporting.blockentities;
 
+import java.util.Optional;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Holder.Reference;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -45,12 +48,9 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 	public void loadAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
 		super.loadAdditional(tag, lookupProvider);
 
-		Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(tag.getString("FilteredItem")));
+		Optional<Reference<Item>> item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(tag.getString("FilteredItem")));
 
-		if (item == Items.AIR)
-			filteredItem = ItemStack.EMPTY;
-		else
-			filteredItem = new ItemStack(item);
+		filteredItem = item.map(i -> new ItemStack(i.getDelegate().value())).orElse(ItemStack.EMPTY);
 	}
 
 	public void setFilteredItem(ItemStack stack) {
