@@ -1,0 +1,6 @@
+{
+	"model": {
+		"type": "minecraft:model",
+		"model": "sculktransporting:block/sculk_transmitter_active"
+	}
+}

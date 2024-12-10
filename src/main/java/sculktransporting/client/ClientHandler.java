@@ -41,7 +41,6 @@ import sculktransporting.registration.STParticleTypes;
 
 @EventBusSubscriber(modid = SculkTransporting.MODID, value = Dist.CLIENT, bus = Bus.MOD)
 public class ClientHandler {
-	private static final FaceBakery FACE_BAKERY = new FaceBakery();
 	public static final ModelProperty<SpeedTier> SPEED_TIER = new ModelProperty<>();
 	public static final ModelProperty<QuantityTier> QUANTITY_TIER = new ModelProperty<>();
 
@@ -49,7 +48,7 @@ public class ClientHandler {
 
 	@SubscribeEvent
 	public static void onModelBakingCompleted(ModelEvent.ModifyBakingResult event) {
-		Map<ModelResourceLocation, BakedModel> models = event.getModels();
+		Map<ModelResourceLocation, BakedModel> models = event.getBakingResult().blockStateModels();
 
 		replaceModels(models, STBlocks.SCULK_RECEIVER.get(), SculkReceiverModel::new);
 		replaceModels(models, STBlocks.SCULK_EMITTER.get(), SculkEmitterModel::new);
@@ -81,7 +80,7 @@ public class ClientHandler {
 	public static BakedQuad bakeQuad(Direction quadDirection, Direction modelDirection, String blockName, Vector3f from, Vector3f to, ModifierTier modifierTier, BakedQuad originalQuad, float u0, float u1, float v0, float v1) {
 		TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(ResourceLocation.fromNamespaceAndPath(SculkTransporting.MODID, "block/" + blockName + "_side_" + modifierTier.getValue()));
 
-		return FACE_BAKERY.bakeQuad(from, to, new BlockElementFace(null, originalQuad.getTintIndex(), sprite.contents().name().toString(), new BlockFaceUV(new float[] {
+		return FaceBakery.bakeQuad(from, to, new BlockElementFace(null, originalQuad.getTintIndex(), sprite.contents().name().toString(), new BlockFaceUV(new float[] {
 				u0, u1, v0, v1
 		}, 0)), sprite, quadDirection, getModelRotation(modelDirection), null, originalQuad.isShade(), 0);
 	}

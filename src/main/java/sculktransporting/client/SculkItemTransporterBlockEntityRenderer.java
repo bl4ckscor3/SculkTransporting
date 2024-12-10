@@ -6,14 +6,12 @@ import org.joml.Quaternionf;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.world.item.Item;
+import net.minecraft.client.renderer.entity.state.ItemClusterRenderState;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import sculktransporting.blockentities.BaseSculkItemTransporterBlockEntity;
@@ -21,38 +19,34 @@ import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 
 public class SculkItemTransporterBlockEntityRenderer<T extends BaseSculkItemTransporterBlockEntity> implements BlockEntityRenderer<T> {
 	private static final Quaternionf XP_90 = new Quaternionf().rotateXYZ(90.0F * ((float) Math.PI / 180.0F), 0.0F, 0.0F);
+	private final ItemModelResolver itemModelResolver;
+	private final ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
 
-	public SculkItemTransporterBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {}
+	public SculkItemTransporterBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {
+		itemModelResolver = ctx.getItemModelResolver();
+	}
 
 	@Override
 	public void render(T be, float partialTick, PoseStack pose, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
 		if (be.hasStoredItemSignal()) {
-			ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
 			ItemStack signal = be.getStoredItemSignal();
-			Random random = new Random(Item.getId(signal.getItem()));
-			BakedModel itemModel = itemRenderer.getModel(signal, be.getLevel(), null, 0);
-			boolean isGui3d = itemModel.isGui3d();
-			int renderAmount = 1;
+			int seed = ItemClusterRenderState.getSeedForItemStack(signal);
+			Random random = new Random(seed);
+			boolean isGui3d = itemStackRenderState.isGui3d();
+			int renderAmount = ItemClusterRenderState.getRenderedAmount(signal.getCount());
 
-			if (signal.getCount() > 48)
-				renderAmount = 5;
-			else if (signal.getCount() > 32)
-				renderAmount = 4;
-			else if (signal.getCount() > 16)
-				renderAmount = 3;
-			else if (signal.getCount() > 1)
-				renderAmount = 2;
-
+			itemModelResolver.updateForTopItem(itemStackRenderState, signal, ItemDisplayContext.FIXED, false, be.getLevel(), null, seed);
 			pose.pushPose();
 			adjustForRotation(pose, be);
 
 			if (isGui3d)
-				pose.translate(0.5D, 0.44D, 0.5D);
+				pose.translate(0.5D, 0.63D, 0.5D);
 			else {
 				pose.translate(0.5D, 0.52D, 0.375D);
 				pose.mulPose(XP_90);
 			}
 
+			pose.scale(0.5F, 0.5F, 0.5F);
 			//translate the item stack so it sits on top of the block, or closer to the middle of it (for when isGui3d is true)
 			pose.translate(0.0F, 0.0F, (renderAmount - 1) * -0.032F);
 
@@ -75,7 +69,7 @@ public class SculkItemTransporterBlockEntityRenderer<T extends BaseSculkItemTran
 					}
 				}
 
-				itemRenderer.render(signal, ItemDisplayContext.GROUND, false, pose, bufferSource, packedLight, OverlayTexture.NO_OVERLAY, itemModel);
+				itemStackRenderState.render(pose, bufferSource, packedLight, packedOverlay);
 				pose.popPose();
 
 				if (!isGui3d)

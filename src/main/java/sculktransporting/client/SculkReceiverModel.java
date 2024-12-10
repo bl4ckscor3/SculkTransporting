@@ -10,6 +10,7 @@ import org.joml.Vector3f;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
@@ -89,12 +90,12 @@ public class SculkReceiverModel implements IDynamicBakedModel {
 	}
 
 	@Override
-	public boolean isCustomRenderer() {
-		return originalModel.isCustomRenderer();
+	public TextureAtlasSprite getParticleIcon() {
+		return originalModel.getParticleIcon();
 	}
 
 	@Override
-	public TextureAtlasSprite getParticleIcon() {
-		return originalModel.getParticleIcon();
+	public ItemTransforms getTransforms() {
+		return originalModel.getTransforms();
 	}
 }

@@ -5,17 +5,16 @@ import java.util.Optional;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.BreakingItemParticle;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.gameevent.PositionSource;
 import net.minecraft.world.phys.Vec3;
 
 public class ItemSignalParticle extends BreakingItemParticle {
 	private final PositionSource target;
 
-	public ItemSignalParticle(ClientLevel level, double x, double y, double z, PositionSource target, int lifetime, ItemStack item) {
-		super(level, x, y, z, item);
+	public ItemSignalParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, PositionSource target, int lifetime, ItemStackRenderState item) {
+		super(level, x, y, z, xSpeed, ySpeed, zSpeed, item);
 		this.x += xd;
 		this.y += yd;
 		this.z += zd;
@@ -49,10 +48,10 @@ public class ItemSignalParticle extends BreakingItemParticle {
 		}
 	}
 
-	public static class Provider implements ParticleProvider<ItemSignalParticleOption> {
+	public static class Provider extends ItemParticleProvider<ItemSignalParticleOption> {
 		@Override
 		public Particle createParticle(ItemSignalParticleOption type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-			return new ItemSignalParticle(level, x, y, z, type.destination(), type.arrivalInTicks(), type.stack());
+			return new ItemSignalParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, type.destination(), type.arrivalInTicks(), calculateState(type.stack(), level));
 		}
 	}
 }
