@@ -29,7 +29,7 @@ import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
-import net.neoforged.neoforge.client.model.data.ModelProperty;
+import net.neoforged.neoforge.model.data.ModelProperty;
 import sculktransporting.SculkTransporting;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 import sculktransporting.items.ModifierTier;

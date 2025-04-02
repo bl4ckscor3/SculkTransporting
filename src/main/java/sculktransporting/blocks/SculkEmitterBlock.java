@@ -9,13 +9,13 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -120,7 +120,7 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier) {
 		if (entity instanceof ItemEntity item && level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be && !be.hasStoredItemSignal() && !be.canExtractFromBelow()) {
 			ItemStack extracted = item.getItem().split(be.getAmountToExtract());
 
@@ -129,16 +129,6 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 			if (item.getItem().isEmpty() && level instanceof ServerLevel serverLevel)
 				item.kill(serverLevel);
 		}
-	}
-
-	@Override
-	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be) {
-			Block.popResource(level, pos, new ItemStack(be.getSpeedTier().getItem()));
-			Block.popResource(level, pos, new ItemStack(be.getQuantityTier().getItem()));
-		}
-
-		super.onRemove(state, level, pos, newState, isMoving);
 	}
 
 	@Override

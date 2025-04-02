@@ -7,14 +7,13 @@ import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sculktransporting.STTags;
 import sculktransporting.SculkTransporting;
 import sculktransporting.registration.STBlocks;
 
 public class BlockTagGenerator extends BlockTagsProvider {
-	public BlockTagGenerator(PackOutput output, CompletableFuture<Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
-		super(output, lookupProvider, SculkTransporting.MODID, existingFileHelper);
+	public BlockTagGenerator(PackOutput output, CompletableFuture<Provider> lookupProvider) {
+		super(output, lookupProvider, SculkTransporting.MODID);
 	}
 
 	@Override

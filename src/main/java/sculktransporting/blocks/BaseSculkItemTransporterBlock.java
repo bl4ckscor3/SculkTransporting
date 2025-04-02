@@ -6,9 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -32,7 +30,7 @@ import sculktransporting.blockentities.BaseSculkItemTransporterBlockEntity;
 public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 	private static final float CONVERSION_FACTOR = 14.0F / 63.0F;
 	public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
-	protected VoxelShape upShape = SHAPE;
+	protected VoxelShape upShape = Block.column(16.0, 0.0, 8.0);
 	protected VoxelShape downShape = Block.box(0, 8, 0, 16, 16, 16);
 	protected VoxelShape northShape = Block.box(0, 0, 8, 16, 16, 16);
 	protected VoxelShape eastShape = Block.box(0, 0, 0, 8, 16, 16);
@@ -79,20 +77,6 @@ public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 
 	@Override
 	public abstract <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type);
-
-	@Override
-	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (!state.is(newState.getBlock())) {
-			if (level.getBlockEntity(pos) instanceof BaseSculkItemTransporterBlockEntity be) {
-				if (be.hasStoredItemSignal())
-					Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), be.getStoredItemSignal());
-				else if (be.getVibrationData().getCurrentVibration() != null && be.getVibrationData().getCurrentVibration().entity() instanceof ItemEntity item)
-					Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), item.getItem());
-			}
-
-			super.onRemove(state, level, pos, newState, isMoving);
-		}
-	}
 
 	public static void deactivate(Level level, BlockPos pos, BlockState state) {
 		level.setBlockAndUpdate(pos, state.setValue(PHASE, SculkSensorPhase.INACTIVE).setValue(POWER, 0)); //skip SculkSensorPhase.COOLDOWN to reduce delay

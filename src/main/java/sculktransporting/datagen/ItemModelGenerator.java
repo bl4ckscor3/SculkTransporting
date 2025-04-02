@@ -7,14 +7,13 @@ import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile.UncheckedModelFile;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import sculktransporting.SculkTransporting;
 import sculktransporting.registration.STItems;
 
 public class ItemModelGenerator extends ItemModelProvider {
-	public ItemModelGenerator(PackOutput output, ExistingFileHelper existingFileHelper) {
-		super(output, SculkTransporting.MODID, existingFileHelper);
+	public ItemModelGenerator(PackOutput output) {
+		super(output, SculkTransporting.MODID);
 	}
 
 	@Override

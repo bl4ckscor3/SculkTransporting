@@ -6,19 +6,18 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.BarrelBlock;
 import net.minecraft.world.level.block.SculkSensorBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.ModelFile.UncheckedModelFile;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import sculktransporting.SculkTransporting;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 import sculktransporting.blocks.SculkTransmitterBlock;
 import sculktransporting.registration.STBlocks;
 
 public class BlockStateGenerator extends BlockStateProvider {
-	public BlockStateGenerator(PackOutput output, ExistingFileHelper exFileHelper) {
-		super(output, SculkTransporting.MODID, exFileHelper);
+	public BlockStateGenerator(PackOutput output) {
+		super(output, SculkTransporting.MODID);
 	}
 
 	@Override

@@ -48,7 +48,7 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 	public void loadAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
 		super.loadAdditional(tag, lookupProvider);
 
-		Optional<Reference<Item>> item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(tag.getString("FilteredItem")));
+		Optional<Reference<Item>> item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(tag.getStringOr("FilteredItem", "air")));
 
 		filteredItem = item.map(i -> new ItemStack(i.getDelegate().value())).orElse(ItemStack.EMPTY);
 	}

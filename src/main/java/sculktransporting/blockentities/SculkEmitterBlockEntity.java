@@ -14,14 +14,15 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.model.data.ModelData;
 import sculktransporting.STTags;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 import sculktransporting.client.ClientHandler;
@@ -61,6 +62,13 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 			BaseSculkItemTransporterBlockEntity.serverTick(level, pos, state, be);
 	}
 
+	@Override
+	public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+		Block.popResource(level, pos, new ItemStack(getSpeedTier().getItem()));
+		Block.popResource(level, pos, new ItemStack(getQuantityTier().getItem()));
+		super.preRemoveSideEffects(pos, state);
+	}
+
 	public int getAmountToExtract() {
 		//from 0 to 3 installed modifiers: 1, 4, 16, 64
 		return quantityTier == QuantityTier.THREE ? Item.ABSOLUTE_MAX_STACK_SIZE : (int) Math.pow(4, quantityTier.getValue());
@@ -80,8 +88,8 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	@Override
 	public void loadAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
 		super.loadAdditional(tag, lookupProvider);
-		quantityTier = QuantityTier.values()[tag.getInt("QuantityTier")];
-		speedTier = SpeedTier.values()[tag.getInt("SpeedTier")];
+		quantityTier = QuantityTier.values()[tag.getIntOr("QuantityTier", 0)];
+		speedTier = SpeedTier.values()[tag.getIntOr("SpeedTier", 0)];
 	}
 
 	@Override

@@ -4,11 +4,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -54,6 +54,16 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 	}
 
 	@Override
+	public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+		if (hasStoredItemSignal())
+			Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), getStoredItemSignal());
+		else if (getVibrationData().getCurrentVibration() != null && getVibrationData().getCurrentVibration().entity() instanceof ItemEntity item)
+			Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), item.getItem());
+
+		super.preRemoveSideEffects(pos, state);
+	}
+
+	@Override
 	public User createVibrationUser() {
 		return new BaseVibrationUser(getBlockPos());
 	}
@@ -62,10 +72,10 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 	public void loadAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
 		super.loadAdditional(tag, lookupProvider);
 
-		storedItemSignal = ItemStack.parseOptional(lookupProvider, tag.getCompound("StoredItemSignal"));
-		signalOrigin = NbtUtils.readBlockPos(tag, "signal_origin").orElse(null);
-		placedDownTick = tag.getLong("placedDownTick");
-		lastHandledSignalTick = tag.getLong("lastHandledSignalTick");
+		storedItemSignal = ItemStack.parse(lookupProvider, tag.get("StoredItemSignal")).orElse(ItemStack.EMPTY);
+		signalOrigin = tag.read("signal_origin", BlockPos.CODEC).orElse(null);
+		placedDownTick = tag.getLongOr("placedDownTick", 0L);
+		lastHandledSignalTick = tag.getLongOr("lastHandledSignalTick", 0L);
 	}
 
 	@Override
@@ -74,11 +84,11 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 
 		if (!storedItemSignal.isEmpty()) {
 			tag.put("StoredItemSignal", storedItemSignal.save(lookupProvider));
-			tag.put("signal_origin", NbtUtils.writeBlockPos(signalOrigin));
+			tag.store("signal_origin", BlockPos.CODEC, signalOrigin);
 		}
 		else if (getVibrationData().getCurrentVibration() != null && getVibrationData().getCurrentVibration().entity() instanceof ItemEntity item) {
 			tag.put("StoredItemSignal", item.getItem().save(lookupProvider));
-			tag.put("signal_origin", NbtUtils.writeBlockPos(item.blockPosition()));
+			tag.store("signal_origin", BlockPos.CODEC, item.blockPosition());
 		}
 
 		tag.putLong("placedDownTick", placedDownTick);

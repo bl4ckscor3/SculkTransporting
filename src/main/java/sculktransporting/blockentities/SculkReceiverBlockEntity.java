@@ -10,13 +10,14 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.vibrations.VibrationSystem;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.model.data.ModelData;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 import sculktransporting.client.ClientHandler;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
@@ -56,6 +57,12 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 	}
 
 	@Override
+	public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+		Block.popResource(level, pos, new ItemStack(getSpeedTier().getItem()));
+		super.preRemoveSideEffects(pos, state);
+	}
+
+	@Override
 	public boolean shouldPerformAction(Level level) {
 		//every tick, or only every 5, 10, 15, 20 ticks
 		return speedTier == SpeedTier.FOUR || level.getGameTime() % (20 - (speedTier.getValue() * 5)) == 0;
@@ -64,7 +71,7 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 	@Override
 	public void loadAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
 		super.loadAdditional(tag, lookupProvider);
-		speedTier = SpeedTier.values()[tag.getInt("SpeedTier")];
+		speedTier = SpeedTier.values()[tag.getIntOr("SpeedTier", 0)];
 	}
 
 	@Override
