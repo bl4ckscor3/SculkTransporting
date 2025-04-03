@@ -1,74 +1,115 @@
 package sculktransporting.datagen;
 
-import java.util.function.BiFunction;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
-import net.minecraft.data.PackOutput;
-import net.minecraft.world.level.block.BarrelBlock;
-import net.minecraft.world.level.block.SculkSensorBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.client.model.generators.ModelFile.UncheckedModelFile;
-import sculktransporting.SculkTransporting;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelOutput;
+import net.minecraft.client.data.models.MultiVariant;
+import net.minecraft.client.data.models.blockstates.BlockModelDefinitionGenerator;
+import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.client.data.models.blockstates.PropertyDispatch;
+import net.minecraft.client.data.models.model.ModelInstance;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
+import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.data.models.model.TexturedModel;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.SculkSensorPhase;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 import sculktransporting.blocks.SculkTransmitterBlock;
 import sculktransporting.registration.STBlocks;
 
-public class BlockStateGenerator extends BlockStateProvider {
-	public BlockStateGenerator(PackOutput output) {
-		super(output, SculkTransporting.MODID);
+public class BlockStateGenerator {
+	public static final TextureSlot OVERLAY_TEXTURE_SLOT = TextureSlot.create("overlay");
+	public static final TextureSlot OVERLAY_TOP_TEXTURE_SLOT = TextureSlot.create("overlayTop");
+	public static final ModelTemplate SCULK_BARREL_MODEL_TEMPLATE = ModelTemplates.create("sculktransporting:template_sculk_barrel", TextureSlot.BOTTOM, TextureSlot.TOP, TextureSlot.SIDE, OVERLAY_TEXTURE_SLOT, OVERLAY_TOP_TEXTURE_SLOT);
+	public static final TexturedModel.Provider SCULK_BARREL_TEXTURED_MODEL = TexturedModel.createDefault(TextureMapping::cubeBottomTop, SCULK_BARREL_MODEL_TEMPLATE);
+	static BlockModelGenerators blockModelGenerators;
+	static Consumer<BlockModelDefinitionGenerator> blockStateOutput;
+	static BiConsumer<ResourceLocation, ModelInstance> modelOutput;
+	static ItemModelOutput itemInfo;
+
+	protected static void run(BlockModelGenerators blockModels) {
+		blockModelGenerators = blockModels;
+		blockStateOutput = blockModelGenerators.blockStateOutput;
+		modelOutput = blockModelGenerators.modelOutput;
+		itemInfo = blockModelGenerators.itemModelOutput;
+		createSculkBarrel();
+		createSculkTransmissionEndBlock(STBlocks.SCULK_EMITTER.get());
+		createSculkTransmissionEndBlock(STBlocks.SCULK_RECEIVER.get());
+		createSculkTransmitter();
 	}
 
-	@Override
-	protected void registerStatesAndModels() {
-		getVariantBuilder(STBlocks.SCULK_BARREL.get()).forAllStates(state -> {
-			int x = getXRotationBasedOnFacing(state);
-			int y = getYRotationBasedOnFacing(state);
-			ModelFile modelFile = new UncheckedModelFile(blockTexture(state.getBlock()) + (state.getValue(BarrelBlock.OPEN) ? "_open" : ""));
-
-			return new ConfiguredModel[] {
-					new ConfiguredModel(modelFile, x, y, false)
-			};
-		});
-		createSculkItemTransporterState(STBlocks.SCULK_EMITTER.get());
-		createSculkItemTransporterState(STBlocks.SCULK_RECEIVER.get());
-		createSculkItemTransporterState(STBlocks.SCULK_TRANSMITTER.get(), (baseName, state) -> state.getValue(SculkTransmitterBlock.INVERTED) ? baseName + "_inverted" : baseName);
+	public static void createSculkBarrel() {
+		Block sculkBarrel = STBlocks.SCULK_BARREL.get();
+		ResourceLocation topOpenTexture = TextureMapping.getBlockTexture(Blocks.BARREL, "_top_open");
+		ResourceLocation overlayTexture = TextureMapping.getBlockTexture(Blocks.SCULK_VEIN);
+		ResourceLocation overlayTopTexture = TextureMapping.getBlockTexture(sculkBarrel, "_overlay_top");
+		//@formatter:off
+		MultiVariant closedVariant = BlockModelGenerators.plainVariant(
+			SCULK_BARREL_TEXTURED_MODEL
+				.get(Blocks.BARREL)
+				.updateTextures(textureMapping -> textureMapping.put(OVERLAY_TEXTURE_SLOT, overlayTexture).put(OVERLAY_TOP_TEXTURE_SLOT, overlayTexture))
+				.create(sculkBarrel, modelOutput));
+		MultiVariant openVariant = BlockModelGenerators.plainVariant(
+			SCULK_BARREL_TEXTURED_MODEL
+				.get(Blocks.BARREL)
+				.updateTextures(textureMapping ->
+					textureMapping
+					.put(TextureSlot.TOP, topOpenTexture)
+					.put(OVERLAY_TEXTURE_SLOT, overlayTexture)
+					.put(OVERLAY_TOP_TEXTURE_SLOT, overlayTopTexture))
+				.createWithSuffix(sculkBarrel, "_open", modelOutput)
+		);
+		blockStateOutput.accept(
+			MultiVariantGenerator.dispatch(sculkBarrel)
+				.with(PropertyDispatch.initial(BlockStateProperties.OPEN)
+					.select(false, closedVariant)
+					.select(true, openVariant))
+				.with(BlockModelGenerators.ROTATIONS_COLUMN_WITH_FACING)
+		);
+		//@formatter:on
 	}
 
-	public void createSculkItemTransporterState(BaseSculkItemTransporterBlock block) {
-		createSculkItemTransporterState(block, (baseName, state) -> baseName);
+	public static void createSculkTransmissionEndBlock(BaseSculkItemTransporterBlock block) {
+		ResourceLocation activeLocation = ModelLocationUtils.getModelLocation(block, "_active");
+		MultiVariant activeVariant = BlockModelGenerators.plainVariant(activeLocation);
+		MultiVariant inactiveVariant = BlockModelGenerators.plainVariant(ModelLocationUtils.getModelLocation(block, "_inactive"));
+		blockModelGenerators.registerSimpleItemModel(block, activeLocation);
+		//@formatter:off
+		blockStateOutput.accept(
+			MultiVariantGenerator.dispatch(block)
+				.with(PropertyDispatch.initial(BlockStateProperties.SCULK_SENSOR_PHASE)
+					.generate(phase -> phase == SculkSensorPhase.ACTIVE ? activeVariant : inactiveVariant))
+				.with(BlockModelGenerators.ROTATIONS_COLUMN_WITH_FACING)
+		);
+		//@formatter:on
 	}
 
-	public void createSculkItemTransporterState(BaseSculkItemTransporterBlock block, BiFunction<String, BlockState, String> nameFunction) {
-		getVariantBuilder(block).forAllStatesExcept(state -> {
-			int x = getXRotationBasedOnFacing(state);
-			int y = getYRotationBasedOnFacing(state);
-			String baseName = blockTexture(block) + switch (state.getValue(SculkSensorBlock.PHASE)) {
-				case ACTIVE -> "_active";
-				default -> "_inactive";
-			};
-
-			return new ConfiguredModel[] {
-					new ConfiguredModel(new UncheckedModelFile(nameFunction.apply(baseName, state)), x, y, false)
-			};
-		}, SculkSensorBlock.POWER, SculkSensorBlock.WATERLOGGED);
-	}
-
-	private int getXRotationBasedOnFacing(BlockState state) {
-		return switch (state.getValue(BaseSculkItemTransporterBlock.FACING)) {
-			case DOWN -> 180;
-			case UP -> 0;
-			default -> 90;
-		};
-	}
-
-	private int getYRotationBasedOnFacing(BlockState state) {
-		return switch (state.getValue(BaseSculkItemTransporterBlock.FACING)) {
-			case EAST -> 90;
-			case SOUTH -> 180;
-			case WEST -> 270;
-			default -> 0;
-		};
+	public static void createSculkTransmitter() {
+		Block block = STBlocks.SCULK_TRANSMITTER.get();
+		ResourceLocation activeLocation = ModelLocationUtils.getModelLocation(block, "_active");
+		MultiVariant inactiveVariant = BlockModelGenerators.plainVariant(ModelLocationUtils.getModelLocation(block, "_inactive"));
+		MultiVariant activeVariant = BlockModelGenerators.plainVariant(activeLocation);
+		MultiVariant inactiveInvertedVariant = BlockModelGenerators.plainVariant(ModelLocationUtils.getModelLocation(block, "_inactive_inverted"));
+		MultiVariant activeInvertedVariant = BlockModelGenerators.plainVariant(ModelLocationUtils.getModelLocation(block, "_active_inverted"));
+		blockModelGenerators.registerSimpleItemModel(block, activeLocation);
+		//@formatter:off
+		blockStateOutput.accept(
+			MultiVariantGenerator.dispatch(block)
+				.with(PropertyDispatch.initial(SculkTransmitterBlock.INVERTED, BlockStateProperties.SCULK_SENSOR_PHASE)
+					.generate((inverted, phase) ->
+						inverted
+							? phase == SculkSensorPhase.ACTIVE ? activeInvertedVariant : inactiveInvertedVariant
+							: phase == SculkSensorPhase.ACTIVE ? activeVariant : inactiveVariant))
+				.with(BlockModelGenerators.ROTATIONS_COLUMN_WITH_FACING)
+		);
+		//@formatter:on
 	}
 }

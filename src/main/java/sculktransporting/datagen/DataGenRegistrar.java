@@ -26,8 +26,7 @@ public class DataGenRegistrar {
 
 	@SubscribeEvent
 	public static void onGatherData(GatherDataEvent.Client event) {
-		event.createProvider(BlockStateGenerator::new);
-		event.createProvider(ItemModelGenerator::new);
+		event.createProvider(ModelGenerator::new);
 		event.createProvider((DataProviderFromOutputLookup<LootTableProvider>) (output, lookupProvider) -> new LootTableProvider(output, Set.of(), List.of(new SubProviderEntry(BlockLootTableGenerator::new, LootContextParamSets.BLOCK)), lookupProvider));
 		event.createBlockAndItemTags(BlockTagGenerator::new, ItemTagGenerator::new);
 		event.createProvider(RecipeGenerator.Runner::new);
