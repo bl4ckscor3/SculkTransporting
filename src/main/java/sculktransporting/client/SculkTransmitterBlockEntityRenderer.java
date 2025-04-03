@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.Vec3;
 import sculktransporting.blockentities.SculkTransmitterBlockEntity;
 
 public class SculkTransmitterBlockEntityRenderer extends SculkItemTransporterBlockEntityRenderer<SculkTransmitterBlockEntity> {
@@ -18,8 +19,8 @@ public class SculkTransmitterBlockEntityRenderer extends SculkItemTransporterBlo
 	}
 
 	@Override
-	public void render(SculkTransmitterBlockEntity be, float partialTick, PoseStack pose, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
-		super.render(be, partialTick, pose, bufferSource, packedLight, packedOverlay);
+	public void render(SculkTransmitterBlockEntity be, float partialTick, PoseStack pose, MultiBufferSource bufferSource, int packedLight, int packedOverlay, Vec3 cameraPos) {
+		super.render(be, partialTick, pose, bufferSource, packedLight, packedOverlay, cameraPos);
 
 		ItemStack filteredItem = be.getFilteredItem();
 

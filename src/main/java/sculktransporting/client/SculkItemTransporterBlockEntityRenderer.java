@@ -14,6 +14,8 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import sculktransporting.blockentities.BaseSculkItemTransporterBlockEntity;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 
@@ -27,15 +29,15 @@ public class SculkItemTransporterBlockEntityRenderer<T extends BaseSculkItemTran
 	}
 
 	@Override
-	public void render(T be, float partialTick, PoseStack pose, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+	public void render(T be, float partialTick, PoseStack pose, MultiBufferSource bufferSource, int packedLight, int packedOverlay, Vec3 cameraPos) {
 		if (be.hasStoredItemSignal()) {
 			ItemStack signal = be.getStoredItemSignal();
 			int seed = ItemClusterRenderState.getSeedForItemStack(signal);
 			Random random = new Random(seed);
-			boolean isGui3d = itemStackRenderState.isGui3d();
+			boolean isGui3d = shouldRenderGui3d(itemStackRenderState); //TODO: isGui3d might behave differently compared to 1.21.4, check item rendering
 			int renderAmount = ItemClusterRenderState.getRenderedAmount(signal.getCount());
 
-			itemModelResolver.updateForTopItem(itemStackRenderState, signal, ItemDisplayContext.FIXED, false, be.getLevel(), null, seed);
+			itemModelResolver.updateForTopItem(itemStackRenderState, signal, ItemDisplayContext.FIXED, be.getLevel(), null, seed);
 			pose.pushPose();
 			adjustForRotation(pose, be);
 
@@ -78,6 +80,13 @@ public class SculkItemTransporterBlockEntityRenderer<T extends BaseSculkItemTran
 
 			pose.popPose();
 		}
+	}
+
+	protected boolean shouldRenderGui3d(ItemStackRenderState renderState) {
+		AABB.Builder builder = new AABB.Builder();
+
+		renderState.visitExtents(builder::include);
+		return builder.build().getZsize() > 0.0625F;
 	}
 
 	protected void adjustForRotation(PoseStack pose, T be) {

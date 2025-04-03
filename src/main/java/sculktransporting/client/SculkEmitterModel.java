@@ -1,121 +1,63 @@
 package sculktransporting.client;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.joml.Vector3f;
-
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
+import it.unimi.dsi.fastutil.Pair;
+import net.minecraft.client.renderer.block.model.BlockModelPart;
+import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.ChunkRenderTypeSet;
-import net.neoforged.neoforge.client.model.IDynamicBakedModel;
-import net.neoforged.neoforge.client.model.data.ModelData;
-import sculktransporting.items.ModifierTier;
+import net.neoforged.neoforge.model.data.ModelData;
 import sculktransporting.items.QuantityModifierItem.QuantityTier;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
 
-public class SculkEmitterModel implements IDynamicBakedModel {
-	private final BakedModel originalModel;
-	private final Direction modelDirection;
-	private final Map<CacheKey, List<BakedQuad>> quadCache = new ConcurrentHashMap<>();
+public class SculkEmitterModel implements BlockStateModel {
+	private final BlockStateModel originalModel;
+	private final Direction blockStateFacing;
+	private final Map<Pair<SpeedTier, QuantityTier>, SculkEmitterModelPart> modelPartCache = new ConcurrentHashMap<>();
 
-	public SculkEmitterModel(BakedModel originalModel, Direction direction) {
+	public SculkEmitterModel(BlockStateModel originalModel, Direction blockStateFacing) {
 		this.originalModel = originalModel;
-		this.modelDirection = direction;
+		this.blockStateFacing = blockStateFacing;
 	}
 
 	@Override
-	public List<BakedQuad> getQuads(BlockState state, Direction side, RandomSource rand, ModelData data, RenderType renderType) {
-		if (side != null) {
-			SpeedTier speedTier = data.get(ClientHandler.SPEED_TIER);
-			QuantityTier quantityTier = data.get(ClientHandler.QUANTITY_TIER);
+	public void collectParts(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random, List<BlockModelPart> parts) {
+		ModelData data = level.getModelData(pos);
+		SpeedTier speedTier = data.get(ClientHandler.SPEED_TIER);
+		QuantityTier quantityTier = data.get(ClientHandler.QUANTITY_TIER);
 
-			if (speedTier != null && quantityTier != null) {
-				return quadCache.computeIfAbsent(new CacheKey(side, speedTier, quantityTier), k -> {
-					List<BakedQuad> originalQuads = new ArrayList<>(originalModel.getQuads(state, side, rand, data, renderType));
+		if (speedTier != null && quantityTier != null) {
+			for (BlockModelPart oldModelPart : originalModel.collectParts(level, pos, state, random)) {
+				SculkEmitterModelPart newModelPart = modelPartCache.computeIfAbsent(Pair.of(speedTier, quantityTier),k -> new SculkEmitterModelPart(oldModelPart, blockStateFacing, speedTier, quantityTier));
 
-					for (int i = 0; i < originalQuads.size(); i++) {
-						BakedQuad quad = originalQuads.get(i);
-
-						if (quad.isTinted()) {
-							int tintIndex = quad.getTintIndex();
-
-							if (tintIndex == 0)
-								originalQuads.set(i, bakeLeftQuad(Direction.NORTH, new Vector3f(8.0F, 0.0F, 0.0F), new Vector3f(16.0F, 8.0F, 0.0F), speedTier, quad));
-							else if (tintIndex == 1)
-								originalQuads.set(i, bakeRightQuad(Direction.NORTH, new Vector3f(0.0F, 0.0F, 0.0F), new Vector3f(8.0F, 8.0F, 0.0F), quantityTier, quad));
-							else if (tintIndex == 2)
-								originalQuads.set(i, bakeLeftQuad(Direction.EAST, new Vector3f(16.0F, 0.0F, 8.0F), new Vector3f(16.0F, 8.0F, 16.0F), speedTier, quad));
-							else if (tintIndex == 3)
-								originalQuads.set(i, bakeRightQuad(Direction.EAST, new Vector3f(16.0F, 0.0F, 0.0F), new Vector3f(16.0F, 8.0F, 8.0F), quantityTier, quad));
-							else if (tintIndex == 4)
-								originalQuads.set(i, bakeLeftQuad(Direction.SOUTH, new Vector3f(0.0F, 0.0F, 16.0F), new Vector3f(8.0F, 8.0F, 16.0F), speedTier, quad));
-							else if (tintIndex == 5)
-								originalQuads.set(i, bakeRightQuad(Direction.SOUTH, new Vector3f(8.0F, 0.0F, 16.0F), new Vector3f(16.0F, 8.0F, 16.0F), quantityTier, quad));
-							else if (tintIndex == 6)
-								originalQuads.set(i, bakeLeftQuad(Direction.WEST, new Vector3f(0.0F, 0.0F, 0.0F), new Vector3f(0.0F, 8.0F, 8.0F), speedTier, quad));
-							else if (tintIndex == 7)
-								originalQuads.set(i, bakeRightQuad(Direction.WEST, new Vector3f(0.0F, 0.0F, 8.0F), new Vector3f(0.0F, 8.0F, 16.0F), quantityTier, quad));
-						}
-					}
-
-					return originalQuads;
-				});
+				parts.add(newModelPart);
 			}
+
+			return;
 		}
 
-		return originalModel.getQuads(state, side, rand, data, renderType);
-	}
-
-	private BakedQuad bakeLeftQuad(Direction quadDirection, Vector3f from, Vector3f to, ModifierTier modifierTier, BakedQuad originalQuad) {
-		return bakeQuad(quadDirection, from, to, modifierTier, originalQuad, 0.0F, 8.0F, 8.0F, 16.0F);
-	}
-
-	private BakedQuad bakeRightQuad(Direction quadDirection, Vector3f from, Vector3f to, ModifierTier modifierTier, BakedQuad originalQuad) {
-		return bakeQuad(quadDirection, from, to, modifierTier, originalQuad, 8.0F, 8.0F, 16.0F, 16.0F);
-	}
-
-	private BakedQuad bakeQuad(Direction quadDirection, Vector3f from, Vector3f to, ModifierTier modifierTier, BakedQuad originalQuad, float u0, float u1, float v0, float v1) {
-		return ClientHandler.bakeQuad(quadDirection, modelDirection, "sculk_emitter", from, to, modifierTier, originalQuad, u0, u1, v0, v1);
+		parts.addAll(originalModel.collectParts(level, pos, state, random));
 	}
 
 	@Override
-	public ChunkRenderTypeSet getRenderTypes(BlockState state, RandomSource rand, ModelData data) {
-		return ChunkRenderTypeSet.of(RenderType.cutout());
+	public void collectParts(RandomSource random, List<BlockModelPart> modelList) {
+		modelList.addAll(originalModel.collectParts(random));
 	}
 
 	@Override
-	public boolean useAmbientOcclusion() {
-		return originalModel.useAmbientOcclusion();
+	public TextureAtlasSprite particleIcon(BlockAndTintGetter level, BlockPos pos, BlockState state) {
+		return originalModel.particleIcon(level, pos, state);
 	}
 
 	@Override
-	public boolean isGui3d() {
-		return originalModel.isGui3d();
+	public TextureAtlasSprite particleIcon() {
+		return originalModel.particleIcon();
 	}
-
-	@Override
-	public boolean usesBlockLight() {
-		return originalModel.usesBlockLight();
-	}
-
-	@Override
-	public TextureAtlasSprite getParticleIcon() {
-		return originalModel.getParticleIcon();
-	}
-
-	@Override
-	public ItemTransforms getTransforms() {
-		return originalModel.getTransforms();
-	}
-
-	record CacheKey(Direction side, SpeedTier speedTier, QuantityTier quantityTier) {}
 }
