@@ -72,7 +72,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 	public void loadAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
 		super.loadAdditional(tag, lookupProvider);
 
-		storedItemSignal = ItemStack.parse(lookupProvider, tag.get("StoredItemSignal")).orElse(ItemStack.EMPTY);
+		storedItemSignal = tag.getCompound("StoredItemSignal").flatMap(itemTag -> ItemStack.parse(lookupProvider, itemTag)).orElse(ItemStack.EMPTY);
 		signalOrigin = tag.read("signal_origin", BlockPos.CODEC).orElse(null);
 		placedDownTick = tag.getLongOr("placedDownTick", 0L);
 		lastHandledSignalTick = tag.getLongOr("lastHandledSignalTick", 0L);
