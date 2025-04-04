@@ -4,7 +4,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import net.minecraft.client.data.models.BlockModelGenerators;
-import net.minecraft.client.data.models.ItemModelOutput;
 import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.blockstates.BlockModelDefinitionGenerator;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
@@ -33,13 +32,11 @@ public class BlockStateGenerator {
 	static BlockModelGenerators blockModelGenerators;
 	static Consumer<BlockModelDefinitionGenerator> blockStateOutput;
 	static BiConsumer<ResourceLocation, ModelInstance> modelOutput;
-	static ItemModelOutput itemInfo;
 
 	protected static void run(BlockModelGenerators blockModels) {
 		blockModelGenerators = blockModels;
 		blockStateOutput = blockModelGenerators.blockStateOutput;
 		modelOutput = blockModelGenerators.modelOutput;
-		itemInfo = blockModelGenerators.itemModelOutput;
 		createSculkBarrel();
 		createSculkTransmissionEndBlock(STBlocks.SCULK_EMITTER.get());
 		createSculkTransmissionEndBlock(STBlocks.SCULK_RECEIVER.get());
