@@ -2,7 +2,7 @@ plugins {
     id 'java-library'
     id 'eclipse'
     id 'idea'
-    id 'net.neoforged.gradle.userdev' version '7.0.+'
+	id 'net.neoforged.moddev' version '2.0.82'
 }
 
 version = '1.2.2'
@@ -15,26 +15,35 @@ base {
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 
-minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
+neoForge {
+	version = "21.5.62-beta"
 
-runs {
-    configureEach {
-        systemProperty 'forge.logging.console.level', 'debug'
-        modSource project.sourceSets.main
-    }
+	runs {
+		configureEach {
+			logLevel = org.slf4j.event.Level.DEBUG
+			gameDirectory = project.file("run/" + name)
+			ideName = "ST " + ideName.get()
+		}
 
-    client {
-        workingDirectory project.file('runs/client')
-    }
+		client {
+			client()
+		}
 
-    server {
-        workingDirectory project.file('runs/server')
-        argument '-nogui'
-    }
-	
-	clientData {
-		workingDirectory project.file('runs/data')
-		arguments.addAll '--mod', 'sculktransporting', '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+		server {
+			server()
+			programArgument('-nogui')
+		}
+
+		data {
+			clientData()
+			programArguments.addAll('--mod', 'sculktransporting', '--all', '--output', file('src/generated/resources/').getAbsolutePath())
+		}
+	}
+
+	mods {
+		sculktransporting {
+			sourceSet(sourceSets.main)
+		}
 	}
 }
 
@@ -48,7 +57,6 @@ repositories {
 }
 
 dependencies {
-	implementation 'net.neoforged:neoforge:21.5.14-beta'
 	//implementation "curse.maven:patchouli-306770:5683901"
 }
 
@@ -74,4 +82,11 @@ tasks.named('jar', Jar).configure {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 	options.release = 21
+}
+
+idea {
+	module {
+		downloadSources = true
+		downloadJavadoc = true
+	}
 }
