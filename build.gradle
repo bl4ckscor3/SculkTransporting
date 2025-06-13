@@ -9,19 +9,19 @@ version = '1.2.2'
 group = 'sculktransporting'
 
 base {
-	archivesName = 'sculktransporting-1.21.5'
+	archivesName = 'sculktransporting-1.21.6'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 
 neoForge {
-	version = "21.5.62-beta"
+	version = "21.5.0-alpha.1.21.6-rc1.20250613.110817"
 
 	runs {
 		configureEach {
 			logLevel = org.slf4j.event.Level.DEBUG
-			gameDirectory = project.file("run/" + name)
+			gameDirectory = project.file("runs/" + name)
 			ideName = "ST " + ideName.get()
 		}
 
@@ -48,6 +48,15 @@ neoForge {
 }
 
 repositories {
+	maven {
+		name 'Maven for PR #2297' // https://github.com/neoforged/NeoForge/pull/2297
+		url 'https://prmaven.neoforged.net/NeoForge/pr2297'
+		content {
+			includeModule('net.neoforged', 'neoforge')
+			includeModule('net.neoforged', 'testframework')
+		}
+	}
+
     maven {
         url "https://cursemaven.com/"
         content {

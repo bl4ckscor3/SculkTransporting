@@ -5,9 +5,7 @@ import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Holder.Reference;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
@@ -18,6 +16,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEvent.Context;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import sculktransporting.blocks.SculkTransmitterBlock;
 import sculktransporting.registration.STBlockEntityTypes;
 
@@ -39,14 +39,14 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
-		super.saveAdditional(tag, lookupProvider);
+	protected void saveAdditional(ValueOutput tag) {
+		super.saveAdditional(tag);
 		tag.putString("FilteredItem", BuiltInRegistries.ITEM.getKey(filteredItem.getItem()).toString());
 	}
 
 	@Override
-	public void loadAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
-		super.loadAdditional(tag, lookupProvider);
+	public void loadAdditional(ValueInput tag) {
+		super.loadAdditional(tag);
 
 		Optional<Reference<Item>> item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(tag.getStringOr("FilteredItem", "air")));
 

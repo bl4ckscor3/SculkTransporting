@@ -5,13 +5,13 @@ import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.data.BlockTagCopyingItemTagProvider;
 import sculktransporting.STTags;
 import sculktransporting.SculkTransporting;
 import sculktransporting.registration.STItems;
 
-public class ItemTagGenerator extends ItemTagsProvider {
+public class ItemTagGenerator extends BlockTagCopyingItemTagProvider {
 	public ItemTagGenerator(PackOutput output, CompletableFuture<Provider> lookupProvider, CompletableFuture<TagLookup<Block>> blockTagsProvider) {
 		super(output, lookupProvider, blockTagsProvider, SculkTransporting.MODID);
 	}

@@ -21,6 +21,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.gameevent.vibrations.VibrationSystem;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 import sculktransporting.client.ItemSignalParticleOption;
@@ -70,25 +72,25 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 	}
 
 	@Override
-	public void loadAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
-		super.loadAdditional(tag, lookupProvider);
+	public void loadAdditional(ValueInput tag) {
+		super.loadAdditional(tag);
 
-		storedItemSignal = tag.getCompound("StoredItemSignal").flatMap(itemTag -> ItemStack.parse(lookupProvider, itemTag)).orElse(ItemStack.EMPTY);
+		storedItemSignal = tag.read("StoredItemSignal", ItemStack.CODEC).orElse(ItemStack.EMPTY);
 		signalOrigin = tag.read("signal_origin", BlockPos.CODEC).orElse(null);
 		placedDownTick = tag.getLongOr("placedDownTick", 0L);
 		lastHandledSignalTick = tag.getLongOr("lastHandledSignalTick", 0L);
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
-		super.saveAdditional(tag, lookupProvider);
+	protected void saveAdditional(ValueOutput tag) {
+		super.saveAdditional(tag);
 
 		if (!storedItemSignal.isEmpty()) {
-			tag.put("StoredItemSignal", storedItemSignal.save(lookupProvider));
+			tag.store("StoredItemSignal", ItemStack.CODEC, storedItemSignal);
 			tag.store("signal_origin", BlockPos.CODEC, signalOrigin);
 		}
 		else if (getVibrationData().getCurrentVibration() != null && getVibrationData().getCurrentVibration().entity() instanceof ItemEntity item) {
-			tag.put("StoredItemSignal", item.getItem().save(lookupProvider));
+			tag.store("StoredItemSignal", ItemStack.CODEC, item.getItem());
 			tag.store("signal_origin", BlockPos.CODEC, item.blockPosition());
 		}
 
