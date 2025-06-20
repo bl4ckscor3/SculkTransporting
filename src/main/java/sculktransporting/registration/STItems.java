@@ -8,7 +8,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -19,7 +18,7 @@ import sculktransporting.items.QuantityModifierItem.QuantityTier;
 import sculktransporting.items.SpeedModifierItem;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
 
-@EventBusSubscriber(modid = SculkTransporting.MODID, bus = Bus.MOD)
+@EventBusSubscriber(modid = SculkTransporting.MODID)
 public class STItems {
 	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SculkTransporting.MODID);
 	public static final DeferredItem<QuantityModifierItem> QUANTITY_MODIFIER_TIER_1 = ITEMS.registerItem("quantity_modifier_tier_1", p -> new QuantityModifierItem(QuantityTier.ONE, p));

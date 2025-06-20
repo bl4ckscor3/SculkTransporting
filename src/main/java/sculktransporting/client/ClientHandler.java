@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
@@ -36,7 +35,7 @@ import sculktransporting.registration.STBlockEntityTypes;
 import sculktransporting.registration.STBlocks;
 import sculktransporting.registration.STParticleTypes;
 
-@EventBusSubscriber(modid = SculkTransporting.MODID, value = Dist.CLIENT, bus = Bus.MOD)
+@EventBusSubscriber(modid = SculkTransporting.MODID, value = Dist.CLIENT)
 public class ClientHandler {
 	public static final ModelProperty<SpeedTier> SPEED_TIER = new ModelProperty<>();
 	public static final ModelProperty<QuantityTier> QUANTITY_TIER = new ModelProperty<>();
