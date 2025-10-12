@@ -95,7 +95,7 @@ public abstract class BaseSculkItemTransporterBlock extends SculkSensorBlock {
 	}
 
 	@Override
-	public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+	public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
 		if (level.getBlockEntity(pos) instanceof BaseSculkItemTransporterBlockEntity be && be.hasStoredItemSignal())
 			return (int) (1 + Math.floor(CONVERSION_FACTOR * (be.getStoredItemSignal().getCount() - 1))); //mapping 1 to 64 items onto 1 to 15 power output
 

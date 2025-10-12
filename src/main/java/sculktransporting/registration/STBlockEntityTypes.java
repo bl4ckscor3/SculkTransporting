@@ -6,9 +6,9 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
 import sculktransporting.SculkTransporting;
 import sculktransporting.blockentities.SculkBarrelBlockEntity;
 import sculktransporting.blockentities.SculkEmitterBlockEntity;
@@ -27,6 +27,6 @@ public class STBlockEntityTypes {
 
 	@SubscribeEvent
 	public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
-		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SCULK_BARREL_BLOCK_ENTITY.get(), (container, side) -> new InvWrapper(container));
+		event.registerBlockEntity(Capabilities.Item.BLOCK, SCULK_BARREL_BLOCK_ENTITY.get(), (container, side) -> VanillaContainerWrapper.of(container));
 	}
 }

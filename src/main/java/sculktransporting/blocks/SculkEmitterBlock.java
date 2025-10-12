@@ -42,7 +42,7 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 			boolean isQuantityModifier = heldStack.is(STTags.Items.QUANTITY_MODIFIERS);
 
 			if ((isQuantityModifier || heldStack.is(STTags.Items.SPEED_MODIFIERS))) {
-				if (!level.isClientSide) {
+				if (!level.isClientSide()) {
 					boolean modifierAdded = false;
 
 					if (isQuantityModifier && be.getQuantityTier() == QuantityTier.ZERO)
@@ -68,7 +68,7 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 			Direction emitterFacing = state.getValue(FACING);
 
 			if (!clickedFace.getAxis().test(emitterFacing)) {
-				if (!level.isClientSide) {
+				if (!level.isClientSide()) {
 					//Rotate hit vector to mimic up-facing emitter
 					Vector3f rotatedHitVec = hit.getLocation().subtract(pos.getCenter()).toVector3f().rotate(emitterFacing.getRotation().invert());
 					float hitCheck;
@@ -120,7 +120,7 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier) {
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean stillInside) {
 		if (entity instanceof ItemEntity item && level.getBlockEntity(pos) instanceof SculkEmitterBlockEntity be && !be.hasStoredItemSignal() && !be.canExtractFromBelow()) {
 			ItemStack extracted = item.getItem().split(be.getAmountToExtract());
 
@@ -138,6 +138,6 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return !level.isClientSide ? createTickerHelper(type, STBlockEntityTypes.SCULK_EMITTER_BLOCK_ENTITY.get(), SculkEmitterBlockEntity::serverTick) : null;
+		return !level.isClientSide() ? createTickerHelper(type, STBlockEntityTypes.SCULK_EMITTER_BLOCK_ENTITY.get(), SculkEmitterBlockEntity::serverTick) : null;
 	}
 }

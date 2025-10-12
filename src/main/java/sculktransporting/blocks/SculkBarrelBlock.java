@@ -19,7 +19,7 @@ public class SculkBarrelBlock extends BarrelBlock {
 
 	@Override
 	public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			if (level.getBlockEntity(pos) instanceof BarrelBlockEntity barrel)
 				player.openMenu(barrel);
 

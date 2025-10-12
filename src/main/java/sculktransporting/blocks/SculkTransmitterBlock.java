@@ -30,7 +30,7 @@ public class SculkTransmitterBlock extends BaseSculkItemTransporterBlock {
 	@Override
 	public InteractionResult useItemOn(ItemStack heldStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (!heldStack.isEmpty() && level.getBlockEntity(pos) instanceof SculkTransmitterBlockEntity be) {
-			if (!level.isClientSide)
+			if (!level.isClientSide())
 				be.setFilteredItem(heldStack);
 
 			return InteractionResult.SUCCESS;
@@ -43,7 +43,7 @@ public class SculkTransmitterBlock extends BaseSculkItemTransporterBlock {
 	public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
 		if (level.getBlockEntity(pos) instanceof SculkTransmitterBlockEntity be) {
 			if (player.isShiftKeyDown()) {
-				if (!level.isClientSide)
+				if (!level.isClientSide())
 					be.removeFilteredItem();
 			}
 			else
@@ -62,7 +62,7 @@ public class SculkTransmitterBlock extends BaseSculkItemTransporterBlock {
 
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return !level.isClientSide ? createTickerHelper(type, STBlockEntityTypes.SCULK_TRANSMITTER_BLOCK_ENTITY.get(), BaseSculkItemTransporterBlockEntity::serverTick) : null;
+		return !level.isClientSide() ? createTickerHelper(type, STBlockEntityTypes.SCULK_TRANSMITTER_BLOCK_ENTITY.get(), BaseSculkItemTransporterBlockEntity::serverTick) : null;
 	}
 
 	@Override

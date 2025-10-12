@@ -37,7 +37,7 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 	@Override
 	public InteractionResult useItemOn(ItemStack heldStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (level.getBlockEntity(pos) instanceof SculkReceiverBlockEntity be && heldStack.is(STTags.Items.SPEED_MODIFIERS)) {
-			if (!level.isClientSide && be.getSpeedTier() == SpeedTier.ZERO && be.setSpeedTier(((SpeedModifierItem) heldStack.getItem()).tier) && !player.isCreative())
+			if (!level.isClientSide() && be.getSpeedTier() == SpeedTier.ZERO && be.setSpeedTier(((SpeedModifierItem) heldStack.getItem()).tier) && !player.isCreative())
 				heldStack.shrink(1);
 
 			return InteractionResult.SUCCESS;
@@ -49,7 +49,7 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 	@Override
 	public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
 		if (level.getBlockEntity(pos) instanceof SculkReceiverBlockEntity be && player.isShiftKeyDown()) {
-			if (!level.isClientSide) {
+			if (!level.isClientSide()) {
 				SpeedTier speedTier = be.getSpeedTier();
 
 				be.removeSpeedModifier();
@@ -69,6 +69,6 @@ public class SculkReceiverBlock extends BaseSculkItemTransporterBlock {
 
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return !level.isClientSide ? createTickerHelper(type, STBlockEntityTypes.SCULK_RECEIVER_BLOCK_ENTITY.get(), SculkReceiverBlockEntity::serverTick) : null;
+		return !level.isClientSide() ? createTickerHelper(type, STBlockEntityTypes.SCULK_RECEIVER_BLOCK_ENTITY.get(), SculkReceiverBlockEntity::serverTick) : null;
 	}
 }

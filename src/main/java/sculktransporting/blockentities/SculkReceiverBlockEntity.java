@@ -15,15 +15,17 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.model.data.ModelData;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 import sculktransporting.client.ClientHandler;
 import sculktransporting.items.SpeedModifierItem.SpeedTier;
 import sculktransporting.registration.STBlockEntityTypes;
 
 public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntity {
-	private BlockCapabilityCache<IItemHandler, Direction> inventoryBelow;
+	private BlockCapabilityCache<ResourceHandler<ItemResource>, Direction> inventoryBelow;
 	private SpeedTier speedTier = SpeedTier.ZERO;
 
 	public SculkReceiverBlockEntity(BlockPos pos, BlockState state) {
@@ -35,22 +37,28 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 		VibrationSystem.Ticker.tick(level, be.getVibrationData(), be.getVibrationUser());
 
 		if (be.shouldPerformAction(level) && be.hasStoredItemSignal() && be.inventoryBelow != null) {
-			IItemHandler itemHandler = be.inventoryBelow.getCapability();
+			ResourceHandler<ItemResource> itemHandler = be.inventoryBelow.getCapability();
 
 			if (itemHandler != null) {
-				ItemStack inserted = be.storedItemSignal;
+				ItemStack toInsert = be.storedItemSignal;
+				int amountToInsert = toInsert.getCount();
 
-				for (int i = 0; i < itemHandler.getSlots(); i++) {
-					inserted = itemHandler.insertItem(i, inserted, false);
+				try (Transaction transaction = Transaction.openRoot()) {
+					int inserted = itemHandler.insert(ItemResource.of(toInsert), amountToInsert, transaction);
 
-					if (inserted.isEmpty()) {
+					if (inserted == amountToInsert) {
 						be.setItemSignal(null, 0);
 						BaseSculkItemTransporterBlock.deactivate(level, be.worldPosition, be.getBlockState());
-						break;
 					}
-				}
+					else {
+						ItemStack remainder = toInsert.copy();
 
-				be.storedItemSignal = inserted;
+						remainder.shrink(inserted);
+						be.storedItemSignal = remainder;
+					}
+
+					transaction.commit();
+				}
 			}
 		}
 	}
@@ -121,10 +129,10 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 	public void onLoad() {
 		super.onLoad();
 
-		if (level != null && !level.isClientSide) {
+		if (level != null && !level.isClientSide()) {
 			Direction direction = getBlockState().getValue(BaseSculkItemTransporterBlock.FACING);
 
-			inventoryBelow = BlockCapabilityCache.create(Capabilities.ItemHandler.BLOCK, (ServerLevel) level, worldPosition.relative(direction.getOpposite()), direction);
+			inventoryBelow = BlockCapabilityCache.create(Capabilities.Item.BLOCK, (ServerLevel) level, worldPosition.relative(direction.getOpposite()), direction);
 		}
 	}
 }

@@ -1,5 +1,7 @@
 package sculktransporting.blockentities;
 
+import com.google.common.base.Predicates;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,8 +22,12 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.model.data.ModelData;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.resource.ResourceStack;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import sculktransporting.STTags;
 import sculktransporting.blocks.BaseSculkItemTransporterBlock;
 import sculktransporting.client.ClientHandler;
@@ -31,7 +37,7 @@ import sculktransporting.registration.STBlockEntityTypes;
 
 public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity {
 	private BlockState lastKnownStateBelow;
-	private BlockCapabilityCache<IItemHandler, Direction> inventoryBelow;
+	private BlockCapabilityCache<ResourceHandler<ItemResource>, Direction> inventoryBelow;
 	private QuantityTier quantityTier = QuantityTier.ZERO;
 	private SpeedTier speedTier = SpeedTier.ZERO;
 
@@ -41,18 +47,14 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, SculkEmitterBlockEntity be) {
 		if (!be.hasStoredItemSignal() && be.inventoryBelow != null && be.canExtractFromBelow()) {
-			IItemHandler itemHandler = be.inventoryBelow.getCapability();
+			ResourceHandler<ItemResource> itemHandler = be.inventoryBelow.getCapability();
 
 			if (itemHandler != null) {
-				final int amountToExtract = be.getAmountToExtract();
+				try (Transaction transaction = Transaction.openRoot()) {
+					ResourceStack<ItemResource> extracted = ResourceHandlerUtil.extractFirst(itemHandler, Predicates.alwaysTrue(), be.getAmountToExtract(), transaction);
 
-				for (int i = 0; i < itemHandler.getSlots(); i++) {
-					ItemStack extracted = itemHandler.extractItem(i, amountToExtract, false);
-
-					if (!extracted.isEmpty()) {
-						be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted), 15);
-						break;
-					}
+					if (extracted != null && !extracted.isEmpty())
+						be.setItemSignal(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), extracted.resource().toStack(extracted.amount())), 15);
 				}
 			}
 		}
@@ -180,10 +182,10 @@ public class SculkEmitterBlockEntity extends BaseSculkItemTransporterBlockEntity
 	public void onLoad() {
 		super.onLoad();
 
-		if (level != null && !level.isClientSide) {
+		if (level != null && !level.isClientSide()) {
 			Direction direction = getBlockState().getValue(BaseSculkItemTransporterBlock.FACING);
 
-			inventoryBelow = BlockCapabilityCache.create(Capabilities.ItemHandler.BLOCK, (ServerLevel) level, worldPosition.relative(direction.getOpposite()), direction);
+			inventoryBelow = BlockCapabilityCache.create(Capabilities.Item.BLOCK, (ServerLevel) level, worldPosition.relative(direction.getOpposite()), direction);
 		}
 	}
 
