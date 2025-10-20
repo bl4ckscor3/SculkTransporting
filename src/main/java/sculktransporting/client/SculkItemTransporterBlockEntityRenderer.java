@@ -35,10 +35,15 @@ public class SculkItemTransporterBlockEntityRenderer<T extends BaseSculkItemTran
 			pose.pushPose();
 			adjustForRotation(pose, state.rotation);
 
-			if (state.itemClusterRenderState.item.getModelBoundingBox().getZsize() <= 0.0625F)
+			if (state.itemClusterRenderState.item.getModelBoundingBox().getZsize() <= 0.0625F) {
+				pose.translate(0.5D, 0.52D, 0.375D);
 				pose.mulPose(XP_90);
+			}
+			else
+				pose.translate(0.5D, 0.63D, 0.5D);
 
-			ItemEntityRenderer.submitMultipleFromCount(pose, submitNodeCollector, state.lightCoords, state.itemClusterRenderState, random);
+			pose.scale(0.5F, 0.5F, 0.5F);
+			ItemEntityRenderer.renderMultipleFromCount(pose, submitNodeCollector, state.lightCoords, state.itemClusterRenderState, random);
 			pose.popPose();
 		}
 	}
@@ -56,6 +61,8 @@ public class SculkItemTransporterBlockEntityRenderer<T extends BaseSculkItemTran
 			ItemStack signal = be.getStoredItemSignal();
 
 			itemModelResolver.updateForTopItem(state.itemClusterRenderState.item, signal, ItemDisplayContext.FIXED, be.getLevel(), null, ItemClusterRenderState.getSeedForItemStack(signal));
+			state.itemClusterRenderState.count = ItemClusterRenderState.getRenderedAmount(signal.getCount());
+			state.itemClusterRenderState.seed = ItemClusterRenderState.getSeedForItemStack(signal);
 		}
 
 		state.rotation = be.getBlockState().getValue(BaseSculkItemTransporterBlock.FACING).getRotation();

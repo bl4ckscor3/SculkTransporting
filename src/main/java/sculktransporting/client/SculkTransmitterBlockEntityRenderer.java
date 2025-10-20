@@ -23,7 +23,7 @@ public class SculkTransmitterBlockEntityRenderer extends SculkItemTransporterBlo
 	public void submit(SculkTransmitterRenderState state, PoseStack pose, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
 		super.submit(state, pose, submitNodeCollector, camera);
 
-		if (!state.hasFilter) {
+		if (state.hasFilter) {
 			pose.pushPose();
 			adjustForRotation(pose, state.rotation);
 			pose.translate(1.0F, 0.25F, 1.0F);
