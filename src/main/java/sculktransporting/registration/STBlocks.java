@@ -14,10 +14,10 @@ import sculktransporting.blocks.SculkTransmitterBlock;
 
 public class STBlocks {
 	public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(SculkTransporting.MODID);
-	public static final DeferredBlock<SculkEmitterBlock> SCULK_EMITTER = BLOCKS.registerBlock("sculk_emitter", SculkEmitterBlock::new, defaultProperties().lightLevel(state -> 1));
-	public static final DeferredBlock<SculkReceiverBlock> SCULK_RECEIVER = BLOCKS.registerBlock("sculk_receiver", SculkReceiverBlock::new, defaultProperties());
-	public static final DeferredBlock<SculkTransmitterBlock> SCULK_TRANSMITTER = BLOCKS.registerBlock("sculk_transmitter", SculkTransmitterBlock::new, defaultProperties());
-	public static final DeferredBlock<SculkBarrelBlock> SCULK_BARREL = BLOCKS.registerBlock("sculk_barrel", SculkBarrelBlock::new, BlockBehaviour.Properties.ofLegacyCopy(Blocks.BARREL).mapColor(MapColor.COLOR_CYAN));
+	public static final DeferredBlock<SculkEmitterBlock> SCULK_EMITTER = BLOCKS.registerBlock("sculk_emitter", SculkEmitterBlock::new, () -> defaultProperties().lightLevel(state -> 1));
+	public static final DeferredBlock<SculkReceiverBlock> SCULK_RECEIVER = BLOCKS.registerBlock("sculk_receiver", SculkReceiverBlock::new, STBlocks::defaultProperties);
+	public static final DeferredBlock<SculkTransmitterBlock> SCULK_TRANSMITTER = BLOCKS.registerBlock("sculk_transmitter", SculkTransmitterBlock::new, STBlocks::defaultProperties);
+	public static final DeferredBlock<SculkBarrelBlock> SCULK_BARREL = BLOCKS.registerBlock("sculk_barrel", SculkBarrelBlock::new, () -> BlockBehaviour.Properties.ofLegacyCopy(Blocks.BARREL).mapColor(MapColor.COLOR_CYAN));
 
 	private STBlocks() {}
 
