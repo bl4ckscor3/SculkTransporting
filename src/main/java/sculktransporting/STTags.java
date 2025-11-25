@@ -1,6 +1,6 @@
 package sculktransporting;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -16,7 +16,7 @@ public class STTags {
 		private Blocks() {}
 
 		private static TagKey<Block> tag(String name) {
-			return BlockTags.create(ResourceLocation.fromNamespaceAndPath(SculkTransporting.MODID, name));
+			return BlockTags.create(Identifier.fromNamespaceAndPath(SculkTransporting.MODID, name));
 		}
 	}
 
@@ -27,7 +27,7 @@ public class STTags {
 		private Items() {}
 
 		private static TagKey<Item> tag(String name) {
-			return ItemTags.create(ResourceLocation.fromNamespaceAndPath(SculkTransporting.MODID, name));
+			return ItemTags.create(Identifier.fromNamespaceAndPath(SculkTransporting.MODID, name));
 		}
 	}
 }

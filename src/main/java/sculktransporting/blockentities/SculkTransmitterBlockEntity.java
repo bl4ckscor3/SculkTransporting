@@ -6,7 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Holder.Reference;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -48,7 +48,7 @@ public class SculkTransmitterBlockEntity extends BaseSculkItemTransporterBlockEn
 	public void loadAdditional(ValueInput tag) {
 		super.loadAdditional(tag);
 
-		Optional<Reference<Item>> item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(tag.getStringOr("FilteredItem", "air")));
+		Optional<Reference<Item>> item = BuiltInRegistries.ITEM.get(Identifier.parse(tag.getStringOr("FilteredItem", "air")));
 
 		filteredItem = item.map(i -> new ItemStack(i.getDelegate().value())).orElse(ItemStack.EMPTY);
 	}

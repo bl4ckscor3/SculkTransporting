@@ -15,7 +15,7 @@ import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.data.models.model.TexturedModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -31,7 +31,7 @@ public class BlockStateGenerator {
 	public static final TexturedModel.Provider SCULK_BARREL_TEXTURED_MODEL = TexturedModel.createDefault(TextureMapping::cubeBottomTop, SCULK_BARREL_MODEL_TEMPLATE);
 	static BlockModelGenerators blockModelGenerators;
 	static Consumer<BlockModelDefinitionGenerator> blockStateOutput;
-	static BiConsumer<ResourceLocation, ModelInstance> modelOutput;
+	static BiConsumer<Identifier, ModelInstance> modelOutput;
 
 	protected static void run(BlockModelGenerators blockModels) {
 		blockModelGenerators = blockModels;
@@ -45,9 +45,9 @@ public class BlockStateGenerator {
 
 	public static void createSculkBarrel() {
 		Block sculkBarrel = STBlocks.SCULK_BARREL.get();
-		ResourceLocation topOpenTexture = TextureMapping.getBlockTexture(Blocks.BARREL, "_top_open");
-		ResourceLocation overlayTexture = TextureMapping.getBlockTexture(Blocks.SCULK_VEIN);
-		ResourceLocation overlayTopTexture = TextureMapping.getBlockTexture(sculkBarrel, "_overlay_top");
+		Identifier topOpenTexture = TextureMapping.getBlockTexture(Blocks.BARREL, "_top_open");
+		Identifier overlayTexture = TextureMapping.getBlockTexture(Blocks.SCULK_VEIN);
+		Identifier overlayTopTexture = TextureMapping.getBlockTexture(sculkBarrel, "_overlay_top");
 		//@formatter:off
 		MultiVariant closedVariant = BlockModelGenerators.plainVariant(
 			SCULK_BARREL_TEXTURED_MODEL
@@ -75,7 +75,7 @@ public class BlockStateGenerator {
 	}
 
 	public static void createSculkTransmissionEndBlock(BaseSculkItemTransporterBlock block) {
-		ResourceLocation activeLocation = ModelLocationUtils.getModelLocation(block, "_active");
+		Identifier activeLocation = ModelLocationUtils.getModelLocation(block, "_active");
 		MultiVariant activeVariant = BlockModelGenerators.plainVariant(activeLocation);
 		MultiVariant inactiveVariant = BlockModelGenerators.plainVariant(ModelLocationUtils.getModelLocation(block, "_inactive"));
 		blockModelGenerators.registerSimpleItemModel(block, activeLocation);
@@ -91,7 +91,7 @@ public class BlockStateGenerator {
 
 	public static void createSculkTransmitter() {
 		Block block = STBlocks.SCULK_TRANSMITTER.get();
-		ResourceLocation activeLocation = ModelLocationUtils.getModelLocation(block, "_active");
+		Identifier activeLocation = ModelLocationUtils.getModelLocation(block, "_active");
 		MultiVariant inactiveVariant = BlockModelGenerators.plainVariant(ModelLocationUtils.getModelLocation(block, "_inactive"));
 		MultiVariant activeVariant = BlockModelGenerators.plainVariant(activeLocation);
 		MultiVariant inactiveInvertedVariant = BlockModelGenerators.plainVariant(ModelLocationUtils.getModelLocation(block, "_inactive_inverted"));

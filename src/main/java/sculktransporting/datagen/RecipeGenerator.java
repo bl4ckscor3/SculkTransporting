@@ -11,7 +11,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -100,7 +100,7 @@ public class RecipeGenerator extends RecipeProvider {
 			//@formatter:on
 		}
 		else {
-			ResourceLocation resultName = BuiltInRegistries.ITEM.getKey(result.asItem());
+			Identifier resultName = BuiltInRegistries.ITEM.getKey(result.asItem());
 
 			//@formatter:off
 			ShapedRecipeBuilder.shaped(items, RecipeCategory.REDSTONE, result)
