@@ -12,6 +12,7 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SculkSensorBlock;
@@ -187,7 +188,7 @@ public abstract class BaseSculkItemTransporterBlockEntity extends SculkSensorBlo
 					be.setItemSignal(null, 0);
 					level.scheduleTick(originPos, be.getBlockState().getBlock(), 0);
 					item.setPos(originVec); //set the position of the item entity to the origin of the signal as a marker, so the transmitter doesn't send the item back where it came from
-					((ServerLevel) level).sendParticles(new ItemSignalParticleOption(getListener().getListenerSource(), getVibrationData().getTravelTimeInTicks(), item.getItem().copy()), originVec.x, originVec.y, originVec.z, (item.getItem().getCount() + 15) / 16 * 5, 0, 0, 0, 0);
+					((ServerLevel) level).sendParticles(new ItemSignalParticleOption(getListener().getListenerSource(), getVibrationData().getTravelTimeInTicks(), ItemStackTemplate.fromNonEmptyStack(item.getItem().copy())), originVec.x, originVec.y, originVec.z, (item.getItem().getCount() + 15) / 16 * 5, 0, 0, 0, 0);
 				}
 			}
 		}

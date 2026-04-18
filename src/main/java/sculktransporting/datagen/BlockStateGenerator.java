@@ -15,6 +15,7 @@ import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.data.models.model.TexturedModel;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -45,9 +46,9 @@ public class BlockStateGenerator {
 
 	public static void createSculkBarrel() {
 		Block sculkBarrel = STBlocks.SCULK_BARREL.get();
-		Identifier topOpenTexture = TextureMapping.getBlockTexture(Blocks.BARREL, "_top_open");
-		Identifier overlayTexture = TextureMapping.getBlockTexture(Blocks.SCULK_VEIN);
-		Identifier overlayTopTexture = TextureMapping.getBlockTexture(sculkBarrel, "_overlay_top");
+		Material topOpenTexture = TextureMapping.getBlockTexture(Blocks.BARREL, "_top_open");
+		Material overlayTexture = TextureMapping.getBlockTexture(Blocks.SCULK_VEIN);
+		Material overlayTopTexture = TextureMapping.getBlockTexture(sculkBarrel, "_overlay_top");
 		//@formatter:off
 		MultiVariant closedVariant = BlockModelGenerators.plainVariant(
 			SCULK_BARREL_TEXTURED_MODEL
