@@ -18,8 +18,8 @@ public class ItemTagGenerator extends BlockTagCopyingItemTagProvider {
 
 	@Override
 	protected void addTags(HolderLookup.Provider provider) {
-		tag(STTags.Items.QUANTITY_MODIFIERS).add(STItems.QUANTITY_MODIFIER_TIER_1.get(), STItems.QUANTITY_MODIFIER_TIER_2.get(), STItems.QUANTITY_MODIFIER_TIER_3.get());
-		tag(STTags.Items.SPEED_MODIFIERS).add(STItems.SPEED_MODIFIER_TIER_1.get(), STItems.SPEED_MODIFIER_TIER_2.get(), STItems.SPEED_MODIFIER_TIER_3.get(), STItems.SPEED_MODIFIER_TIER_4.get());
+		tag(STTags.Items.QUANTITY_MODIFIERS).add(STItems.QUANTITY_MODIFIER_TIER_1.getKey(), STItems.QUANTITY_MODIFIER_TIER_2.getKey(), STItems.QUANTITY_MODIFIER_TIER_3.getKey());
+		tag(STTags.Items.SPEED_MODIFIERS).add(STItems.SPEED_MODIFIER_TIER_1.getKey(), STItems.SPEED_MODIFIER_TIER_2.getKey(), STItems.SPEED_MODIFIER_TIER_3.getKey(), STItems.SPEED_MODIFIER_TIER_4.getKey());
 	}
 
 	@Override

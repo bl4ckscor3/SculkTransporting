@@ -18,9 +18,9 @@ public class BlockTagGenerator extends BlockTagsProvider {
 
 	@Override
 	protected void addTags(HolderLookup.Provider provider) {
-		tag(STTags.Blocks.SCULK_EMITTER_CAN_EXTRACT_FROM).add(STBlocks.SCULK_BARREL.get());
-		tag(BlockTags.MINEABLE_WITH_AXE).add(STBlocks.SCULK_BARREL.get());
-		tag(BlockTags.MINEABLE_WITH_HOE).add(STBlocks.SCULK_EMITTER.get(), STBlocks.SCULK_TRANSMITTER.get(), STBlocks.SCULK_RECEIVER.get());
+		tag(STTags.Blocks.SCULK_EMITTER_CAN_EXTRACT_FROM).add(STBlocks.SCULK_BARREL.getKey());
+		tag(BlockTags.MINEABLE_WITH_AXE).add(STBlocks.SCULK_BARREL.getKey());
+		tag(BlockTags.MINEABLE_WITH_HOE).add(STBlocks.SCULK_EMITTER.getKey(), STBlocks.SCULK_TRANSMITTER.getKey(), STBlocks.SCULK_RECEIVER.getKey());
 	}
 
 	@Override

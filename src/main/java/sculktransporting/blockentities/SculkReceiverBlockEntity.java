@@ -122,7 +122,7 @@ public class SculkReceiverBlockEntity extends BaseSculkItemTransporterBlockEntit
 	public void onDataPacket(Connection net, ValueInput tag) {
 		super.onDataPacket(net, tag);
 		requestModelDataUpdate();
-		Minecraft.getInstance().levelRenderer.setBlocksDirty(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
+		Minecraft.getInstance().levelExtractor.setBlocksDirty(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
 	}
 
 	@Override

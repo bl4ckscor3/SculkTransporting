@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import sculktransporting.STTags;
 import sculktransporting.blockentities.SculkEmitterBlockEntity;
 import sculktransporting.items.ModifierTier;
@@ -70,7 +71,7 @@ public class SculkEmitterBlock extends BaseSculkItemTransporterBlock {
 			if (!clickedFace.getAxis().test(emitterFacing)) {
 				if (!level.isClientSide()) {
 					//Rotate hit vector to mimic up-facing emitter
-					Vector3f rotatedHitVec = hit.getLocation().subtract(pos.getCenter()).toVector3f().rotate(emitterFacing.getRotation().invert());
+					Vector3f rotatedHitVec = hit.getLocation().subtract(Vec3.atCenterOf(pos)).toVector3f().rotate(emitterFacing.getRotation().invert());
 					float hitCheck;
 
 					if (rotatedHitVec.x == 0.5F) //East block face
